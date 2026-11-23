@@ -1,0 +1,14 @@
+CAMPANA (fusión con Trumpet Pro) — PAQUETE PWA
+
+Contenido:
+- index.html: la aplicación completa.
+- manifest.webmanifest: configuración de instalación.
+- sw.js: caché para abrir la app sin conexión después de la primera carga.
+- icon.svg: icono.
+
+MICRÓFONO E INSTALACIÓN EN ANDROID
+El afinador y la grabación con micrófono, y la instalación como app, necesitan que la carpeta se sirva desde una dirección HTTPS (por ejemplo GitHub Pages). Abierta como archivo local o dentro de una vista previa incrustada, el micrófono queda bloqueado; aun así puedes analizar audios subiéndolos.
+
+Publica esta carpeta en un alojamiento HTTPS, ábrela en Chrome para Android, concede el micrófono y usa ⋮ → Instalar aplicación.
+
+Datos: los ajustes de ejercicios se guardan con la clave "campana" y los de estudio (rutina, registros, grabaciones, audiciones) con "trumpetpro", así que si ya usabas Trumpet Pro en el mismo dominio conservas tus datos.

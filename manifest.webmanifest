@@ -1,0 +1,15 @@
+{
+  "id": "./index.html",
+  "name": "Campana · técnica de trompeta",
+  "short_name": "Campana",
+  "description": "Ejercicios escritos de técnica, sesiones guiadas, afinador, metrónomo, grabación, audiciones y seguimiento para trompeta.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    {"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}

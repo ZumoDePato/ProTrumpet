@@ -1,0 +1,32 @@
+SERVIDOR DEL COACH — GRATIS (para usar la IA fuera de claude.ai)
+
+Usa la IA incluida en el plan gratuito de Cloudflare (Workers AI). No hace falta tarjeta ni clave de otra empresa.
+
+1. Crear el servidor
+   - Crea una cuenta gratis en dash.cloudflare.com.
+   - Workers & Pages → Create → Create Worker → "Hello World" → Deploy.
+   - "Edit code": borra todo, pega el contenido de worker.js y pulsa Deploy.
+
+2. Darle la IA gratuita
+   - En el Worker: Settings → Bindings → Add → Workers AI.
+   - Nombre de la variable: AI   → Save / Deploy.
+
+3. Protegerlo (recomendado)
+   - Settings → Variables and Secrets → Add:
+     APP_TOKEN       tipo Secret → una contraseña que inventes
+     ALLOWED_ORIGIN  tipo Text   → tu web, p. ej. https://zumodepato.github.io
+   - Deploy.
+
+4. En la app (abierta desde GitHub Pages)
+   - Perfil → "Coach con IA fuera de claude.ai" → pega la dirección del Worker
+     (https://<nombre>.<tu-usuario>.workers.dev) y tu APP_TOKEN → Guardar y probar.
+
+Límites
+- La cuota gratuita de Workers AI se renueva cada día (a la 1:00 en Madrid en invierno). Da para varias consultas al día; si se agota, el Coach te avisa y vuelve a funcionar al día siguiente. En el plan gratis nunca te cobran: simplemente para.
+- El modelo por defecto es Gemma 4 (de Google, abierto). Responde bien en español, pero es menos fino que Claude.
+  Si quieres probar otro modelo gratuito, pon la variable AI_MODEL con su nombre del catálogo de Workers AI.
+
+Alternativas (también en worker.js)
+- Gemini gratis: en vez del binding AI, añade el secreto GEMINI_API_KEY (se saca en aistudio.google.com).
+  En la capa gratuita, Google puede usar lo que envías para mejorar sus productos.
+- Claude de pago: secreto ANTHROPIC_API_KEY (console.anthropic.com).
