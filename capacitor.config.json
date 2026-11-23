@@ -1,0 +1,6 @@
+{
+  "appId": "es.rubeats.campana",
+  "appName": "Campana",
+  "webDir": "www",
+  "android": { "backgroundColor": "#ffffff" }
+}
