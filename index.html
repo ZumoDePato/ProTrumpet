@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121214" media="(prefers-color-scheme: dark)">
-<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Campana"><meta name="format-detection" content="telephone=no">
 <link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="./icon.svg">
 <title>Campana · técnica de trompeta</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -241,6 +241,50 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px soli
 #v a{color:var(--acc);font-weight:700}
 #v ol{padding-left:20px}
 @media(prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}}
+
+/* adaptación a la pantalla (Safari / app web) */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{min-height:100vh;min-height:100dvh;overscroll-behavior-y:none}
+.wrapx{padding-left:max(4vw,16px,env(safe-area-inset-left));padding-right:max(4vw,16px,env(safe-area-inset-right))}
+.transport{padding-left:max(3vw,12px,env(safe-area-inset-left));padding-right:max(3vw,12px,env(safe-area-inset-right))}
+.sheet{max-height:min(88vh,calc(var(--vh,100vh)*.88))}
+button,a,summary,label,select{touch-action:manipulation}
+input,select,textarea{font-size:max(16px,1em)}
+.toast{bottom:calc(96px + env(safe-area-inset-bottom))}
+html.land .topbar .wrapx{height:50px}
+html.land #tpv,html.land main.view{padding-bottom:calc(30px + env(safe-area-inset-bottom))}
+html.w-xs .tiles,html.w-xs .cards{gap:8px}
+html.w-xs .tile{padding:11px;min-height:100px}
+html.w-wide .tiles{grid-template-columns:repeat(4,minmax(0,1fr))}
+html.standalone body{-webkit-user-select:none;user-select:none}
+html.standalone input,html.standalone textarea{-webkit-user-select:text;user-select:text}
+/* afinador flotante */
+.mini{--gr:light-dark(#1f8f6c,#58b59c);--rd:light-dark(#cc4f36,#e07a62);--wa:#e8c547;position:fixed;z-index:25;top:calc(env(safe-area-inset-top) + 68px);right:max(12px,env(safe-area-inset-right));width:188px;max-width:calc(var(--vw,100vw) - 24px);background:color-mix(in srgb,var(--bg) 93%,transparent);backdrop-filter:blur(18px) saturate(1.5);-webkit-backdrop-filter:blur(18px) saturate(1.5);border-radius:24px;box-shadow:0 8px 28px rgba(0,0,0,.18),0 0 0 1px var(--line);overflow:hidden;opacity:0;transform:translateY(-10px) scale(.6);transform-origin:top right;pointer-events:none;transition:opacity .25s,transform .42s cubic-bezier(.2,.9,.3,1.18),width .34s cubic-bezier(.3,.8,.3,1),left .32s cubic-bezier(.3,.8,.3,1),top .32s cubic-bezier(.3,.8,.3,1),right .32s}
+.mini.left{transform-origin:top left}
+.mini.show{opacity:1;transform:none;pointer-events:auto}
+.mini.open{width:244px}
+.mini.drag{transition:opacity .2s,width .2s;box-shadow:0 14px 36px rgba(0,0,0,.26),0 0 0 1px var(--line)}
+.mini .mp{display:flex;align-items:center;gap:10px;width:100%;padding:8px 14px 8px 14px;min-height:50px;touch-action:none;cursor:grab;-webkit-user-select:none;user-select:none;text-align:left}
+.mini .mp:active{transform:none}
+.mini .mp b{font-size:23px;line-height:1;min-width:38px;font-weight:800;transition:opacity .2s}
+.mini .mp b sub{font-size:11px;font-weight:700;color:var(--soft);vertical-align:baseline}
+.mini.idle .mp b{opacity:.35}
+.mbar{position:relative;flex:1;height:6px;border-radius:3px;background:var(--chip2)}
+.mbar::before{content:"";position:absolute;left:50%;top:-4px;bottom:-4px;width:2px;margin-left:-1px;background:var(--gr);opacity:.75;border-radius:1px}
+.mbar i{position:absolute;top:50%;left:50%;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:var(--soft);transition:transform .14s linear,background-color .18s}
+.mp small{font-size:12px;font-weight:700;color:var(--soft);min-width:32px;text-align:right;font-variant-numeric:tabular-nums}
+.mbody{display:grid;grid-template-rows:0fr;transition:grid-template-rows .34s cubic-bezier(.3,.8,.3,1)}
+.mini.open .mbody{grid-template-rows:1fr}
+.mbody>div{overflow:hidden}
+.mbody .in{padding:0 12px 12px;opacity:0;transition:opacity .2s}
+.mini.open .mbody .in{opacity:1;transition-delay:.12s}
+.mbody svg{display:block;width:100%;height:auto}
+.mbody .mrow{display:flex;gap:8px;align-items:center;margin-top:2px}
+.mbody .mrow span{flex:1;font-size:13px;font-weight:700;color:var(--soft)}
+.mbody .mrow button{min-height:36px;padding:0 12px;border-radius:12px;background:var(--chip);font-weight:700;font-size:13px}
+.mbody .mrow button.stop{background:var(--ink);color:var(--bg)}
+#nd,#mnd{transform-origin:120px 120px;transition:transform .12s linear}
+@media(prefers-reduced-motion:reduce){.mini{transition:opacity .01s!important}}
 </style></head><body>
 
 <header class="topbar"><div class="wrapx">
@@ -320,6 +364,13 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px soli
   <button id="xAll" class="wide"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z"/><path d="M8 3v18"/></svg>Cuaderno completo en PDF</button>
  </div></div>
 </section>
+<div class="mini" id="mini" hidden>
+ <button class="mp" id="mp" aria-label="Afinador flotante: tocar para ampliar, arrastrar para mover"><b id="mN">—</b><span class="mbar"><i id="mM"></i></span><small id="mC"></small></button>
+ <div class="mbody"><div><div class="in">
+  <svg viewBox="0 0 240 130" aria-hidden="true"><path d="M20 120A100 100 0 0 1 220 120" fill="none" stroke="var(--chip2)" stroke-width="10" stroke-linecap="round"/><path d="M107 21A100 100 0 0 1 133 21" fill="none" stroke="var(--gr)" stroke-width="10"/><line id="mnd" x1="120" y1="120" x2="120" y2="34" stroke="var(--acc)" stroke-width="4" stroke-linecap="round"/><circle cx="120" cy="120" r="6" fill="var(--ink)"/></svg>
+  <div class="mrow"><span id="mH">—</span><button id="mBig">Grande</button><button id="mStop" class="stop">Parar</button></div>
+ </div></div></div>
+</div>
 <div class="toast" id="toast" role="status"></div>
 
 <script>
@@ -1077,13 +1128,13 @@ function setRef(v){S.ref=Math.max(400,Math.min(480,Math.round(v)));save();draw()
 function finLN(){if(ln&&ln.pts.length>=8&&ln.last-ln.t0>=1000){const c=ln.pts.map(p=>p[1]),m=c.reduce((a,b)=>a+b,0)/c.length,sd=Math.sqrt(c.reduce((a,b)=>a+(b-m)**2,0)/c.length),k=Math.max(1,Math.floor(c.length/3)),f1=c.slice(0,k).reduce((a,b)=>a+b,0)/k,f2=c.slice(-k).reduce((a,b)=>a+b,0)/k,st=Math.max(1,Math.floor(c.length/40));S.lnotes.push({d:today(),note:nm(ln.w),dur:+((ln.last-ln.t0)/1000).toFixed(1),mean:Math.round(m),sd:Math.round(sd),drift:Math.round(f2-f1),pts:c.filter((_,i)=>i%st==0).map(x=>Math.round(x))});S.lnotes=S.lnotes.slice(-12);save()}ln=null}
 const lnSvg=p=>`<rect x='0' y='40' width='300' height='20' fill='var(--gr)' opacity='.18'/><line x1='0' y1='50' x2='300' y2='50' stroke='var(--chip2)'/><path d='${gp(p)}' fill='none' stroke='var(--acc)' stroke-width='1.8'/>`;
 function tnSil(now){if(ln&&now-ln.last>400){finLN();const e=$('#lnc'),l=S.lnotes[S.lnotes.length-1];if(e&&l)e.innerHTML=lnSvg(l.pts)}}
-function tunU2(r){const now=Date.now();if(!r||r.p<.55){tnSil(now);return}if(!$('#nt'))return;fh.push(r.f);fh=fh.slice(-5);const f=[...fh].sort((a,b)=>a-b)[fh.length>>1],mi_=69+12*Math.log2(f/S.ref),n=Math.round(mi_),c=(mi_-n)*100,w=n+(S.sib?2:0),a=Math.abs(c),col=a<=5?'var(--gr)':a<=15?'#e8c547':'var(--rd)';
+function tunU2(r){window.miniU&&miniU(r);const now=Date.now();if(!r||r.p<.55){tnSil(now);return}if(!$('#nt'))return;fh.push(r.f);fh=fh.slice(-5);const f=[...fh].sort((a,b)=>a-b)[fh.length>>1],mi_=69+12*Math.log2(f/S.ref),n=Math.round(mi_),c=(mi_-n)*100,w=n+(S.sib?2:0),a=Math.abs(c),col=a<=5?'var(--gr)':a<=15?'#e8c547':'var(--rd)';
  $('#nt').innerHTML=`${NN[((w%12)+12)%12]}<sub>${Math.floor(w/12)-1}</sub>`;$('#nc').textContent=(S.sib?'suena ':'escrito ')+nm(S.sib?n:n+2);$('#hz').textContent=f.toFixed(1)+' Hz';const cn=$('#cn');cn.textContent=(c>0?'+':'')+c.toFixed(0)+' cents';cn.style.color=col;const nd=$('#nd');nd.style.transform='rotate('+Math.max(-60,Math.min(60,c*1.2))+'deg)';nd.style.color=col;
  if(now-lastH>400){lastH=now;th.push(c);th=th.slice(-32);$('#hi').innerHTML=th.map(v=>`<i style='height:${Math.min(40,Math.abs(v)*.8+3)}px;background:${Math.abs(v)<=5?'var(--gr)':Math.abs(v)<=15?'#e8c547':'var(--rd)'}'></i>`).join('')}
  if(LNM){if(ln&&ln.n===n){ln.pts.push([now-ln.t0,c]);ln.last=now}else{finLN();ln={n,w,t0:now,pts:[[0,c]],last:now}}const e=$('#lnc');if(e&&ln)e.innerHTML=lnSvg(ln.pts.map(p=>p[1]))}}
 async function tunT2(){if(tn){tn.stop();tn=null;draw();return}try{mst='Esperando permiso del micrófono…';draw();const st=await gum();mst='';const ac=new AudioContext(),an=ac.createAnalyser();an.fftSize=4096;an.smoothingTimeConstant=0;ac.createMediaStreamSource(st).connect(an);const buf=new Float32Array(4096);tn={stop(){clearInterval(tn.id);st.getTracks().forEach(t=>t.stop());ac.close();finLN()}};tn.id=setInterval(()=>{an.getFloatTimeDomainData(buf);tunU2(yin(buf,ac.sampleRate))},70);draw()}catch(e){micErr(e)}}
 const gauge=()=>{let t='';for(let c=-50;c<=50;c+=10){const a=(c*1.2-90)*Math.PI/180,r1=c%50==0?82:88;t+=`<line x1='${(120+r1*Math.cos(a)).toFixed(1)}' y1='${(120+r1*Math.sin(a)).toFixed(1)}' x2='${(120+98*Math.cos(a)).toFixed(1)}' y2='${(120+98*Math.sin(a)).toFixed(1)}' stroke='${c==0?'var(--gr)':'var(--soft)'}' stroke-width='${c==0?3:1.5}'/>`}return `<svg viewBox='0 0 240 134' width='100%'><path d='M20 120A100 100 0 0 1 220 120' fill='none' stroke='var(--chip2)' stroke-width='3'/><path d='M109.5 20.6A100 100 0 0 1 130.5 20.6' fill='none' stroke='var(--gr)' stroke-width='6' opacity='.6'/>${t}<g id='nd' style='transform-origin:120px 120px;transition:transform .12s;transform:rotate(0deg);color:var(--soft)'><line x1='120' y1='120' x2='120' y2='30' stroke='currentColor' stroke-width='4' stroke-linecap='round'/></g><circle cx='120' cy='120' r='7' fill='var(--ink)'/><text x='14' y='132' fill='var(--soft)' font-size='9'>−50¢</text><text x='198' y='132' fill='var(--soft)' font-size='9'>+50¢</text></svg>`};
-function eAfi(){const l=S.lnotes[S.lnotes.length-1];return `<div class='card tool'>${gauge()}<div class='row' style='justify-content:space-between;align-items:flex-end;flex-wrap:nowrap'><div><div class='big' id='nt' style='font-size:76px'>—</div><div class='mut' id='nc'></div></div><div style='text-align:right'><div id='hz' style='font-size:22px'>—</div><b id='cn' style='font-size:26px'></b></div></div><div class='hist' id='hi'>${th.map(v=>`<i style='height:${Math.min(40,Math.abs(v)*.8+3)}px;background:var(--mut)'></i>`).join('')}</div><div class='row' style='margin-top:10px'><button class='${tn?'on':''}' onclick='tunT2()'>${tn?'Parar':'Activar micrófono'}</button><label style='margin:0'><input type='checkbox' ${S.sib?'checked':''} onchange='S.sib=this.checked;save()'> Trompeta en Sib</label></div>${mst?`<p class='warn'>${esc(mst)}</p>`:''}</div>
+function eAfi(){const l=S.lnotes[S.lnotes.length-1];return `<div class='card tool'>${gauge()}<div class='row' style='justify-content:space-between;align-items:flex-end;flex-wrap:nowrap'><div><div class='big' id='nt' style='font-size:76px'>—</div><div class='mut' id='nc'></div></div><div style='text-align:right'><div id='hz' style='font-size:22px'>—</div><b id='cn' style='font-size:26px'></b></div></div><div class='hist' id='hi'>${th.map(v=>`<i style='height:${Math.min(40,Math.abs(v)*.8+3)}px;background:var(--mut)'></i>`).join('')}</div><div class='row' style='margin-top:10px'><button class='${tn?'on':''}' onclick='tunT2()'>${tn?'Parar':'Activar micrófono'}</button><button class='s o' onclick='miniGo()'>Dejar pequeño</button><label style='margin:0'><input type='checkbox' ${S.sib?'checked':''} onchange='S.sib=this.checked;save()'> Trompeta en Sib</label></div>${mst?`<p class='warn'>${esc(mst)}</p>`:''}</div>
  <div class='card'><h2>Referencia</h2><div class='row'><button class='s o' onclick='setRef(S.ref-1)'>−</button><input type='number' value='${S.ref}' min='400' max='480' style='width:90px' onchange='setRef(+this.value)'><button class='s o' onclick='setRef(S.ref+1)'>+</button><span class='mut'>Hz (La)</span><button class='s o' onclick='setRef(440)'>440</button></div></div>
  <div class='card'><h2>Notas largas</h2><label><input type='checkbox' ${LNM?'checked':''} onchange='LNM=this.checked'> Registrar cómo evoluciona la afinación de cada nota sostenida (≥1 s)</label><svg id='lnc' viewBox='0 0 300 100' width='100%'>${l?lnSvg(l.pts):''}</svg>${S.lnotes.slice(-5).reverse().map(x=>`<div class='it'><span>${x.note} · ${x.dur}s</span><span>media ${x.mean>0?'+':''}${x.mean}¢ · oscila ${x.sd}¢ · deriva ${x.drift>0?'+':''}${x.drift}¢</span></div>`).join('')}</div>`}
 /* generador de notas */
@@ -1117,7 +1168,7 @@ async function installApp(){const e=$('#pwaMsg');if(installPrompt){installPrompt
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 const TPH={ini:'hoy',rut:'rutina',gra:'grabar',aud:'audiciones',bib:'biblioteca',coa:'coach',pro:'progreso',per:'perfil'},ETH={cron:'cronometro',met:'metronomo',afi:'afinador',gen:'notas'};
 function draw(){if(!window.TP_ON)return;const w=tab==='ent'?ETH[ET]:TPH[tab];if(location.hash.slice(1)!==w){location.hash=w;return}const v=$('#v');if(v)v.innerHTML=V[tab]()}
-window.tpSave=save;window.tpDraw=draw;
+window.tpSave=save;window.tpDraw=draw;window.tpState=()=>S;
 window.tpLog=(b,name,sec)=>{S.log.push({d:today(),b,name,sec:Math.round(sec)});save()};
 window.tpToday=()=>{const p=S.plan&&S.plan.d===today()?S.plan:null,done=S.log.filter(l=>l.d===today()).reduce((a,l)=>a+l.sec,0)/60,tot=p?p.items.filter(i=>i.t==='play').reduce((a,i)=>a+i.min,0):0,nx=p?p.items.find(i=>!i.done):null;return{done,tot,check:!!chk(),nx:nx?nx.name:null}};
 
@@ -1371,6 +1422,50 @@ $('#xCopy').onclick=async()=>{if(sc.empty)return toast(sc.empty);try{await navig
 document.addEventListener('keydown',e=>{if(view==='ex'&&e.code==='Space'&&!/INPUT|SELECT|TEXTAREA|BUTTON/.test(e.target.tagName)){e.preventDefault();play(false)}});
 if(location.hash==='#paso')history.replaceState(null,'','#sesion');
 route();
+
+/* ---- adaptarse a la pantalla (Safari, app web, giro, teclado) ---- */
+const fit=()=>{const vv=window.visualViewport,w=Math.round(vv?vv.width:innerWidth),h=Math.round(vv?vv.height:innerHeight),r=document.documentElement;
+ r.style.setProperty('--vw',w+'px');r.style.setProperty('--vh',h+'px');
+ r.classList.toggle('w-xs',w<360);r.classList.toggle('w-wide',w>=900);r.classList.toggle('land',w>h&&h<520);
+ r.classList.toggle('standalone',!!navigator.standalone||matchMedia('(display-mode:standalone)').matches);
+ if(window.mPlace)mPlace()};
+fit();addEventListener('resize',fit);addEventListener('orientationchange',()=>setTimeout(fit,260));if(window.visualViewport)visualViewport.addEventListener('resize',fit);
+/* ---- afinador flotante: siempre visible con el micro activo ---- */
+const MK='campana_mini';let MP={side:'r',y:null,open:false};try{Object.assign(MP,JSON.parse(localStorage.getItem(MK)||'{}'))}catch(e){}
+const mini=$('#mini'),mp=$('#mp'),mN=$('#mN'),mM=$('#mM'),mC=$('#mC'),mH=$('#mH'),mnd=$('#mnd');
+let mfh=[],mLast=0,mForce=false,mVis=false,mDrag=null,mT=0;
+const mSave=()=>{try{localStorage.setItem(MK,JSON.stringify(MP))}catch(e){}};
+window.mPlace=()=>{const H=(window.visualViewport?visualViewport.height:innerHeight);
+ mini.style.top=MP.y==null?'':Math.max(8,Math.min(MP.y,H-80))+'px';
+ mini.classList.toggle('left',MP.side==='l');mini.classList.toggle('open',!!MP.open);
+ if(MP.side==='l'){mini.style.left='max(12px,env(safe-area-inset-left))';mini.style.right='auto'}else{mini.style.right='max(12px,env(safe-area-inset-right))';mini.style.left='auto'}};
+function miniSync(){const big=!!document.getElementById('nt')&&!$('#tpv').hidden,want=!!tn&&(mForce||!big);if(want===mVis)return;mVis=want;clearTimeout(mT);
+ if(want){mini.hidden=false;mPlace();requestAnimationFrame(()=>requestAnimationFrame(()=>mini.classList.add('show')))}
+ else{mini.classList.remove('show');mT=setTimeout(()=>{if(!mVis)mini.hidden=true},450);mfh=[]}}
+setInterval(miniSync,250);
+window.miniU=r=>{if(!mVis)return;const now=Date.now();
+ if(!r||r.p<.55){if(now-mLast>900)mini.classList.add('idle');return}
+ mLast=now;mini.classList.remove('idle');mfh.push(r.f);mfh=mfh.slice(-5);
+ const f=[...mfh].sort((a,b)=>a-b)[mfh.length>>1],TS=window.tpState(),m=69+12*Math.log2(f/TS.ref),n=Math.round(m),c=(m-n)*100,w=n+(TS.sib?2:0),a=Math.abs(c),col=a<=5?'var(--gr)':a<=15?'var(--wa)':'var(--rd)';
+ mN.innerHTML=NN[((w%12)+12)%12]+'<sub>'+(Math.floor(w/12)-1)+'</sub>';
+ const k=Math.max(-50,Math.min(50,c));mM.style.transform='translateX('+(k*(mM.parentNode.clientWidth-14)/100)+'px)';mM.style.background=col;
+ mC.textContent=(c>0?'+':'')+Math.round(c)+'¢';mC.style.color=col;
+ mnd.style.transform='rotate('+Math.max(-60,Math.min(60,c*1.2))+'deg)';mnd.style.stroke=col;mH.textContent=f.toFixed(1)+' Hz'};
+mp.addEventListener('pointerdown',e=>{const r=mini.getBoundingClientRect();mDrag={x:e.clientX,y:e.clientY,l:r.left,t:r.top,moved:false};try{mp.setPointerCapture(e.pointerId)}catch(_){}});
+mp.addEventListener('pointermove',e=>{if(!mDrag)return;const dx=e.clientX-mDrag.x,dy=e.clientY-mDrag.y;if(!mDrag.moved&&Math.hypot(dx,dy)<7)return;mDrag.moved=true;mini.classList.add('drag');mini.style.left=(mDrag.l+dx)+'px';mini.style.right='auto';mini.style.top=(mDrag.t+dy)+'px'});
+mp.addEventListener('pointerup',()=>{const d=mDrag;mDrag=null;if(!d)return;mini.classList.remove('drag');
+ if(d.moved){const r=mini.getBoundingClientRect(),W=document.documentElement.clientWidth;MP.side=(r.left+r.width/2)<W/2?'l':'r';MP.y=r.top;mSave();mini.style.left=(MP.side==='l'?12:W-r.width-12)+'px';setTimeout(mPlace,360)}
+ else{MP.open=!MP.open;mSave();mPlace()}});
+mp.addEventListener('pointercancel',()=>{mDrag=null;mini.classList.remove('drag');mPlace()});
+$('#mBig').onclick=()=>{location.hash='afinador'};
+$('#mStop').onclick=()=>{if(window.tunT2)tunT2();setTimeout(miniSync,30)};
+/* de grande a pequeño: la tarjeta del afinador se encoge hasta la esquina */
+window.miniGo=()=>{const src=document.querySelector('#v .tool');mForce=true;miniSync();
+ const go=()=>{location.hash='';setTimeout(()=>{mForce=false},500)};
+ if(!src||!src.animate||matchMedia('(prefers-reduced-motion:reduce)').matches)return go();
+ const from=src.getBoundingClientRect(),to=mini.getBoundingClientRect(),dx=to.left+to.width/2-(from.left+from.width/2),dy=to.top+to.height/2-(from.top+from.height/2),sc=Math.max(.1,Math.min(to.width/from.width,to.height/from.height));
+ src.style.zIndex=20;src.style.position='relative';
+ src.animate([{transform:'none',opacity:1},{transform:'translate('+dx+'px,'+dy+'px) scale('+sc+')',opacity:.2}],{duration:420,easing:'cubic-bezier(.5,0,.2,1)',fill:'forwards'}).onfinish=go};
 })();
 </script>
 </body></html>
