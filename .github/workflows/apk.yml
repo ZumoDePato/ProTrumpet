@@ -1,8 +1,7 @@
 name: Compilar APK
 
 on:
-  push:
-    branches: [main]
+  # Solo a mano (Actions → Compilar APK → Run workflow)
   workflow_dispatch:
 
 permissions:
