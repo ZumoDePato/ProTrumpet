@@ -511,7 +511,17 @@ function emitGen(ctx,v){const ev=[];const one=[];for(let i=0;i<=ctx.len;i++)one.
  else one.forEach((X,i)=>{ev.push(N(X,H_,{ly:'(h)',f:fOf(X),dyn:i?null:'mp'}),Rr(H_))});
  return {ev}}
 
-function scaleGen(ctx,v){const ev=[];const {up,dn}=run(ctx,ctx.nOct);const du={corcheas:E_,semis:S_,negras:Q_}[v];
+const INTV={t3:[2,'terceras'],t4:[3,'cuartas'],t5:[4,'quintas'],t6:[5,'sextas']};
+/* escala por intervalos: cada grado con el que está k grados más arriba; sube hasta donde llega el registro y baja en espejo */
+function intGen(ctx,v){const [k,nom]=INTV[v],ev=[];
+ let imax=0;while(midiOf(ctx.deg(imax+1+k,1))<=ctx.top)imax++;
+ if(midiOf(ctx.deg(k,1))>ctx.top)return {ev:[],empty:'Este registro no llega para escala por '+nom+'.'};
+ const pair=(i,j,dir)=>{const a=ctx.deg(i,dir),b=ctx.deg(j,dir),ns=[N(a,E_,{f:fOf(a)}),N(b,E_,{f:fOf(b)})];ev.push(...ns);slur(ns)};
+ for(let i=0;i<=imax;i++)pair(i,i+k,1);
+ for(let i=imax+k;i>=k;i--)pair(i,i-k,-1);
+ const t0=ctx.deg(0);finish(ev,t0,{f:fOf(t0)});
+ return {ev,meta:'por '+nom+' · hasta '+pname(ctx.deg(imax+k,1))}}
+function scaleGen(ctx,v){if(INTV[v])return intGen(ctx,v);const ev=[];const {up,dn}=run(ctx,ctx.nOct);const du={corcheas:E_,semis:S_,negras:Q_}[v];
  const a=up.map(X=>N(X,du,{f:fOf(X),art:v==='negras'?'ten':null}));const b=dn.map(X=>N(X,du,{f:fOf(X),art:v==='negras'?'ten':null}));
  ev.push(...a,...b);const t0=ctx.deg(0);finish(ev,t0,{f:fOf(t0)});
  if(v!=='negras'){slur(a);const fin=ev.filter(e=>e.p).pop();slur([...b,fin])}
@@ -539,7 +549,7 @@ function patGen(ctx,v){const P=PATS[v],ev=[],top=ctx.nOct*ctx.len;
  const t0=ctx.deg(0);finish(ev,t0,{f:fOf(t0)});return {ev}}
 
 const CATS=[
- {id:'esc',n:'Escalas',scale:true,tempo:84,gen:scaleGen,vars:[['corcheas','Corcheas ligadas'],['semis','Semicorcheas'],['negras','Negras picadas']],
+ {id:'esc',n:'Escalas',scale:true,tempo:84,gen:scaleGen,vars:[['corcheas','Corcheas ligadas'],['semis','Semicorcheas'],['negras','Negras picadas'],['t3','Por terceras'],['t4','Por cuartas'],['t5','Por quintas'],['t6','Por sextas']],
   tip:'Empieza lento y sube el metrónomo solo cuando la escala salga tres veces seguidas sin fallo. Mantén el aire constante en los cambios de registro: el sonido de la nota aguda debe tener el mismo color que la grave.'},
  {id:'pat',n:'Patrones',scale:true,tempo:92,gen:patGen,vars:Object.entries(PATS).map(([k,p])=>[k,p.n]),
   tip:'Toca cada grupo como una pequeña frase con dirección, no como notas sueltas. Cuando lo tengas, cambia de escala o de tonalidad: el patrón debe sonar igual de fácil en todas.'},
@@ -581,7 +591,7 @@ function withRests(ev,mode){if(!mode||mode==='off'||!ev.length)return ev;
 const ORDER=['emi','flex','fija','esc','pat','pic','bend','ped'];
 const SES_SCALES=['mayor','menor','armonica','melodica','dorica','mixolidia','penta','blues'];
 const KW={emi:['emision','ataque','nota larga','notas largas','sonido','calentar','calentamiento','aire'],flex:['flexib','ligadura','lip slur','slurs'],
- fija:['posicion','posiciones','armonico'],esc:['escala'],pat:['patron','secuencia','melod','bebop','jazz','frase'],
+ fija:['posicion','posiciones','armonico'],esc:['escala','tercera','cuarta','quinta','sexta','intervalos'],pat:['patron','secuencia','melod','bebop','jazz','frase'],
  pic:['picado','lengua','articul','doble','triple','staccato','stacatto'],bend:['bend'],ped:['pedal']};
 const norm=s=>s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
 function parseAsk(text){const t=norm(text);const w={};let min=null;
