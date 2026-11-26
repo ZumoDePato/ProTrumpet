@@ -243,6 +243,10 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px soli
 @media(prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}}
 
 /* ---- repertorio y jazz ---- */
+.pk.ps{background:color-mix(in srgb,var(--acc) 10%,var(--chip))}
+.pseBox{padding:4px 0}.pseBox .xcard{margin-top:4px}
+.pseBox .xrow .xs{background:color-mix(in srgb,var(--bg) 16%,transparent);color:var(--bg)}
+
 .search{display:flex;align-items:center;gap:8px;background:var(--chip);border-radius:16px;padding:0 14px;margin:16px 0 12px;position:sticky;top:calc(env(safe-area-inset-top) + 66px);z-index:4;box-shadow:0 0 0 6px var(--bg)}
 .search svg{width:19px;height:19px;color:var(--soft);flex:none}
 .search input{flex:1;border:0;background:none;min-height:50px;font-size:16px;color:var(--ink);outline:0}
@@ -661,8 +665,11 @@ function withRests(ev,mode){if(!mode||mode==='off'||!ev.length)return ev;
 const ORDER=['emi','flex','fija','esc','pat','pic','bend','ped'];
 const SES_SCALES=['mayor','menor','armonica','melodica','dorica','mixolidia','penta','blues'];
 const KW={emi:['emision','ataque','nota larga','notas largas','sonido','calentar','calentamiento','aire'],flex:['flexib','ligadura','lip slur','slurs'],
- fija:['posicion','posiciones','armonico'],esc:['escala','tercera','cuarta','quinta','sexta','intervalos'],pat:['patron','secuencia','melod','bebop','jazz','frase'],
- pic:['picado','lengua','articul','doble','triple','staccato','stacatto'],bend:['bend'],ped:['pedal']};
+ fija:['posicion','posiciones','armonico'],esc:['escala','tercera','cuarta','quinta','sexta','intervalos'],pat:['patron','secuencia','melod','bebop','frase'],
+ pic:['picado','lengua','articul','doble','triple','staccato','stacatto'],bend:['bend'],ped:['pedal'],
+ rel:['relaj','rigid','tension','tenso','tensa','soltar','suelt','destens','descarg','labio cargado','labio duro','agarrot'],
+ orq:['repertorio','orquest','extracto','solos','solo orquestal','solos orquestales','probespiel','audicion','pasaje'],
+ jz:['jazz','standard','impro','swing','real book']};
 const norm=s=>s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
 function parseAsk(text){const t=norm(text);const w={};let min=null;
  const clauses=t.split(/,|;|\.|\by\b|\be\b|\bluego\b|\bademas\b|\btambien\b/);
@@ -1283,7 +1290,10 @@ const ART={
  bend:'<ellipse cx="24" cy="18" rx="8" ry="6" fill="currentColor"/><path d="M32 18c18 0 22 26 44 26"/><path d="M68 36l8 8-9 6"/>',
  ped:'<path d="M50 6v34"/><path d="M40 30l10 10 10-10"/><path d="M28 50h44M34 56h32"/>',
  pic:'<circle cx="14" cy="30" r="5" fill="currentColor"/><circle cx="34" cy="30" r="5" fill="currentColor"/><circle cx="54" cy="30" r="5" fill="currentColor"/><circle cx="74" cy="30" r="5" fill="currentColor"/><path d="M10 48h8M30 48h8M50 48h8M70 48h8"/>',
- emi:'<path d="M6 30l38-16M6 30l38 16M50 14l40 16M50 46l40-16"/>'};
+ emi:'<path d="M6 30l38-16M6 30l38 16M50 14l40 16M50 46l40-16"/>',
+ rel:'<path d="M4 40c14-14 26-14 40 0s30 14 48 0"/><path d="M4 24c14-10 26-10 40 0s30 10 48 0" opacity=".5"/>',
+ orq:'<path d="M30 48V12l44-6v36"/><circle cx="22" cy="48" r="8" fill="currentColor"/><circle cx="66" cy="42" r="8" fill="currentColor"/>',
+ jz:'<path d="M6 46c12 0 14-30 30-30s16 30 30 30 14-18 26-18"/><circle cx="36" cy="8" r="4" fill="currentColor"/>'};
 const artSVG=(id,cls)=>`<svg class="${cls}" viewBox="0 0 96 60" preserveAspectRatio="xMinYMid meet" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">${ART[id]}</svg>`;
 const REST_M=[['off','No'],['bar','Cada compás'],['phrase','Cada frase']];
 let st={v:2,cat:'esc',vars:{},key:0,scale:'mayor',range:'med',fing:'off',zoom:1,tempos:{},metro:false,rest:'off',loop:false,theme:'auto',paper:true,ses:{w:{},min:30},saved:[]};
@@ -1291,7 +1301,8 @@ try{const o=JSON.parse(localStorage.getItem('campana')||'{}');if(!o.v||o.v<2){o.
 if(!CATS.find(c=>c.id===st.cat))st.cat='esc';
 const save=()=>{try{localStorage.setItem('campana',JSON.stringify(st))}catch(e){}};
 let run=null,plan=null,done=null;
-const S=()=>{if(run){const it=run.plan[run.i];return {...st,cat:it.cat,vars:{...st.vars,[it.cat]:it.v},key:it.key,scale:it.scale}}return st};
+const S=()=>{if(run){const it=run.plan[run.i];if(PSE[it.cat])return st;return {...st,cat:it.cat,vars:{...st.vars,[it.cat]:it.v},key:it.key,scale:it.scale,rest:it.rest||st.rest,range:it.range||st.range}}return st};
+const pse=()=>run&&PSE[run.plan[run.i].cat]?run.plan[run.i]:null;
 const cat=()=>CATS.find(c=>c.id===S().cat);
 const vid=()=>S().vars[S().cat]||cat().vars[0][0];
 const tk=()=>S().cat+':'+vid();
@@ -1307,8 +1318,8 @@ function seg(el,list,cur,on){el.innerHTML=list.map(([id,n])=>`<button data-id="$
  el.onclick=e=>{const b=e.target.closest('button');if(b)on(b.dataset.id)}}
 const mark=(el,cur)=>el.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.id===String(cur)));
 const mmss=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(Math.floor(s%60)).padStart(2,'0');
-const itemName=it=>{const C=CATS.find(c=>c.id===it.cat);return C.n+' · '+C.vars.find(v=>v[0]===it.v)[1]};
-const itemSub=it=>{const C=CATS.find(c=>c.id===it.cat);return C.scale?cap(makeCtx(it.key,it.scale,st.range).keyName):C.n==='Flexibilidad'||C.n==='Posiciones fijas'||C.n==='Pedales'?'7 posiciones de pistones':''};
+const itemName=it=>{if(it.cat==='orq'){const x=ORQ[it.id];return x?x.c+' · '+x.w+(x.x?' ('+x.x+')':''):'Extracto orquestal'}if(it.cat==='jz'){const x=JZ[it.id];return x?'Standard · '+x.t:'Standard'}const C=CATS.find(c=>c.id===it.cat);return C.n+' · '+C.vars.find(v=>v[0]===it.v)[1]};
+const itemSub=it=>{if(it.cat==='orq'){const x=ORQ[it.id];return 'Repertorio orquestal'+(x?' · pág. '+x.p:'')}if(it.cat==='jz'){const x=JZ[it.id];return x?'Jazz · '+jkTxt(it.k==null?x.k:it.k,x.m)+' (concierto) · '+jkTxt((it.k==null?x.k:it.k)+2,x.m)+' en Si♭':'Jazz'}const C=CATS.find(c=>c.id===it.cat);const extra=[it.rest==='bar'?'con descansos':null,it.range==='ini'?'registro cómodo':null].filter(Boolean).join(' · ');if(extra)return extra;return C.scale?cap(makeCtx(it.key,it.scale,st.range).keyName):C.n==='Flexibilidad'||C.n==='Posiciones fijas'||C.n==='Pedales'?'7 posiciones de pistones':''};
 
 /* ================= REPERTORIO ORQUESTAL Y JAZZ ================= */
 /* Extractos del índice de Orchester-Probespiel Trompete (Pliquett / Lösch, C. F. Peters). p = página del libro */
@@ -1591,6 +1602,47 @@ R.jz=()=>{const el=$('#jz');const f=JZ.filter(x=>(!RS.jtag||x.g===RS.jtag)&&matc
  const g=$('#jGo');if(g)g.onclick=()=>{if(!f.length)return toast('No hay temas con ese filtro');g.disabled=true;const x=f[Math.floor(Math.random()*f.length)],k=RS.jrk?Math.floor(Math.random()*12):null;
    spin($('#jBox'),f,x,jline,()=>setTimeout(()=>{jcur={x,k};R.jz();const c=el.querySelector('.xcard');c&&c.classList.add('pop')},650))}};
 
+/* ================= SESIÓN GUIADA: repertorio, jazz y relajación ================= */
+const PSE={orq:1,jz:1};
+const PICKS=['emi','flex','fija','esc','pat','pic','bend','ped','rel','jz','orq'];
+const cn=id=>({rel:'Relajación',orq:'Solos orquestales',jz:'Jazz'})[id]||CATS.find(c=>c.id===id).n;
+const rpick=a=>a[Math.floor(Math.random()*a.length)];
+const LOWK=[6,7,8,9];/* Fa♯, Sol, La♭, La: empiezan en la parte grave cómoda */
+function split(tot,parts){const n=parts.length,base=parts.map(p=>Math.max(2,Math.round(tot*p)));let d=tot-base.reduce((a,b)=>a+b,0);for(let i=0;d!==0&&i<40;i++){const k=i%n;if(d>0){base[k]++;d--}else if(base[k]>2){base[k]--;d++}}return base}
+function planAll(w,min){const ks=Object.keys(w).filter(k=>w[k]>0);if(!ks.length)return [];
+ const tw=ks.reduce((a,k)=>a+w[k],0),share=k=>w[k]?Math.max(k==='rel'?6:4,Math.round(min*w[k]/tw)):0;
+ const mRel=share('rel'),mOrq=share('orq'),mJz=share('jz');
+ const tech={};ks.forEach(k=>{if(CATS.find(c=>c.id===k))tech[k]=w[k]});
+ const mTech=Object.keys(tech).length?Math.max(4,min-mRel-mOrq-mJz):0;
+ let T=mTech?planSession(tech,mTech):[];
+ if(w.rel)T=T.filter(it=>it.tag!=='Calentamiento'&&it.tag!=='Relajación').map(it=>({...it,rest:it.rest||'bar'}));
+ const start=[],end=[],J=[],O=[];
+ /* relajación: graves, notas largas, emisión espaciada, flexibilidad base suave y pedales; siempre con compás de descanso */
+ if(w.rel){const R0={scale:'mayor',rest:'bar',range:'ini',tag:'Relajación'};
+  if(mRel<8){const [a,b]=split(mRel,[.55,.45]);start.push({...R0,cat:'emi',v:'largas',key:rpick(LOWK),min:a});end.push({...R0,cat:'ped',v:'desc',key:0,min:b})}
+  else{const [a,b,c,d]=split(mRel,[.3,.2,.2,.3]);
+   start.push({...R0,cat:'emi',v:'largas',key:rpick(LOWK),min:a},{...R0,cat:'emi',v:'ataques',key:rpick(LOWK),min:b},{...R0,cat:'flex',v:'f2',key:0,min:c});
+   end.push({...R0,cat:'ped',v:'desc',key:0,min:d})}}
+ else if(!T.length)start.push({cat:'emi',v:'largas',key:rpick([0,5,7,10]),scale:'mayor',min:Math.min(5,Math.max(2,Math.round(min*.12))),tag:'Calentamiento'});
+ if(mJz){let rem=mJz;if(mJz>=8){const p=rpick(JPRE),m=Math.round(mJz*.35);rem-=m;J.push({cat:p[0],v:p[1],key:Math.floor(Math.random()*12),scale:p[2],min:m,tag:'Jazz'})}
+  const pool=shuf(JZ.filter(x=>!RS.jtag||x.g===RS.jtag)),n=Math.max(1,Math.min(pool.length,Math.round(rem/6)));
+  split(rem,Array(n).fill(1/n)).forEach((m,i)=>J.push({cat:'jz',id:pool[i].id,k:RS.jrk?Math.floor(Math.random()*12):null,min:m,tag:'Jazz'}))}
+ if(mOrq){const ids=shuf(RS.sel.length?RS.sel:ORQ.map(x=>x.id)),n=Math.max(1,Math.min(ids.length,Math.round(mOrq/5)));
+  split(mOrq,Array(n).fill(1/n)).forEach((m,i)=>O.push({cat:'orq',id:ids[i],min:m,tag:RS.sel.length?'Tu selección':'Repertorio'}))}
+ return [...start,...T,...J,...O,...end]}
+function renderPse(P,anim){const box=$('#score');box.classList.remove('paper');
+ $('#title').textContent=itemName(P);$('#meta').textContent=itemSub(P);
+ if(P.cat==='orq'){box.innerHTML=`<div class="pseBox">${exCard(ORQ[P.id],'<button class="xs" id="pseSw">Otro</button>')}</div>`;
+  $('#tip').innerHTML='<b>Cómo practicarlo</b>Tócalo primero entero y a tempo, como en la audición, sin parar. Después aísla lo que haya fallado, trabájalo lento y vuelve a tocarlo entero. Deja descansar el labio entre repeticiones.'}
+ else{box.innerHTML=`<div class="pseBox">${jCard(JZ[P.id],P.k)}<div class="row2"><button class="xs" id="pseSw">Otro tema</button></div></div>`;
+  $('#tip').innerHTML='<b>Cómo practicarlo</b>Toca la melodía (de memoria si puedes) y luego improvisa sobre la forma con el cifrado del Real Book. Si la tonalidad te resulta nueva, repasa antes los arpegios de cada acorde.'}
+ box.querySelectorAll('[data-pg]').forEach(b=>b.onclick=()=>openPg(+b.dataset.pg));
+ $('#pseSw').onclick=()=>{const used=run.plan.filter(i=>i.cat===P.cat).map(i=>i.id);
+  if(P.cat==='orq'){const ids=(RS.sel.length?RS.sel:ORQ.map(x=>x.id)).filter(i=>!used.includes(i));P.id=ids.length?rpick(ids):rpick(ORQ).id}
+  else{const L=JZ.filter(x=>!used.includes(x.id)&&(!RS.jtag||x.g===RS.jtag));P.id=(L.length?rpick(L):rpick(JZ)).id;if(RS.jrk)P.k=Math.floor(Math.random()*12)}
+  buzz(8);renderPse(P,true);paintRun()};
+ if(anim){const c=box.querySelector('.xcard');c&&c.classList.add('pop')}}
+
 /* routing */
 const TPR={hoy:['ini'],rutina:['rut'],cronometro:['ent','cron'],metronomo:['ent','met'],afinador:['ent','afi'],notas:['ent','gen'],grabar:['gra'],audiciones:['aud'],biblioteca:['bib'],coach:['coa'],progreso:['pro'],perfil:['per']};
 const TPN={ini:'Plan del día',rut:'Mi rutina',cron:'Cronómetro',met:'Metrónomo',afi:'Afinador',gen:'Generador de notas',gra:'Grabar y analizar',aud:'Audiciones',bib:'Biblioteca',coa:'Coach',pro:'Progreso',per:'Perfil'};
@@ -1631,19 +1683,19 @@ $('#cont').onclick=()=>location.hash=st.cat;$('#toSes').onclick=()=>location.has
 /* session planner */
 const LV=['','Poco','Normal','Mucho'];
 function renderSes(){
- $('#picks').innerHTML=ORDER.map(id=>{const c=CATS.find(x=>x.id===id),l=st.ses.w[id]||0;return `<button class="pk" data-id="${id}" data-l="${l}">${artSVG(id,'')}<b>${c.n}</b><span class="lv"><i></i><i></i><i></i>${l?LV[l]:''}</span></button>`}).join('');
+ $('#picks').innerHTML=PICKS.map(id=>{const l=st.ses.w[id]||0;return `<button class="pk${PSE[id]?' ps':''}" data-id="${id}" data-l="${l}">${artSVG(id,'')}<b>${cn(id)}</b><span class="lv"><i></i><i></i><i></i>${l?LV[l]:''}</span></button>`}).join('');
  seg($('#mins'),[[15,'15'],[30,'30'],[45,'45'],[60,'60']].map(([m,n])=>[m,n+'<small>min</small>']),st.ses.min,id=>{st.ses.min=+id;save();mark($('#mins'),id)});
  if(![15,30,45,60].includes(st.ses.min))$('#mins').insertAdjacentHTML('beforeend',`<button data-id="${st.ses.min}" aria-pressed="true">${st.ses.min}<small>min</small></button>`);
  renderPlan();renderSaved()}
 $('#picks').onclick=e=>{const b=e.target.closest('.pk');if(!b)return;const id=b.dataset.id,l=((st.ses.w[id]||0)+1)%4;st.ses.w[id]=l;if(!l)delete st.ses.w[id];save();
  b.dataset.l=l;b.querySelector('.lv').innerHTML='<i></i><i></i><i></i>'+(l?LV[l]:'')};
 $('#askGo').onclick=()=>{const t=$('#ask').value.trim();if(!t)return;const r=parseAsk(t);const ks=Object.keys(r.w);
- if(!ks.length){$('#askHint').textContent='No he reconocido ningún capítulo. Prueba con palabras como bending, picado, pedales, escalas, flexibilidad o notas largas.';return}
- st.ses.w=r.w;if(r.min)st.ses.min=r.min;if(r.tired){for(const k in st.ses.w)st.ses.w[k]=Math.min(st.ses.w[k],2);if(!st.ses.w.emi)st.ses.w.emi=1}save();renderSes();
- $('#askHint').textContent='Entendido: '+ks.map(k=>CATS.find(c=>c.id===k).n.toLowerCase()+' ('+LV[st.ses.w[k]].toLowerCase()+')').join(', ')+' · '+st.ses.min+' min'+(r.tired?' · versión suave':'')+'. Revisa abajo y crea la rutina.';
+ if(!ks.length){$('#askHint').textContent='No he reconocido ningún capítulo. Prueba con bending, picado, pedales, escalas, notas largas, solos orquestales, jazz o relajación.';return}
+ st.ses.w=r.w;if(r.min)st.ses.min=r.min;if(r.tired){for(const k in st.ses.w)st.ses.w[k]=Math.min(st.ses.w[k],2);if(!st.ses.w.emi&&!st.ses.w.rel)st.ses.w.emi=1}save();renderSes();
+ $('#askHint').textContent='Entendido: '+ks.map(k=>cn(k).toLowerCase()+' ('+LV[st.ses.w[k]].toLowerCase()+')').join(', ')+' · '+st.ses.min+' min'+(r.tired?' · versión suave':'')+'. Revisa abajo y crea la rutina.';
  makePlan()};
 $('#ask').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();$('#askGo').click()}});
-function makePlan(){if(!Object.keys(st.ses.w).length){toast('Toca al menos un capítulo');return}plan={name:null,items:planSession(st.ses.w,st.ses.min)};done=null;renderPlan();
+function makePlan(){if(!Object.keys(st.ses.w).length){toast('Toca al menos un capítulo');return}plan={name:null,items:planAll(st.ses.w,st.ses.min)};done=null;renderPlan();
  setTimeout(()=>$('#planBox').scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'}),60)}
 $('#mk').onclick=makePlan;
 function renderPlan(){const box=$('#planBox');
@@ -1654,7 +1706,7 @@ function renderPlan(){const box=$('#planBox');
  $('#go').onclick=startRun;$('#reroll').onclick=makePlan;$('#svB').onclick=()=>{$('#saveRow').hidden=false;$('#svName').focus()};
  $('#svOk').onclick=()=>{const n=$('#svName').value.trim()||'Rutina '+(st.saved.length+1);plan.name=n;st.saved.unshift({name:n,items:plan.items});st.saved=st.saved.slice(0,20);save();renderPlan();renderSaved();toast('Rutina guardada')};
  $('#svName').onkeydown=e=>{if(e.key==='Enter')$('#svOk').click()};
- $('#pdfS').onclick=()=>{const items=plan.items.map(it=>({sc:buildScore({...st,cat:it.cat,vars:{...st.vars,[it.cat]:it.v},key:it.key,scale:it.scale}),tempo:st.tempos[it.cat+':'+it.v]||CATS.find(c=>c.id===it.cat).tempo}));
+ $('#pdfS').onclick=()=>{const items=plan.items.filter(it=>!PSE[it.cat]).map(it=>({sc:buildScore({...st,cat:it.cat,vars:{...st.vars,[it.cat]:it.v},key:it.key,scale:it.scale,rest:it.rest||st.rest,range:it.range||st.range}),tempo:st.tempos[it.cat+':'+it.v]||CATS.find(c=>c.id===it.cat).tempo}));
   saveFile('campana-sesion-'+slug(plan.name||'de-hoy')+'.pdf',makePDF(items,{fing:st.fing,cover:plan.name||'Sesión de hoy',coverSub:'Trompeta en Sib · '+items.length+' ejercicios · '+total+' minutos'}))}}
 function renderSaved(){const box=$('#savedBox');if(!st.saved.length){box.innerHTML='';return}
  box.innerHTML=`<h2 class="sect">Tus rutinas</h2><div class="saved">${st.saved.map((r,i)=>`<div class="sv"><button class="ld" data-i="${i}">${r.name}<small>${r.items.length} ejercicios · ${r.items.reduce((a,b)=>a+b.min,0)} min</small></button><button class="del" data-del="${i}" aria-label="Borrar ${r.name}">×</button></div>`).join('')}</div>`;
@@ -1682,7 +1734,9 @@ $('#runNext').onclick=()=>nextStep(false);$('#runPrev').onclick=()=>{if(run.i>0)
 function chime(){try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();const t=ac.currentTime;[880,1320].forEach((f,k)=>{const o=ac.createOscillator(),g=ac.createGain();o.frequency.value=f;g.gain.setValueAtTime(0.0001,t+k*0.18);g.gain.exponentialRampToValueAtTime(0.25,t+k*0.18+0.01);g.gain.exponentialRampToValueAtTime(0.0001,t+k*0.18+0.5);o.connect(g).connect(ac.destination);o.start(t+k*0.18);o.stop(t+k*0.18+0.55)})}catch(e){}}
 
 /* exercise */
-function exControls(){const c=cat();
+function exControls(){const P=pse();$('#transport').hidden=!!P||view!=='ex';
+ if(P){$('#run').hidden=false;paintRun();$('#vars').hidden=true;$('#keyBox').hidden=true;return}
+ const c=cat();
  $('#run').hidden=!run;if(run)paintRun();
  $('#vars').hidden=!!run;
  $('#vars').innerHTML=c.vars.map(([id,n])=>`<button class="chip" data-id="${id}" aria-pressed="${id===vid()}">${n}</button>`).join('')+`<button class="chip dash" data-id="__rnd">Al azar</button>`;
@@ -1700,7 +1754,7 @@ pick('#vars',id=>{st.vars[st.cat]=id});pick('#keys',id=>{st.key=+id});pick('#sca
 const PAPER={ink:'#141416',soft:'#7d7d85',acc:'#b8860b',bg:'#ffffff'};
 function colors(){if(st.paper)return PAPER;const probe=document.createElement('i');document.body.appendChild(probe);const out={};
  for(const [k,v] of [['ink','--ink'],['soft','--soft'],['acc','--acc'],['bg','--bg']]){probe.style.color=`var(${v})`;out[k]=getComputedStyle(probe).color}probe.remove();return out}
-function render(anim){sc=buildScore(S());const rn=RANGES[st.range];
+function render(anim){const P=pse();if(P){sc=null;renderPse(P,anim);return}sc=buildScore(S());const rn=RANGES[S().range];
  $('#title').textContent=run?itemName(run.plan[run.i]):sc.title.split(' · ')[1];
  $('#meta').textContent=[sc.keyName?cap(sc.keyName):null,sc.meta,'Registro '+rn.n.toLowerCase(),sc.rest?(sc.rest==='bar'?'descanso cada compás':'descanso cada frase'):null].filter(Boolean).join(' · ');
  $('#tip').innerHTML='<b>Cómo practicarlo</b>'+sc.tip;$('#tv').textContent='♩ '+tempo();draw(anim)}
@@ -1738,7 +1792,7 @@ $('#sheet').addEventListener('touchend',e=>{if(ty0!=null&&e.changedTouches[0].cl
 
 /* audio */
 let ac=null,playing=null;
-const BLK={emi:'A',bend:'A',ped:'A',flex:'B',fija:'B',esc:'B',pic:'C',pat:'C'};
+const BLK={emi:'A',bend:'A',ped:'A',flex:'B',fija:'B',esc:'B',pic:'C',pat:'C',orq:'D',jz:'D'};
 const logT=(c,name,sec)=>{try{if(sec>=5&&window.tpLog)window.tpLog(BLK[c],name,sec)}catch(e){}};
 function stop(){if(!playing)return;if(playing.t0&&!run&&sc)logT(sc.cat.id,sc.title,(Date.now()-playing.t0)/1000);playing.nodes.forEach(n=>{try{n.stop()}catch(e){}});playing.timers.forEach(clearTimeout);playing=null;
  document.querySelectorAll('#score path.on').forEach(p=>p.classList.remove('on'));$('#play').innerHTML=PLAY;$('#play').setAttribute('aria-label','Reproducir')}
@@ -1784,7 +1838,7 @@ $('#xAll').onclick=()=>{toast('Preparando el cuaderno…');const items=[];for(co
 const xml=()=>toMusicXML(sc,tempo());
 $('#xXml').onclick=()=>{if(sc.empty)return toast(sc.empty);const name=slug(sc.title+' '+(sc.keyName||''));saveFile('campana-'+name+'.zip',zip([['campana-'+name+'.musicxml',new TextEncoder().encode(xml())]]))};
 $('#xCopy').onclick=async()=>{if(sc.empty)return toast(sc.empty);try{await navigator.clipboard.writeText(xml());toast('MusicXML copiado')}catch(e){toast('No se pudo copiar.')}};
-document.addEventListener('keydown',e=>{if(view==='ex'&&e.code==='Space'&&!/INPUT|SELECT|TEXTAREA|BUTTON/.test(e.target.tagName)){e.preventDefault();play(false)}});
+document.addEventListener('keydown',e=>{if(view==='ex'&&!pse()&&e.code==='Space'&&!/INPUT|SELECT|TEXTAREA|BUTTON/.test(e.target.tagName)){e.preventDefault();play(false)}});
 if(location.hash==='#paso')history.replaceState(null,'','#sesion');
 route();
 
