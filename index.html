@@ -242,6 +242,71 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px soli
 #v ol{padding-left:20px}
 @media(prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}}
 
+/* ---- repertorio y jazz ---- */
+.search{display:flex;align-items:center;gap:8px;background:var(--chip);border-radius:16px;padding:0 14px;margin:16px 0 12px;position:sticky;top:calc(env(safe-area-inset-top) + 66px);z-index:4;box-shadow:0 0 0 6px var(--bg)}
+.search svg{width:19px;height:19px;color:var(--soft);flex:none}
+.search input{flex:1;border:0;background:none;min-height:50px;font-size:16px;color:var(--ink);outline:0}
+.search .cnt{font-size:13px;font-weight:700;color:var(--soft);font-variant-numeric:tabular-nums}
+.rbody{padding:6px 0 10px;animation:rise .3s both}
+.comp{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--soft);margin:18px 0 6px;font-weight:800}
+.xi{display:flex;align-items:stretch;gap:6px;margin:0 0 6px}
+.xi .xt{flex:1;display:flex;align-items:center;gap:12px;text-align:left;background:var(--chip);border-radius:14px;padding:11px 12px;min-height:54px;transition:background-color .2s}
+.xi .xt b{display:block;font-size:15px;line-height:1.25}.xi .xt small{display:block;color:var(--soft);font-size:13px;margin-top:2px}
+.xi .ck{width:22px;height:22px;border-radius:7px;box-shadow:inset 0 0 0 2px var(--line);flex:none;display:grid;place-items:center;transition:all .2s}
+.xi.on .xt{background:color-mix(in srgb,var(--acc) 18%,var(--chip))}
+.xi.on .ck{background:var(--acc);box-shadow:none}.xi.on .ck::after{content:"";width:10px;height:6px;border:solid var(--accInk);border-width:0 0 2.5px 2.5px;transform:translateY(-1px) rotate(-45deg)}
+.xi .pg,.xrow .pg{font-size:13px;font-weight:700;color:var(--soft);background:var(--chip);border-radius:14px;padding:0 12px;white-space:nowrap}
+.xrow .pg{background:none;padding:0}
+.selbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:10px 0 0;padding:10px 14px;border-radius:14px;background:color-mix(in srgb,var(--acc) 16%,var(--chip));animation:rise .25s both}
+.xs{min-height:38px;padding:0 14px;border-radius:12px;background:var(--chip2,var(--chip));font-weight:700;font-size:14px;display:inline-flex;align-items:center;justify-content:center}
+.mk.wide{width:100%;margin:14px 0 4px}
+.lab{font-size:13px;font-weight:800;color:var(--soft);margin:16px 0 6px;letter-spacing:.02em}
+.hint{color:var(--soft);font-size:14px;margin:8px 0}
+.row2{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}.row2 .mk{flex:1}
+.xcard{background:var(--ink);color:var(--bg);border-radius:24px;padding:20px 20px 16px;margin:12px 0}
+.xcard>small{display:block;font-size:13px;font-weight:700;opacity:.7;letter-spacing:.03em}
+.xcard>b{display:block;font-size:clamp(24px,6vw,34px);line-height:1.1;letter-spacing:-.02em;margin:6px 0 4px;text-wrap:balance}
+.xcard>em{display:block;font-style:normal;font-size:17px;opacity:.85}
+.xcard .hint{color:inherit;opacity:.7}
+.xrow{display:flex;align-items:center;gap:12px;margin-top:14px}.xrow .pg{color:inherit;opacity:.7}.xrow .xs{background:color-mix(in srgb,var(--bg) 16%,transparent);color:var(--bg)}
+.xcard.pop{animation:pop .5s cubic-bezier(.2,.9,.3,1.25) both}
+@keyframes pop{from{opacity:0;transform:scale(.86) translateY(10px)}to{opacity:1;transform:none}}
+.reel{position:relative;height:198px;overflow:hidden;border-radius:24px;background:var(--chip);margin:12px 0;-webkit-mask-image:linear-gradient(transparent,#000 30%,#000 70%,transparent);mask-image:linear-gradient(transparent,#000 30%,#000 70%,transparent)}
+.reel .strip2{padding-top:66px}
+.reel.idle .strip2{padding-top:66px}
+.rl{height:66px;display:flex;flex-direction:column;justify-content:center;padding:0 22px;text-align:center}
+.rl b{font-size:19px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.rl small{font-size:13px;color:var(--soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rmark{position:absolute;left:12px;right:12px;top:66px;height:66px;border-radius:16px;box-shadow:inset 0 0 0 2.5px var(--acc);pointer-events:none;transition:background-color .3s}
+.reel.hit .rmark{background:color-mix(in srgb,var(--acc) 22%,transparent)}
+.simtop{display:flex;justify-content:space-between;align-items:center;margin:8px 0}.simtop .clock{font-size:26px;font-weight:800;font-variant-numeric:tabular-nums}
+.ask2{margin:16px 0 0;color:var(--soft);font-weight:700}
+.phase{text-align:center;font-size:22px;font-weight:800;padding:16px;border-radius:18px;transition:all .35s}
+.phase.prep{background:var(--chip);color:var(--soft)}.phase.play{background:var(--acc);color:var(--accInk);animation:pop .4s both}
+.rate{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.rate b{display:block;font-size:15px}.rate small{color:var(--soft);font-size:13px}
+.stars{display:flex;flex:none}.stars button{font-size:22px;width:34px;height:40px;color:var(--line);transition:color .15s,transform .15s}
+.stars button[aria-pressed=true]{color:var(--acc)}.stars button:active{transform:scale(1.25)}
+#simNote{width:100%;margin-top:12px;border:0;border-radius:14px;background:var(--chip);padding:12px;font-size:16px;color:var(--ink);resize:none}
+.hrow{display:grid;grid-template-columns:1fr auto auto auto;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px}
+.hero.sm{padding:10px 0 4px}.hero.sm h2{margin:0;font-size:26px}
+.pdfbox{margin:28px 0 10px;padding-top:6px;border-top:1px solid var(--line)}
+.filebtn{cursor:pointer}.off{display:flex;align-items:center;gap:8px;margin:0}.off input{width:64px;min-height:38px;border:0;border-radius:10px;background:var(--chip);text-align:center;color:var(--ink)}
+.chips{display:flex;gap:6px;overflow-x:auto;padding:2px 0 8px;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}
+.chips button{flex:none;width:auto;white-space:nowrap;min-height:36px;padding:0 13px;border-radius:999px;background:var(--chip);font-size:14px;font-weight:700;color:var(--soft)}
+.chips button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+.ji{display:flex;width:100%;justify-content:space-between;gap:12px;text-align:left;background:var(--chip);border-radius:14px;padding:11px 14px;margin:0 0 6px;min-height:56px;align-items:center}
+.ji b{display:block;font-size:15px}.ji small{display:block;color:var(--soft);font-size:13px}.ji .kk{text-align:right;flex:none}
+.keys2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 4px}.keys2>div{background:color-mix(in srgb,var(--bg) 12%,transparent);border-radius:14px;padding:10px 12px}
+.keys2 small{display:block;font-size:12px;opacity:.7;font-weight:700}.keys2 b{font-size:24px}
+.tog{display:flex!important;align-items:center;gap:10px;font-weight:700;margin:10px 0;width:100%}.tog input{width:22px!important;height:22px;min-height:0!important;flex:none;margin:0;accent-color:var(--acc)}
+.tiles.jt .tile{min-height:92px}.tiles.jt .tile b{margin-top:0}
+.rcards{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px 0 4px}
+@media(max-width:600px){.rcards{grid-template-columns:1fr}}
+.rcard{display:flex;align-items:center;gap:14px;padding:18px 16px;border-radius:22px;text-align:left;min-height:96px;animation:rise .4s both}
+.rcard.o{background:var(--ink);color:var(--bg)}.rcard.j{background:var(--chip)}
+.rcard .ic{width:50px;height:50px;border-radius:16px;background:var(--acc);color:var(--accInk);display:grid;place-items:center;flex:none}.rcard .ic svg{width:26px;height:26px}
+.rcard small{display:block;font-size:13px;opacity:.7;font-weight:700}.rcard b{display:block;font-size:19px;line-height:1.2;margin:2px 0}.rcard em{display:block;font-style:normal;font-size:13px;opacity:.75}
+
 /* adaptación a la pantalla (Safari / app web) */
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{min-height:100vh;min-height:100dvh;overscroll-behavior-y:none}
@@ -302,7 +367,10 @@ html.standalone input,html.standalone textarea{-webkit-user-select:text;user-sel
   <button class="big ink" id="toSes"><span class="pl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 7h14M5 12h10M5 17h6"/></svg></span><span><small>Sesión guiada</small><b>Dime qué quieres trabajar y te armo la rutina</b></span></button>
   <button class="big soft" id="cont"><span class="pl"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z"/></svg></span><span><small>Continuar</small><b id="contT"></b></span></button>
  </div>
- <h2 class="sect">Ejercicios sueltos</h2>
+ <h2 class="sect">Repertorio</h2>
+ <div class="rcards"><button class="rcard o" data-h="orquestal"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg></span><span><small>Probespiel</small><b>Repertorio orquestal</b><em>Buscador · aleatorio · ruleta · simulacro</em></span></button>
+ <button class="rcard j" data-h="jazz"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15c3 0 4-8 8-8s5 8 8 8"/><path d="M4 19h16"/><circle cx="12" cy="4" r="1.3" fill="currentColor"/></svg></span><span><small>Lenguaje y temas</small><b>Jazz</b><em>Bebop, blues, patrones y standards</em></span></button></div>
+ <h2 class="sect">Técnica</h2>
  <div class="cards" id="cards"></div>
  <h2 class="sect">Herramientas</h2>
  <div class="tiles"><button class="tile" data-h="afinador"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17a9 9 0 0 1 18 0"/><path d="M12 17l4-6"/><circle cx="12" cy="17" r="1.6" fill="currentColor"/></svg><b>Afinador</b><small>Aguja, cents y notas largas</small></button><button class="tile" data-h="metronomo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l4 18H4z"/><path d="M12 17l5-10"/></svg><b>Metrónomo</b><small>Acentos, aceleración, intervalos</small></button><button class="tile" data-h="cronometro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M10 2h4"/></svg><b>Cronómetro</b><small>Tiempo tocando y descanso</small></button><button class="tile" data-h="grabar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg><b>Grabar y analizar</b><small>Afinación, estabilidad, registro</small></button><button class="tile" data-h="notas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg><b>Generador de notas</b><small>Escucha notas, intervalos, arpegios</small></button></div>
@@ -335,6 +403,8 @@ html.standalone input,html.standalone textarea{-webkit-user-select:text;user-sel
  <p class="tip" id="tip"></p>
 </main>
 
+<main id="orq" class="view wrapx" hidden></main>
+<main id="jz" class="view wrapx" hidden></main>
 <main id="tpv" class="view wrapx" hidden><div id="v"></div></main>
 
 <div class="transport" id="transport" hidden><div class="in">
@@ -1240,11 +1310,293 @@ const mmss=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(Math.floor(s%6
 const itemName=it=>{const C=CATS.find(c=>c.id===it.cat);return C.n+' · '+C.vars.find(v=>v[0]===it.v)[1]};
 const itemSub=it=>{const C=CATS.find(c=>c.id===it.cat);return C.scale?cap(makeCtx(it.key,it.scale,st.range).keyName):C.n==='Flexibilidad'||C.n==='Posiciones fijas'||C.n==='Pedales'?'7 posiciones de pistones':''};
 
+/* ================= REPERTORIO ORQUESTAL Y JAZZ ================= */
+/* Extractos del índice de Orchester-Probespiel Trompete (Pliquett / Lösch, C. F. Peters). p = página del libro */
+const ORQ_RAW=[
+['Auber','Fra Diavolo','','Obertura',2],
+['Bach','Oratorio de Navidad','Weihnachts-Oratorium','Parte I · n.º 8 Aria',2],
+['Bach','Oratorio de Navidad','Weihnachts-Oratorium','Parte VI · n.º 64 Coral',3],
+['Bach','Misa en si menor','Messe in h-Moll','Credo · n.º 2 Coro',4],
+['Bartók','Concierto para orquesta','Concerto for Orchestra','1.er mov.',4],
+['Bartók','Concierto para orquesta','Concerto for Orchestra','2.º mov.',6],
+['Bartók','Concierto para orquesta','Concerto for Orchestra','5.º mov.',6],
+['Beethoven','Obertura Leonore n.º 2','Leonore 2 Signal','Señal (fuera de escena)',8],
+['Beethoven','Obertura Leonore n.º 3','Leonore 3 Signal','Señal (fuera de escena)',8],
+['Berg','Concierto para violín','Violinkonzert','1.er mov.',8],
+['Berg','Wozzeck','','Acto 1',9],
+['Berg','Wozzeck','','Acto 2',10],
+['Bizet','Carmen','','Preludio y acto 1',11],
+['Bizet','Carmen','','Acto 2',12],
+['Bizet','Carmen','','Acto 3',13],
+['Brahms','Sinfonía n.º 2 en Re mayor','Sinfonie 2 op 73','1.er mov.',14],
+['Brahms','Sinfonía n.º 2 en Re mayor','Sinfonie 2 op 73','4.º mov.',15],
+['Britten','The Young Person’s Guide to the Orchestra','Guia de orquesta para jovenes','',16],
+['Bruckner','Sinfonía n.º 3 en re menor','Sinfonie 3','1.er mov.',17],
+['Bruckner','Sinfonía n.º 7 en Mi mayor','Sinfonie 7','1.er y 3.er mov.',17],
+['Bruckner','Sinfonía n.º 8 en do menor','Sinfonie 8','4.º mov.',18],
+['Donizetti','Don Pasquale','','Acto 2',18],
+['Humperdinck','Hänsel y Gretel','Hänsel und Gretel','Preludio y cuadro 1',19],
+['Leoncavallo','Pagliacci','Der Bajazzo','Prólogo y acto 1',20],
+['Leoncavallo','Pagliacci','Der Bajazzo','Acto 2',21],
+['Mahler','Sinfonía n.º 1 en Re mayor','Sinfonie 1 Titan','1.er mov.',22],
+['Mahler','Sinfonía n.º 2 en do menor','Sinfonie 2 Resurrection Auferstehung','5.º mov.',22],
+['Mahler','Sinfonía n.º 3 en re menor','Sinfonie 3 posthorn','3.er mov. (posthorn)',23],
+['Mahler','Sinfonía n.º 3 en re menor','Sinfonie 3','6.º mov.',25],
+['Mahler','Sinfonía n.º 5 en do♯ menor','Sinfonie 5','1.er mov.',25],
+['Mahler','Sinfonía n.º 6 en la menor','Sinfonie 6','1.er y 4.º mov.',26],
+['Mahler','Sinfonía n.º 7 en mi menor','Sinfonie 7','5.º mov.',27],
+['Mahler','Sinfonía n.º 9 en Re mayor','Sinfonie 9','3.er mov.',28],
+['Mozart','Las bodas de Fígaro','Die Hochzeit des Figaro','Acto 1',28],
+['Mozart','La flauta mágica','Die Zauberflöte','Acto 1',29],
+['Músorgski','Cuadros de una exposición (orq. Ravel)','Bilder einer Ausstellung Pictures Mussorgsky','Promenade',30],
+['Músorgski','Cuadros de una exposición (orq. Ravel)','Bilder einer Ausstellung Pictures Mussorgsky','Samuel Goldenberg y Schmuyle',31],
+['Nicolai','Las alegres comadres de Windsor','Die lustigen Weiber von Windsor','Acto 3',32],
+['Prokófiev','Romeo y Julieta','Romeo und Julia Prokofieff','Llegada de los invitados · Máscaras',32],
+['Prokófiev','Romeo y Julieta','Romeo und Julia Prokofieff','Aubade (Morgenständchen)',33],
+['Ravel','Concierto para piano en Sol','Klavierkonzert G-Dur piano concerto','',33],
+['Ravel','Boléro','Bolero','',34],
+['Rimski-Kórsakov','Scheherazade','Scheherazade op 35 Rimsky Korsakow','2.º mov.',34],
+['Rimski-Kórsakov','Scheherazade','Scheherazade op 35 Rimsky Korsakow','4.º mov.',35],
+['Schumann','Sinfonía n.º 2 en Do mayor','Sinfonie 2 op 61','1.er mov.',37],
+['Skriabin','El poema del éxtasis','Le Poème de l’extase op 54 Skrjabin Scriabin','',37],
+['R. Strauss','Don Juan','op 20 Richard','',38],
+['R. Strauss','Muerte y transfiguración','Tod und Verklärung op 24 Richard','',39],
+['R. Strauss','Las travesuras de Till Eulenspiegel','Till Eulenspiegels lustige Streiche op 28 Richard','',40],
+['R. Strauss','Así habló Zaratustra','Also sprach Zarathustra op 30 Richard','',42],
+['R. Strauss','Don Quijote','Don Quixote op 35 Richard','',43],
+['R. Strauss','Una vida de héroe','Ein Heldenleben op 40 Richard','',45],
+['R. Strauss','Sinfonia domestica','op 53 Richard','',49],
+['R. Strauss','El burgués gentilhombre','Der Bürger als Edelmann op 60 Richard','',49],
+['R. Strauss','Sinfonía alpina','Eine Alpensinfonie op 64 Richard','',50],
+['R. Strauss','Feuersnot','op 50 Richard','',51],
+['R. Strauss','Salome','op 54 Richard','',52],
+['R. Strauss','Elektra','op 58 Richard','',54],
+['R. Strauss','El caballero de la rosa','Der Rosenkavalier op 59 Richard','',56],
+['R. Strauss','Arabella','op 79 Richard','',57],
+['Stravinski','El pájaro de fuego (suite)','Der Feuervogel Firebird Strawinsky','',59],
+['Stravinski','Petrushka','Petruschka Strawinsky','',60],
+['Stravinski','La consagración de la primavera','Le Sacre du Printemps Rite of Spring Strawinsky','',61],
+['Stravinski','El canto del ruiseñor','Le Chant du Rossignol Strawinsky','',62],
+['Stravinski','Pulcinella','Strawinsky','',63],
+['Chaikovski','Sinfonía n.º 4 en fa menor','Sinfonie 4 op 36 Tschaikowsky Tchaikovsky','1.er mov.',65],
+['Chaikovski','Sinfonía n.º 5 en mi menor','Sinfonie 5 op 64 Tschaikowsky Tchaikovsky','4.º mov.',65],
+['Chaikovski','Sinfonía n.º 6 en si menor «Patética»','Sinfonie 6 op 74 Pathetique Tschaikowsky Tchaikovsky','1.er y 3.er mov.',67],
+['Chaikovski','Capricho italiano','Capriccio italien op 45 Tschaikowsky Tchaikovsky','',68],
+['Chaikovski','La dama de picas','Pique Dame Tschaikowsky Tchaikovsky','Acto 3',68],
+['Chaikovski','El lago de los cisnes','Schwanensee op 20 Swan Lake Tschaikowsky Tchaikovsky','Danza napolitana',69],
+['Verdi','Rigoletto','','Preludio',69],
+['Verdi','Rigoletto','','Acto 2',70],
+['Verdi','Il trovatore','Troubadour','Actos 1 y 2',71],
+['Verdi','Un ballo in maschera','Ein Maskenball','Acto 3',72],
+['Verdi','La forza del destino','Die Macht des Schicksals','Obertura',72],
+['Verdi','La forza del destino','Die Macht des Schicksals','Acto 3',73],
+['Verdi','Don Carlo','Don Carlos','Acto 3',73],
+['Verdi','Aida','','Actos 1 y 2',74],
+['Verdi','Aida','','Acto 3 (marcha triunfal)',75],
+['Verdi','Otello','Othello','Actos 1 y 2',76],
+['Wagner','Tannhäuser','','Acto 2',77],
+['Wagner','Lohengrin','','Preludio y acto 1',78],
+['Wagner','Lohengrin','','Acto 2',79],
+['Wagner','El holandés errante','Der fliegende Holländer','Obertura y acto 1',79],
+['Wagner','Los maestros cantores de Núremberg','Die Meistersinger von Nürnberg','Preludio y acto 2',80],
+['Wagner','Los maestros cantores de Núremberg','Die Meistersinger von Nürnberg','Acto 3',81],
+['Wagner','Tristán e Isolda','Tristan und Isolde','Acto 3',82],
+['Wagner','El oro del Rin','Rheingold','Preludio, escenas 1 y 4',82],
+['Wagner','La valquiria','Die Walküre','Acto 1',83],
+['Wagner','La valquiria','Die Walküre','Acto 2',84],
+['Wagner','La valquiria','Die Walküre','Acto 3',86],
+['Wagner','Sigfrido','Siegfried','Acto 1',87],
+['Wagner','Sigfrido','Siegfried','Actos 2 y 3',88],
+['Wagner','El ocaso de los dioses','Götterdämmerung','Preludio y acto 1',89],
+['Wagner','El ocaso de los dioses','Götterdämmerung','Acto 2',90],
+['Wagner','El ocaso de los dioses','Götterdämmerung','Acto 3',91],
+['Wagner','Parsifal','','Preludio y acto 1',92]];
+
+/* Standards de jazz: [título, compositor, tónica concierto (0=Do), menor?, forma, etiqueta] */
+const JZ_RAW=[
+['Autumn Leaves','Kosma',7,1,'AABC 32','standard'],['All the Things You Are','Kern',8,0,'AABA 36','standard'],
+['Blue Bossa','Dorham',0,1,'16','latin'],['Take the A Train','Strayhorn',0,0,'AABA 32','swing'],
+['So What','Davis',2,1,'AABA 32 · modal','modal'],['Impressions','Coltrane',2,1,'AABA 32 · modal','modal'],
+['Footprints','Shorter',0,1,'Blues menor 24','blues'],['Now’s the Time','Parker',5,0,'Blues 12','blues'],
+['Billie’s Bounce','Parker',5,0,'Blues 12','blues'],['Blues for Alice','Parker',5,0,'Blues 12 (Bird)','blues'],
+['Straight, No Chaser','Monk',5,0,'Blues 12','blues'],['Blue Monk','Monk',10,0,'Blues 12','blues'],
+['Tenor Madness','Rollins',10,0,'Blues 12','blues'],['Sonnymoon for Two','Rollins',10,0,'Blues 12','blues'],
+['Freddie Freeloader','Davis',10,0,'Blues 12','blues'],['Mr. P.C.','Coltrane',0,1,'Blues menor 12','blues'],
+['All Blues','Davis',7,0,'Blues 12 · 6/8','blues'],['The Sidewinder','Morgan',3,0,'Blues 24','blues'],
+['Watermelon Man','Hancock',5,0,'16','funk'],['Cantaloupe Island','Hancock',5,1,'16 · modal','modal'],
+['Oleo','Rollins',10,0,'Rhythm changes','rhythm'],['Anthropology','Parker / Gillespie',10,0,'Rhythm changes','rhythm'],
+['I Got Rhythm','Gershwin',10,0,'AABA 32','rhythm'],['Cherokee','Noble',10,0,'AABA 64','bebop'],
+['Confirmation','Parker',5,0,'AABA 32','bebop'],['Donna Lee','Parker',8,0,'ABAC 32','bebop'],
+['Ornithology','Parker',7,0,'ABAC 32','bebop'],['Yardbird Suite','Parker',0,0,'AABA 32','bebop'],
+['Scrapple from the Apple','Parker',5,0,'AABA 32','bebop'],['Groovin’ High','Gillespie',3,0,'ABAC 32','bebop'],
+['A Night in Tunisia','Gillespie',2,1,'AABA 32','latin'],['Half Nelson','Davis',0,0,'AABA 32','bebop'],
+['Lady Bird','Dameron',0,0,'16','bebop'],['Four','Davis',3,0,'ABAC 32','bebop'],
+['Tune Up','Davis',2,0,'16','bebop'],['Solar','Davis',0,1,'12','bebop'],
+['Joy Spring','Brown',5,0,'AABA 32','hardbop'],['Moanin’','Timmons',5,1,'AABA 32','hardbop'],
+['Song for My Father','Silver',5,1,'AAB 24','hardbop'],['Moment’s Notice','Coltrane',3,0,'40','hardbop'],
+['Giant Steps','Coltrane',11,0,'16','hardbop'],['Speak No Evil','Shorter',0,1,'AABA','hardbop'],
+['Red Clay','Hubbard',0,1,'Funk / modal','funk'],['Little Sunflower','Hubbard',2,1,'Modal','modal'],
+['Ceora','Morgan',8,0,'AABA','latin'],['Recorda Me','Henderson',9,1,'AB 16','latin'],
+['Maiden Voyage','Hancock',2,0,'AABA 32 · sus','modal'],['Afro Blue','Santamaria',5,1,'3/4 · modal','modal'],
+['Caravan','Tizol / Ellington',5,1,'AABA 64','latin'],['Satin Doll','Ellington',0,0,'AABA 32','swing'],
+['Perdido','Tizol',10,0,'AABA 32','swing'],['It Don’t Mean a Thing','Ellington',7,1,'AABA 32','swing'],
+['Sweet Georgia Brown','Bernie / Pinkard',5,0,'ABAC 32','swing'],['Bye Bye Blackbird','Henderson',5,0,'ABAC 32','standard'],
+['Just Friends','Klenner',7,0,'ABAC 32','standard'],['There Will Never Be Another You','Warren',3,0,'ABAC 32','standard'],
+['Stella by Starlight','Young',10,0,'ABCD 32','standard'],['Days of Wine and Roses','Mancini',5,0,'ABAC 32','standard'],
+['What Is This Thing Called Love','Porter',0,0,'AABA 32','standard'],['Softly, as in a Morning Sunrise','Romberg',0,1,'AABA 32','standard'],
+['Alone Together','Schwartz',2,1,'AABA 44','standard'],['Beautiful Love','Young',2,1,'ABAC 32','standard'],
+['Invitation','Kaper',0,1,'ABA 48','standard'],['Fly Me to the Moon','Howard',9,1,'ABAC 32','standard'],
+['Well, You Needn’t','Monk',5,0,'AABA 32','bebop'],['Doxy','Rollins',10,0,'AABA 16','hardbop'],
+['Summertime','Gershwin',2,1,'16','balada'],['My Funny Valentine','Rodgers',0,1,'AABA 36','balada'],
+['’Round Midnight','Monk',3,1,'AABA 32','balada'],['Body and Soul','Green',1,0,'AABA 32','balada'],
+['Misty','Garner',3,0,'AABA 32','balada'],['In a Sentimental Mood','Ellington',2,1,'AABA 32','balada'],
+['Nardis','Davis',4,1,'AABA 32 · modal','modal'],['Black Orpheus','Bonfá',9,1,'ABAC 32','latin'],
+['The Girl from Ipanema','Jobim',5,0,'AABA 40','latin'],['Desafinado','Jobim',5,0,'AABA 68','latin'],
+['Wave','Jobim',2,0,'AABA 32','latin']];
+const JZ_TAG={blues:'Blues',rhythm:'Rhythm changes',bebop:'Bebop',hardbop:'Hard bop',modal:'Modal',latin:'Latin / bossa',swing:'Swing',standard:'Standard',balada:'Balada',funk:'Funk'};
+const PCN=['Do','Re♭','Re','Mi♭','Mi','Fa','Fa♯','Sol','La♭','La','Si♭','Si'];
+const jkTxt=(pc,m)=>PCN[((pc%12)+12)%12]+(m?' m':'');
+const nrm=t=>(t||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[º°.]/g,' ').replace(/[’'«»()·,]/g,' ');
+
+const ORQ=ORQ_RAW.map((r,i)=>({id:i,c:r[0],w:r[1],al:r[2],x:r[3],p:r[4],h:nrm([r[0],r[1],r[2],r[3]].join(' '))}));
+const JZ=JZ_RAW.map((r,i)=>({id:i,t:r[0],c:r[1],k:r[2],m:r[3],f:r[4],g:r[5],h:nrm([r[0],r[1],r[4],JZ_TAG[r[5]],jkTxt(r[2],r[3])].join(' '))}));
+const match=(it,q)=>{const ts=nrm(q).split(/\s+/).filter(Boolean);return ts.every(t=>it.h.includes(t))};
+const srt=(L,q,key)=>{const ts=nrm(q).split(/\s+/).filter(Boolean);if(!ts.length)return L;const tw=x=>{const w=' '+nrm(key(x))+' ';return ts.every(t=>w.includes(' '+t+' ')||w.includes(t))?0:1};return L.map((x,i)=>[tw(x),i,x]).sort((a,b)=>a[0]-b[0]||a[1]-b[1]).map(z=>z[2])};
+
+/* estado */
+const RK='campana_rep';let RS={sel:[],hist:[],mode:'lista',n:5,prep:15,src:'auto',off:6,jmode:'lista',jtag:'',jrk:true,jsel:[]};
+try{Object.assign(RS,JSON.parse(localStorage.getItem(RK)||'{}'))}catch(e){}
+const rsave=()=>{try{localStorage.setItem(RK,JSON.stringify(RS))}catch(e){}};
+let oq='',jq='',bag=[],bagN=0,cur=null,sim=null,simT=0,jcur=null;
+const shuf=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const escH=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const buzz=n=>{try{navigator.vibrate&&navigator.vibrate(n)}catch(e){}};
+window.repStop=()=>{clearInterval(simT);simT=0};
+
+/* PDF del libro (opcional): se guarda en el propio dispositivo */
+const pdb=()=>new Promise((ok,ko)=>{const r=indexedDB.open('campana-pdf',1);r.onupgradeneeded=()=>r.result.createObjectStore('f');r.onsuccess=()=>ok(r.result);r.onerror=()=>ko(r.error)});
+const pget=async()=>{try{const d=await pdb();return await new Promise(ok=>{const q=d.transaction('f').objectStore('f').get('pb');q.onsuccess=()=>ok(q.result||null);q.onerror=()=>ok(null)})}catch(e){return null}};
+const pput=async b=>{const d=await pdb();await new Promise((ok,ko)=>{const t=d.transaction('f','readwrite');t.objectStore('f').put(b,'pb');t.oncomplete=ok;t.onerror=()=>ko(t.error)})};
+let PDF=null,PDFU=null;pget().then(b=>{if(b){PDF=b;PDFU=URL.createObjectURL(b);if(view==='orq')R.orq()}});
+const openPg=p=>{if(!PDFU){toast('Carga primero el PDF del libro (abajo del todo)');return}const a=document.createElement('a');a.href=PDFU+'#page='+(p+(+RS.off||0));a.target='_blank';a.rel='noopener';document.body.appendChild(a);a.click();a.remove()};
+
+/* bote de extractos según la fuente elegida */
+function pool(){const f=ORQ.filter(x=>match(x,oq));const s=ORQ.filter(x=>RS.sel.includes(x.id));
+ if(RS.src==='sel')return s;if(RS.src==='busq')return f;if(RS.src==='todo')return ORQ;return s.length?s:f}
+const srcName=()=>({sel:'Mi selección',busq:'Lo que buscas',todo:'Todo el libro'}[RS.src]||(RS.sel.length?'Mi selección':oq?'Lo que buscas':'Todo el libro'));
+
+/* tarjeta de un extracto */
+const exCard=(x,extra='')=>`<div class="xcard"><small>${escH(x.c)}</small><b>${escH(x.w)}</b>${x.x?`<em>${escH(x.x)}</em>`:''}<div class="xrow"><span class="pg">pág. ${x.p}</span><button class="xs" data-pg="${x.p}">Abrir en el PDF</button>${extra}</div></div>`;
+
+/* carrete tipo tragaperras: pasa nombres y frena en el elegido */
+function spin(box,list,fin,line,done){const H=66,n=Math.min(34,Math.max(14,list.length*2)),seq=[];
+ for(let i=0;i<n;i++)seq.push(list[Math.floor(Math.random()*list.length)]);seq.push(fin);seq.push(list[Math.floor(Math.random()*list.length)]);
+ box.innerHTML=`<div class="reel"><div class="strip2">${[list[0],...seq].map(line).join('')}</div><i class="rmark"></i></div>`;
+ const s=box.querySelector('.strip2'),to=-(seq.length-1)*H;
+ if(!s.animate||matchMedia('(prefers-reduced-motion:reduce)').matches){s.style.transform=`translateY(${to}px)`;done();return}
+ let last=0;const tk=setInterval(()=>{const m=new DOMMatrixReadOnly(getComputedStyle(s).transform).m42,k=Math.round(-m/H);if(k!==last){last=k;buzz(4)}},30);
+ s.animate([{transform:'translateY(0)'},{transform:`translateY(${to}px)`}],{duration:2600+Math.random()*500,easing:'cubic-bezier(.1,.7,.15,1)',fill:'forwards'}).onfinish=()=>{clearInterval(tk);buzz([18,40,18]);box.querySelector('.reel').classList.add('hit');done()}}
+const oline=x=>`<div class="rl"><b>${escH(x.w)}</b><small>${escH(x.c)}${x.x?' · '+escH(x.x):''}</small></div>`;
+
+const R={};
+const rseg=(id,opts,val)=>`<div class="seg" id="${id}">${opts.map(([v,t])=>`<button data-v="${v}" aria-pressed="${String(v)===String(val)}">${t}</button>`).join('')}</div>`;
+
+R.orq=()=>{const el=$('#orq');const f=srt(ORQ.filter(x=>match(x,oq)),oq,x=>x.c+' '+x.w+' '+x.al);const P=pool();
+ const modes=rseg('omode',[['lista','Lista'],['azar','Aleatorio'],['ruleta','Ruleta'],['sim','Simulacro']],RS.mode);
+ let body='';
+ const srcRow=`<p class="lab">Sacar de</p>${rseg('osrc',[['auto','Auto'],['sel','Mi selección'],['busq','Búsqueda'],['todo','Todo']],RS.src)}<p class="hint">${srcName()} · ${P.length} extracto${P.length===1?'':'s'}${RS.src==='auto'?' (si tienes selección usa esa; si no, lo que buscas)':''}</p>`;
+ if(RS.mode==='lista'){let lc='';body=f.map(x=>{const head=x.c!==lc?`<h3 class="comp">${escH(x.c)}</h3>`:'';lc=x.c;const on=RS.sel.includes(x.id);
+   return head+`<div class="xi${on?' on':''}"><button class="xt" data-sel="${x.id}" aria-pressed="${on}"><span class="ck"></span><span><b>${escH(x.w)}</b>${x.x?`<small>${escH(x.x)}</small>`:''}</span></button><button class="pg" data-pg="${x.p}">pág. ${x.p}</button></div>`}).join('')||'<p class="hint">Nada coincide con la búsqueda.</p>'}
+ else if(RS.mode==='azar'){body=srcRow+`<div id="azBox">${cur?exCard(cur):'<p class="hint">Pulsa «Siguiente» para sacar un extracto al azar. No se repite ninguno hasta que salgan todos.</p>'}</div><p class="hint">${bagN?`${bagN} de ${bag.length+bagN} en esta ronda`:''}</p><button class="mk wide" id="azGo">${cur?'Siguiente al azar':'Empezar'}</button>`}
+ else if(RS.mode==='ruleta'){body=srcRow+`<div id="rBox">${cur?exCard(cur):'<div class="reel idle"><div class="strip2"><div class="rl"><b>¿Cuál te toca?</b><small>Gira la ruleta</small></div></div><i class="rmark"></i></div>'}</div><button class="mk wide" id="rGo">Girar la ruleta</button>`}
+ else body=simView(P,srcRow);
+ const selBar=RS.sel.length?`<div class="selbar"><span><b>${RS.sel.length}</b> en mi selección</span><button class="xs" id="selClr">Vaciar</button></div>`:'';
+ const pdf=`<div class="pdfbox"><p class="lab">Libro en PDF</p><p class="hint">${PDF?'Cargado en este dispositivo. «Abrir en el PDF» salta a la página del extracto.':'Opcional: carga tu PDF del Probespiel y cada extracto abrirá su página. Se queda solo en este dispositivo.'}</p><div class="row2"><label class="xs filebtn">${PDF?'Cambiar PDF':'Cargar PDF'}<input type="file" accept="application/pdf,.pdf" id="pdfIn" hidden></label><label class="hint off">Desfase de página <input type="number" id="pdfOff" value="${RS.off}" min="-20" max="40"></label></div></div>`;
+ el.innerHTML=`<div class="hero"><h1>Repertorio orquestal</h1><p>${ORQ.length} extractos del Orchester-Probespiel (Pliquett · Lösch). Búscalos, sácalos al azar, gira la ruleta o monta un simulacro de audición.</p></div>
+ <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="oq" type="search" placeholder="Busca: petrushka, mahler 5, ravel, acto 2…" value="${escH(oq)}" autocomplete="off"><span class="cnt">${f.length}</span></div>
+ ${modes}${selBar}<div class="rbody">${body}</div>${pdf}`;
+ const qi=$('#oq');qi.oninput=()=>{oq=qi.value;const p=qi.selectionStart;R.orq();const n=$('#oq');n.focus();n.setSelectionRange(p,p)};
+ el.querySelectorAll('#omode button').forEach(b=>b.onclick=()=>{RS.mode=b.dataset.v;cur=null;rsave();repStop();if(RS.mode!=='sim')sim=null;R.orq()});
+ el.querySelectorAll('#osrc button').forEach(b=>b.onclick=()=>{RS.src=b.dataset.v;bag=[];bagN=0;rsave();R.orq()});
+ el.querySelectorAll('[data-sel]').forEach(b=>b.onclick=()=>{const id=+b.dataset.sel,i=RS.sel.indexOf(id);if(i<0)RS.sel.push(id);else RS.sel.splice(i,1);rsave();const on=i<0;b.setAttribute('aria-pressed',on);b.parentNode.classList.toggle('on',on);buzz(6);const sb=el.querySelector('.selbar');if(!sb||!RS.sel.length)R.orq();else sb.querySelector('b').textContent=RS.sel.length});
+ el.querySelectorAll('[data-pg]').forEach(b=>b.onclick=()=>openPg(+b.dataset.pg));
+ const sc=$('#selClr');if(sc)sc.onclick=()=>{RS.sel=[];rsave();R.orq()};
+ const az=$('#azGo');if(az)az.onclick=()=>{const P=pool();if(!P.length)return toast('No hay extractos con esa búsqueda');
+   if(!bag.length||bag.some(x=>!P.includes(x))){bag=shuf(P);bagN=0;if(cur&&bag.length>1&&bag[0]===cur)bag.push(bag.shift())}
+   cur=bag.shift();bagN++;if(!bag.length){toast('Ronda completa: han salido todos');bagN=0}R.orq();const c=el.querySelector('.xcard');c&&c.classList.add('pop')};
+ const rg=$('#rGo');if(rg)rg.onclick=()=>{const P=pool();if(!P.length)return toast('No hay extractos con esa búsqueda');rg.disabled=true;
+   const fin=P[Math.floor(Math.random()*P.length)];spin($('#rBox'),P,fin,oline,()=>setTimeout(()=>{cur=fin;R.orq();const c=el.querySelector('.xcard');c&&c.classList.add('pop')},650))};
+ const pi=$('#pdfIn');pi.onchange=async()=>{const fl=pi.files[0];if(!fl)return;try{await pput(fl);PDF=fl;if(PDFU)URL.revokeObjectURL(PDFU);PDFU=URL.createObjectURL(fl);toast('PDF guardado en este dispositivo');R.orq()}catch(e){toast('No se pudo guardar el PDF: '+e.message)}};
+ const po=$('#pdfOff');po.onchange=()=>{RS.off=+po.value||0;rsave()};
+ simBind(el)};
+
+/* ---- simulacro ---- */
+const NS=[[3,'3'],[4,'4'],[5,'5'],[6,'6'],[8,'8'],[10,'10'],[0,'Todos']];
+const fmt=s=>Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');
+function simView(P,srcRow){
+ if(sim&&sim.i<sim.L.length){const x=sim.L[sim.i];return `<div class="simtop"><b>Extracto ${sim.i+1} de ${sim.L.length}</b><span class="clock" id="simClk">${sim.ph==='prep'?fmt(sim.left):fmt(sim.el)}</span></div><div class="prog"><i style="width:${sim.i/sim.L.length*100}%"></i></div>
+  <p class="ask2">El tribunal pide:</p>${exCard(x)}<div class="phase ${sim.ph}" id="simPh">${sim.ph==='prep'?'Mira la partitura y prepárate…':'¡Toca!'}</div>
+  <div class="row2"><button class="xs" id="simEnd">Terminar</button><button class="mk" id="simNx">${sim.i+1<sim.L.length?'Siguiente extracto':'Acabar simulacro'}</button></div>`}
+ if(sim&&sim.i>=sim.L.length){const sum=sim.L.map((x,k)=>`<div class="rate"><div><b>${escH(x.w)}</b><small>${escH(x.c)}${x.x?' · '+escH(x.x):''}</small></div><div class="stars" data-k="${k}">${[1,2,3,4,5].map(s=>`<button data-s="${s}" aria-pressed="${sim.r[k]>=s}" aria-label="${s} de 5">★</button>`).join('')}</div></div>`).join('');
+  return `<div class="hero sm"><h2>Simulacro terminado</h2><p>${sim.L.length} extractos · ${fmt(sim.tot)}. Puntúa cómo salió cada uno.</p></div>${sum}<textarea id="simNote" rows="2" placeholder="Notas: qué falló, qué repetir…">${escH(sim.note||'')}</textarea><div class="row2"><button class="xs" id="simAgain">Repetir los mismos</button><button class="mk" id="simSave">Guardar simulacro</button></div>`}
+ const hist=RS.hist.slice(-6).reverse().map(h=>{const r=h.r.filter(Boolean),m=r.length?(r.reduce((a,b)=>a+b,0)/r.length).toFixed(1):'—';return `<div class="hrow"><span>${h.d}</span><span>${h.ids.length} extractos</span><span>★ ${m}</span><button class="xs" data-rep="${RS.hist.indexOf(h)}">Repetir</button></div>`}).join('');
+ return srcRow+`<p class="lab">Cuántos extractos</p>${rseg('simN',NS,RS.n)}<p class="lab">Tiempo para mirar la partitura</p>${rseg('simP',[[0,'Nada'],[15,'15 s'],[30,'30 s'],[60,'1 min']],RS.prep)}
+ <p class="hint">Se eligen ${RS.n&&RS.n<P.length?RS.n:P.length} al azar de «${srcName()}» y te los piden uno tras otro, como en una audición. Truco: marca en la Lista los que quieras (Petrushka, Mahler 5, Ravel…) y deja que el simulacro escoja.</p>
+ <button class="mk wide" id="simGo">Empezar simulacro</button>${hist?`<p class="lab">Últimos simulacros</p>${hist}`:''}`}
+function simTick(){if(!sim)return;if(sim.ph==='prep'){sim.left--;if(sim.left<=0){sim.ph='play';buzz([30,60,30])}}else sim.el++;sim.tot++;
+ const c=$('#simClk');if(c)c.textContent=sim.ph==='prep'?fmt(sim.left):fmt(sim.el);const p=$('#simPh');if(p&&p.className!=='phase '+sim.ph){p.className='phase '+sim.ph;p.textContent=sim.ph==='prep'?'Mira la partitura y prepárate…':'¡Toca!'}}
+function simStart(L){repStop();sim={L,i:0,r:L.map(()=>0),ph:RS.prep?'prep':'play',left:RS.prep,el:0,tot:0};simT=setInterval(simTick,1000);R.orq();window.scrollTo({top:0,behavior:'smooth'})}
+function simBind(el){
+ el.querySelectorAll('#simN button').forEach(b=>b.onclick=()=>{RS.n=+b.dataset.v;rsave();R.orq()});
+ el.querySelectorAll('#simP button').forEach(b=>b.onclick=()=>{RS.prep=+b.dataset.v;rsave();R.orq()});
+ const g=$('#simGo');if(g)g.onclick=()=>{const P=pool();if(!P.length)return toast('No hay extractos con esa selección');simStart(shuf(P).slice(0,RS.n||P.length))};
+ el.querySelectorAll('[data-rep]').forEach(b=>b.onclick=()=>{const h=RS.hist[+b.dataset.rep];simStart(shuf(h.ids.map(i=>ORQ[i]).filter(Boolean)))});
+ const nx=$('#simNx');if(nx)nx.onclick=()=>{sim.i++;sim.ph=RS.prep?'prep':'play';sim.left=RS.prep;sim.el=0;if(sim.i>=sim.L.length)repStop();buzz(10);R.orq();const c=el.querySelector('.xcard');c&&c.classList.add('pop')};
+ const en=$('#simEnd');if(en)en.onclick=()=>{sim.L=sim.L.slice(0,sim.i+1);sim.r=sim.r.slice(0,sim.i+1);sim.i=sim.L.length;repStop();R.orq()};
+ el.querySelectorAll('.stars').forEach(s=>s.onclick=e=>{const b=e.target.closest('button');if(!b)return;const k=+s.dataset.k;sim.r[k]=+b.dataset.s;s.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',+x.dataset.s<=sim.r[k]));buzz(5)});
+ const nt=$('#simNote');if(nt)nt.oninput=()=>sim.note=nt.value;
+ const ag=$('#simAgain');if(ag)ag.onclick=()=>simStart(shuf(sim.L));
+ const sv=$('#simSave');if(sv)sv.onclick=()=>{RS.hist.push({d:new Date().toLocaleDateString('es-ES'),ids:sim.L.map(x=>x.id),r:sim.r,o:sim.note||''});RS.hist=RS.hist.slice(-40);rsave();
+   try{if(window.tpLog&&sim.tot>=5)window.tpLog('D','Simulacro orquestal ('+sim.L.length+' extractos)',sim.tot)}catch(e){}sim=null;toast('Simulacro guardado');R.orq()}}
+
+/* ================= JAZZ ================= */
+const JPRE=[
+ ['esc','corcheas','bebop','Escala bebop','Dominante con la cromática de paso'],
+ ['esc','corcheas','blues','Escala de blues','La de toda la vida, en todos los tonos'],
+ ['pat','arp7','mixolidia','Arpegios de 7.ª','1-3-5-7 sobre cada grado'],
+ ['pat','digital','dorica','Patrón 1-2-3-5','Digital pattern, sonido dórico'],
+ ['pat','rodeo','mayor','Rodeos (enclosures)','Aproximación cromática y diatónica'],
+ ['pat','sec5431','mixolidia','Secuencia 5-4-3-1','Línea típica sobre el dominante'],
+ ['esc','t4','pentam','Pentatónica en cuartas','Sonido moderno, saltos abiertos'],
+ ['esc','t3','dorica','Dórica en terceras','Para el ii y los temas modales'],
+ ['esc','corcheas','tonos','Tonos enteros','Para dominantes alterados']];
+const jline=x=>`<div class="rl"><b>${escH(x.t)}</b><small>${escH(x.c)} · ${escH(x.f)}</small></div>`;
+const jCard=(x,rk)=>{const k=rk==null?x.k:rk;return `<div class="xcard"><small>${escH(x.c)} · ${JZ_TAG[x.g]}</small><b>${escH(x.t)}</b><em>${escH(x.f)}</em><div class="keys2"><div><small>Concierto</small><b>${jkTxt(k,x.m)}</b></div><div><small>Trompeta en Si♭</small><b>${jkTxt(k+2,x.m)}</b></div></div>${rk!=null&&rk!==x.k?`<p class="hint">Tonalidad al azar · el original va en ${jkTxt(x.k,x.m)}</p>`:''}<p class="hint">Toca el tema, 2 chorus de improvisación y vuelve al tema.</p></div>`};
+R.jz=()=>{const el=$('#jz');const f=JZ.filter(x=>(!RS.jtag||x.g===RS.jtag)&&match(x,jq));
+ const tags=`<div class="chips">${[['','Todos'],...Object.entries(JZ_TAG)].map(([v,t])=>`<button data-tag="${v}" aria-pressed="${RS.jtag===v}">${t}</button>`).join('')}</div>`;
+ let body;
+ if(RS.jmode==='ruleta')body=`<label class="tog"><input type="checkbox" id="jrk" ${RS.jrk?'checked':''}> En una tonalidad al azar</label><div id="jBox">${jcur?jCard(jcur.x,jcur.k):'<div class="reel idle"><div class="strip2"><div class="rl"><b>¿Qué tema toca hoy?</b><small>'+f.length+' standards en el bombo</small></div></div><i class="rmark"></i></div>'}</div><button class="mk wide" id="jGo">Girar la ruleta</button>`;
+ else body=f.map(x=>`<button class="ji" data-j="${x.id}"><span><b>${escH(x.t)}</b><small>${escH(x.c)} · ${escH(x.f)}</small></span><span class="kk"><b>${jkTxt(x.k,x.m)}</b><small>Si♭: ${jkTxt(x.k+2,x.m)}</small></span></button>`).join('')||'<p class="hint">Nada coincide.</p>';
+ el.innerHTML=`<div class="hero"><h1>Jazz</h1><p>Técnica de lenguaje con el motor de Campana y un bombo de standards para practicar temas en cualquier tonalidad.</p></div>
+ <h2 class="sect">Lenguaje y técnica</h2><div class="tiles jt">${JPRE.map((p,i)=>`<button class="tile" data-jp="${i}"><b>${p[3]}</b><small>${p[4]}</small></button>`).join('')}</div>
+ <h2 class="sect">Standards</h2>${rseg('jmode',[['lista','Lista'],['ruleta','Ruleta']],RS.jmode)}
+ <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="jq" type="search" placeholder="Busca: parker, blues, Fa, bossa…" value="${escH(jq)}" autocomplete="off"><span class="cnt">${f.length}</span></div>${tags}
+ <div class="rbody">${body}</div><p class="hint">Tonalidades del Real Book en concierto; la columna Si♭ es lo que lees tú. Comprueba la tonalidad con tu grupo: muchas versiones cambian.</p>`;
+ el.querySelectorAll('[data-jp]').forEach(b=>b.onclick=()=>{const p=JPRE[+b.dataset.jp];st.vars[p[0]]=p[1];st.scale=p[2];save();location.hash=p[0]});
+ el.querySelectorAll('#jmode button').forEach(b=>b.onclick=()=>{RS.jmode=b.dataset.v;jcur=null;rsave();R.jz()});
+ el.querySelectorAll('[data-tag]').forEach(b=>b.onclick=()=>{RS.jtag=b.dataset.tag;jcur=null;rsave();R.jz()});
+ const qi=$('#jq');qi.oninput=()=>{jq=qi.value;const p=qi.selectionStart;R.jz();const n=$('#jq');n.focus();n.setSelectionRange(p,p)};
+ el.querySelectorAll('[data-j]').forEach(b=>b.onclick=()=>{RS.jmode='ruleta';jcur={x:JZ[+b.dataset.j],k:null};rsave();R.jz();const c=el.querySelector('.xcard');c&&(c.classList.add('pop'),c.scrollIntoView({behavior:'smooth',block:'center'}))});
+ const rk=$('#jrk');if(rk)rk.onchange=()=>{RS.jrk=rk.checked;rsave()};
+ const g=$('#jGo');if(g)g.onclick=()=>{if(!f.length)return toast('No hay temas con ese filtro');g.disabled=true;const x=f[Math.floor(Math.random()*f.length)],k=RS.jrk?Math.floor(Math.random()*12):null;
+   spin($('#jBox'),f,x,jline,()=>setTimeout(()=>{jcur={x,k};R.jz();const c=el.querySelector('.xcard');c&&c.classList.add('pop')},650))}};
+
 /* routing */
 const TPR={hoy:['ini'],rutina:['rut'],cronometro:['ent','cron'],metronomo:['ent','met'],afinador:['ent','afi'],notas:['ent','gen'],grabar:['gra'],audiciones:['aud'],biblioteca:['bib'],coach:['coa'],progreso:['pro'],perfil:['per']};
 const TPN={ini:'Plan del día',rut:'Mi rutina',cron:'Cronómetro',met:'Metrónomo',afi:'Afinador',gen:'Generador de notas',gra:'Grabar y analizar',aud:'Audiciones',bib:'Biblioteca',coa:'Coach',pro:'Progreso',per:'Perfil'};
-const VID={home:'home',ses:'ses',ex:'exv',tp:'tpv'};
-function route(){const h=location.hash.slice(1);stop();const prev=view;
+const VID={home:'home',ses:'ses',ex:'exv',tp:'tpv',orq:'orq',jz:'jz'};
+function route(){const h=location.hash.slice(1);stop();const prev=view;if(h!=='orquestal')window.repStop&&repStop();
+ if(h==='orquestal'||h==='jazz'){if(run)endRun(false);show(h==='jazz'?'jz':'orq',prev==='home');return}
  if(TPR[h]&&typeof V!=='undefined'){if(run)endRun(false);tab=TPR[h][0];if(TPR[h][1])ET=TPR[h][1];show('tp',prev==='home'||prev==='tp')}
  else if(h==='sesion'){if(run)endRun(false);show('ses',prev==='home')}
  else if(h==='paso'&&run)show('ex',true);
@@ -1254,6 +1606,8 @@ function show(v,fwd){const same=view===v&&v==='tp';view=v;window.TP_ON=v==='tp';
  $('#back').hidden=v==='home';$('#brand').hidden=v!=='home';$('#barTitle').hidden=v==='home';$('#barSub').hidden=v!=='home';$('#transport').hidden=v!=='ex';
  if(!same)window.scrollTo({top:0});
  if(v==='home')renderHome();else if(v==='ses'){$('#barTitle').textContent='Sesión';renderSes()}
+ else if(v==='orq'){$('#barTitle').textContent='Repertorio orquestal';R.orq()}
+ else if(v==='jz'){$('#barTitle').textContent='Jazz';R.jz()}
  else if(v==='tp'){$('#barTitle').textContent=TPN[tab==='ent'?ET:tab];const vv=$('#v');if(!same){vv.classList.add('enter');setTimeout(()=>vv.classList.remove('enter'),600)}window.tpDraw&&window.tpDraw()}
  else{$('#barTitle').textContent=run?'Sesión':cat().n;exControls();render(false)}}
 $('#back').onclick=()=>{if(view==='ex'&&run){location.hash='sesion';return}if(history.length>1&&location.hash)history.back();else location.hash=''};
@@ -1265,7 +1619,8 @@ function renderHome(){paintToday();
  const c=CATS.find(x=>x.id===st.cat);$('#contT').textContent=c.n+' · '+c.vars.find(v=>v[0]===(st.vars[c.id]||c.vars[0][0]))[1];
  seg($('#rangeH'),Object.entries(RANGES).map(([k,r])=>[k,r.n+'<small>'+r.d+'</small>']),st.range,id=>{st.range=id;save();mark($('#rangeH'),id);toast('Registro '+RANGES[id].n.toLowerCase()+' ('+RANGES[id].d+')')})}
 $('#cards').onclick=e=>{const b=e.target.closest('.card');if(b)location.hash=b.dataset.id};
-document.querySelectorAll('.tiles').forEach(t=>t.onclick=e=>{const b=e.target.closest('.tile');if(b)location.hash=b.dataset.h});
+document.querySelectorAll('#home .tiles').forEach(t=>t.onclick=e=>{const b=e.target.closest('.tile');if(b)location.hash=b.dataset.h});
+document.querySelectorAll('.rcard').forEach(b=>b.onclick=()=>location.hash=b.dataset.h);
 $('#todayCard').onclick=()=>location.hash='hoy';
 function paintToday(){let d={done:0,tot:0,check:false,nx:null};try{if(window.tpToday)d=window.tpToday()}catch(e){}
  const p=d.tot?Math.min(100,Math.round(d.done/d.tot*100)):0;$('#ring').style.setProperty('--p',p);$('#ringT').textContent=d.tot?p+'%':Math.round(d.done)+'′';
