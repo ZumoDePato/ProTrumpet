@@ -243,6 +243,48 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px soli
 @media(prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}}
 
 /* ---- repertorio y jazz ---- */
+.chips.wrap{flex-wrap:wrap;overflow:visible;padding:0}
+.chips.wrap button{min-height:40px;padding:0 15px}
+.simcfg{background:var(--chip);border-radius:24px;padding:6px 16px 12px;margin:8px 0}
+.cfg{padding:4px 0 14px;border-bottom:1px solid var(--line)}.cfg .lab{display:flex;align-items:center;gap:10px;font-size:15px;color:var(--ink)}
+.cfg .cn{width:26px;height:26px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-weight:800;font-size:13px;flex:none}
+.simcfg .chips.wrap{gap:6px}.simcfg .chips.wrap button{padding:0 13px}
+#orq.focus{padding-top:6px}
+.stars button{color:color-mix(in srgb,var(--soft) 45%,transparent)!important}.stars button[aria-pressed=true]{color:var(--acc)!important}
+.cfg .lab{margin-top:14px}.cfg .chips button{background:var(--bg)}.cfg .chips button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+.simsum{display:flex;align-items:baseline;gap:10px;padding:16px 0 4px}.simsum b{font-size:44px;line-height:1;font-weight:800;letter-spacing:-.03em}.simsum span{color:var(--soft);font-weight:700}
+.simrun{animation:rise .3s both}
+.simhead{display:flex;justify-content:space-between;align-items:baseline;margin:6px 0 8px}.simhead span{font-weight:800;color:var(--soft);text-transform:uppercase;letter-spacing:.06em;font-size:13px}
+.simhead b{font-size:30px;font-weight:800;font-variant-numeric:tabular-nums}.simhead small{font-size:17px;color:var(--soft)}
+.sdots{display:flex;gap:5px;margin-bottom:12px}.sdots i{flex:1;height:5px;border-radius:3px;background:var(--chip2,var(--line));transition:background-color .3s}
+.sdots i.d{background:var(--ink)}.sdots i.n{background:var(--acc)}
+.scard{background:var(--ink);color:var(--bg);border-radius:26px;padding:20px;overflow-wrap:anywhere}
+.scard .trib{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;background:var(--acc);color:var(--accInk);border-radius:999px;padding:4px 10px;margin-bottom:12px}
+.scard small{display:block;font-size:14px;font-weight:700;opacity:.7}
+.scard b{display:block;font-size:clamp(24px,6.4vw,34px);line-height:1.12;letter-spacing:-.02em;margin:4px 0;text-wrap:balance}
+.scard em{display:block;font-style:normal;font-size:17px;opacity:.85}
+.scard .xrow{flex-wrap:wrap}.scard .xrow .pg{color:inherit;opacity:.7;background:none;padding:0}.scard .xrow .xs{background:color-mix(in srgb,var(--bg) 16%,transparent);color:var(--bg)}
+.scard.pop{animation:pop .5s cubic-bezier(.2,.9,.3,1.25) both}
+.timer{position:relative;width:min(58vw,220px);aspect-ratio:1;margin:22px auto 10px}
+.timer svg{width:100%;height:100%;transform:rotate(-90deg)}
+.timer circle{fill:none;stroke-width:9;stroke-linecap:round}
+.timer .tbg{stroke:var(--chip)}.timer .tfg{stroke:var(--soft);transition:stroke-dashoffset 1s linear,stroke .4s}
+.timer.t-play .tfg{stroke:var(--acc)}
+.timer .tin{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 14%}
+.timer .tin b{font-size:clamp(34px,11vw,48px);font-weight:800;font-variant-numeric:tabular-nums;line-height:1}
+.timer .tin span{font-size:15px;font-weight:800;color:var(--soft);margin-top:6px;line-height:1.2}
+.timer.t-play .tin span{color:var(--acc)}
+.timer.t-play{animation:simPulse 2.4s ease-in-out infinite}
+@keyframes simPulse{50%{transform:scale(1.03)}}
+.simbtns{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;margin:12px 0 4px}.simbtns .xs{min-height:52px;padding:0 18px;border-radius:16px}.simbtns .mk{min-height:52px}
+.simdone{display:flex;align-items:center;gap:16px;margin:10px 0 4px}.simdone h2{margin:0;font-size:24px}.simdone p{margin:4px 0 0;color:var(--soft)}
+.simdone .avg{width:84px;height:84px;border-radius:24px;background:var(--acc);color:var(--accInk);display:flex;flex-direction:column;align-items:center;justify-content:center;flex:none}
+.simdone .avg b{font-size:32px;font-weight:800;line-height:1}.simdone .avg small{font-size:12px;font-weight:700;opacity:.8}
+.rate{background:var(--chip);border-radius:16px;padding:10px 12px;margin:0 0 6px;border:0;flex-wrap:wrap}.rate .rt{min-width:0;flex:1 1 160px}
+.hist{background:var(--chip);border-radius:18px;padding:2px 14px}
+.hrow{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}.hrow:last-child{border:0}
+.hrow b{display:block;font-size:15px}.hrow small{color:var(--soft);font-size:13px}.hrow .hs{font-weight:800}.hrow .xs{background:var(--bg)}
+
 .pk.ps{background:color-mix(in srgb,var(--acc) 10%,var(--chip))}
 .pseBox{padding:4px 0}.pseBox .xcard{margin-top:4px}
 .pseBox .xrow .xs{background:color-mix(in srgb,var(--bg) 16%,transparent);color:var(--bg)}
@@ -1510,21 +1552,24 @@ function spin(box,list,fin,line,done){const H=66,n=Math.min(34,Math.max(14,list.
 const oline=x=>`<div class="rl"><b>${escH(x.w)}</b><small>${escH(x.c)}${x.x?' · '+escH(x.x):''}</small></div>`;
 
 const R={};
+const chipsW=(id,opts,val)=>`<div class="chips wrap" id="${id}">${opts.map(([v,t])=>`<button data-v="${v}" aria-pressed="${String(v)===String(val)}">${t}</button>`).join('')}</div>`;
 const rseg=(id,opts,val)=>`<div class="seg" id="${id}">${opts.map(([v,t])=>`<button data-v="${v}" aria-pressed="${String(v)===String(val)}">${t}</button>`).join('')}</div>`;
 
 R.orq=()=>{const el=$('#orq');const f=srt(ORQ.filter(x=>match(x,oq)),oq,x=>x.c+' '+x.w+' '+x.al);const P=pool();
  const modes=rseg('omode',[['lista','Lista'],['azar','Aleatorio'],['ruleta','Ruleta'],['sim','Simulacro']],RS.mode);
  let body='';
- const srcRow=`<p class="lab">Sacar de</p>${rseg('osrc',[['auto','Auto'],['sel','Mi selección'],['busq','Búsqueda'],['todo','Todo']],RS.src)}<p class="hint">${srcName()} · ${P.length} extracto${P.length===1?'':'s'}${RS.src==='auto'?' (si tienes selección usa esa; si no, lo que buscas)':''}</p>`;
+ const srcRow=`<p class="lab">Sacar de</p>${chipsW('osrc',[['auto','Automático'],['sel','Mi selección'],['busq','Lo que busco'],['todo','Todo el libro']],RS.src)}<p class="hint">${srcName()} · ${P.length} extracto${P.length===1?'':'s'}${RS.src==='auto'?' (si tienes selección usa esa; si no, lo que buscas)':''}</p>`;
  if(RS.mode==='lista'){let lc='';body=f.map(x=>{const head=x.c!==lc?`<h3 class="comp">${escH(x.c)}</h3>`:'';lc=x.c;const on=RS.sel.includes(x.id);
    return head+`<div class="xi${on?' on':''}"><button class="xt" data-sel="${x.id}" aria-pressed="${on}"><span class="ck"></span><span><b>${escH(x.w)}</b>${x.x?`<small>${escH(x.x)}</small>`:''}</span></button><button class="pg" data-pg="${x.p}">pág. ${x.p}</button></div>`}).join('')||'<p class="hint">Nada coincide con la búsqueda.</p>'}
  else if(RS.mode==='azar'){body=srcRow+`<div id="azBox">${cur?exCard(cur):'<p class="hint">Pulsa «Siguiente» para sacar un extracto al azar. No se repite ninguno hasta que salgan todos.</p>'}</div><p class="hint">${bagN?`${bagN} de ${bag.length+bagN} en esta ronda`:''}</p><button class="mk wide" id="azGo">${cur?'Siguiente al azar':'Empezar'}</button>`}
  else if(RS.mode==='ruleta'){body=srcRow+`<div id="rBox">${cur?exCard(cur):'<div class="reel idle"><div class="strip2"><div class="rl"><b>¿Cuál te toca?</b><small>Gira la ruleta</small></div></div><i class="rmark"></i></div>'}</div><button class="mk wide" id="rGo">Girar la ruleta</button>`}
- else body=simView(P,srcRow);
+ else body=simView(P,'');
  const selBar=RS.sel.length?`<div class="selbar"><span><b>${RS.sel.length}</b> en mi selección</span><button class="xs" id="selClr">Vaciar</button></div>`:'';
  const pdf=`<div class="pdfbox"><p class="lab">Libro en PDF</p><p class="hint">${PDF?'Cargado en este dispositivo. «Abrir en el PDF» salta a la página del extracto.':'Opcional: carga tu PDF del Probespiel y cada extracto abrirá su página. Se queda solo en este dispositivo.'}</p><div class="row2"><label class="xs filebtn">${PDF?'Cambiar PDF':'Cargar PDF'}<input type="file" accept="application/pdf,.pdf" id="pdfIn" hidden></label><label class="hint off">Desfase de página <input type="number" id="pdfOff" value="${RS.off}" min="-20" max="40"></label></div></div>`;
+ const focus=RS.mode==='sim'&&sim;el.classList.toggle('focus',!!focus);
+ if(focus){el.innerHTML=`<div class="rbody">${body}</div>`;el.querySelectorAll('[data-pg]').forEach(b=>b.onclick=()=>openPg(+b.dataset.pg));simBind(el);return}
  el.innerHTML=`<div class="hero"><h1>Repertorio orquestal</h1><p>${ORQ.length} extractos del Orchester-Probespiel (Pliquett · Lösch). Búscalos, sácalos al azar, gira la ruleta o monta un simulacro de audición.</p></div>
- <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="oq" type="search" placeholder="Busca: petrushka, mahler 5, ravel, acto 2…" value="${escH(oq)}" autocomplete="off"><span class="cnt">${f.length}</span></div>
+ <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="oq" type="search" placeholder="Buscar obra o compositor" value="${escH(oq)}" autocomplete="off"><span class="cnt">${f.length}</span></div>
  ${modes}${selBar}<div class="rbody">${body}</div>${pdf}`;
  const qi=$('#oq');qi.oninput=()=>{oq=qi.value;const p=qi.selectionStart;R.orq();const n=$('#oq');n.focus();n.setSelectionRange(p,p)};
  el.querySelectorAll('#omode button').forEach(b=>b.onclick=()=>{RS.mode=b.dataset.v;cur=null;rsave();repStop();if(RS.mode!=='sim')sim=null;R.orq()});
@@ -1544,27 +1589,41 @@ R.orq=()=>{const el=$('#orq');const f=srt(ORQ.filter(x=>match(x,oq)),oq,x=>x.c+'
 /* ---- simulacro ---- */
 const NS=[[3,'3'],[4,'4'],[5,'5'],[6,'6'],[8,'8'],[10,'10'],[0,'Todos']];
 const fmt=s=>Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');
+const RC=2*Math.PI*52;
+const simCard=x=>`<div class="scard"><span class="trib">El tribunal pide</span><small>${escH(x.c)}</small><b>${escH(x.w)}</b>${x.x?`<em>${escH(x.x)}</em>`:''}<div class="xrow"><span class="pg">pág. ${x.p}</span><button class="xs" data-pg="${x.p}">Abrir en el PDF</button></div></div>`;
+const phTxt=()=>sim.ph==='prep'?'Prepárate':'¡A tocar!';
 function simView(P,srcRow){
- if(sim&&sim.i<sim.L.length){const x=sim.L[sim.i];return `<div class="simtop"><b>Extracto ${sim.i+1} de ${sim.L.length}</b><span class="clock" id="simClk">${sim.ph==='prep'?fmt(sim.left):fmt(sim.el)}</span></div><div class="prog"><i style="width:${sim.i/sim.L.length*100}%"></i></div>
-  <p class="ask2">El tribunal pide:</p>${exCard(x)}<div class="phase ${sim.ph}" id="simPh">${sim.ph==='prep'?'Mira la partitura y prepárate…':'¡Toca!'}</div>
-  <div class="row2"><button class="xs" id="simEnd">Terminar</button><button class="mk" id="simNx">${sim.i+1<sim.L.length?'Siguiente extracto':'Acabar simulacro'}</button></div>`}
- if(sim&&sim.i>=sim.L.length){const sum=sim.L.map((x,k)=>`<div class="rate"><div><b>${escH(x.w)}</b><small>${escH(x.c)}${x.x?' · '+escH(x.x):''}</small></div><div class="stars" data-k="${k}">${[1,2,3,4,5].map(s=>`<button data-s="${s}" aria-pressed="${sim.r[k]>=s}" aria-label="${s} de 5">★</button>`).join('')}</div></div>`).join('');
-  return `<div class="hero sm"><h2>Simulacro terminado</h2><p>${sim.L.length} extractos · ${fmt(sim.tot)}. Puntúa cómo salió cada uno.</p></div>${sum}<textarea id="simNote" rows="2" placeholder="Notas: qué falló, qué repetir…">${escH(sim.note||'')}</textarea><div class="row2"><button class="xs" id="simAgain">Repetir los mismos</button><button class="mk" id="simSave">Guardar simulacro</button></div>`}
- const hist=RS.hist.slice(-6).reverse().map(h=>{const r=h.r.filter(Boolean),m=r.length?(r.reduce((a,b)=>a+b,0)/r.length).toFixed(1):'—';return `<div class="hrow"><span>${h.d}</span><span>${h.ids.length} extractos</span><span>★ ${m}</span><button class="xs" data-rep="${RS.hist.indexOf(h)}">Repetir</button></div>`}).join('');
- return srcRow+`<p class="lab">Cuántos extractos</p>${rseg('simN',NS,RS.n)}<p class="lab">Tiempo para mirar la partitura</p>${rseg('simP',[[0,'Nada'],[15,'15 s'],[30,'30 s'],[60,'1 min']],RS.prep)}
- <p class="hint">Se eligen ${RS.n&&RS.n<P.length?RS.n:P.length} al azar de «${srcName()}» y te los piden uno tras otro, como en una audición. Truco: marca en la Lista los que quieras (Petrushka, Mahler 5, Ravel…) y deja que el simulacro escoja.</p>
- <button class="mk wide" id="simGo">Empezar simulacro</button>${hist?`<p class="lab">Últimos simulacros</p>${hist}`:''}`}
+ if(sim&&sim.i<sim.L.length){const x=sim.L[sim.i],last=sim.i+1>=sim.L.length;
+  return `<div class="simrun"><div class="simhead"><span>Simulacro</span><b>${sim.i+1}<small> / ${sim.L.length}</small></b></div>
+  <div class="sdots">${sim.L.map((_,k)=>`<i class="${k<sim.i?'d':k===sim.i?'n':''}"></i>`).join('')}</div>
+  ${simCard(x)}
+  <div class="timer t-${sim.ph}" id="simTm"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" class="tbg"/><circle cx="60" cy="60" r="52" class="tfg" id="simArc" stroke-dasharray="${RC}" stroke-dashoffset="${sim.ph==='prep'&&RS.prep?RC*(1-sim.left/RS.prep):0}"/></svg>
+   <div class="tin"><b id="simClk">${sim.ph==='prep'?fmt(sim.left):fmt(sim.el)}</b><span id="simPh">${phTxt()}</span></div></div>
+  <div class="simbtns"><button class="xs" id="simEnd">Terminar</button><button class="mk" id="simNx">${last?'Acabar':'Siguiente'}</button></div></div>`}
+ if(sim&&sim.i>=sim.L.length){const r=sim.r.filter(Boolean),avg=r.length?(r.reduce((a,b)=>a+b,0)/r.length).toFixed(1):'—';
+  const sum=sim.L.map((x,k)=>`<div class="rate"><div class="rt"><b>${escH(x.w)}</b><small>${escH(x.c)}${x.x?' · '+escH(x.x):''}</small></div><div class="stars" data-k="${k}">${[1,2,3,4,5].map(s=>`<button data-s="${s}" aria-pressed="${sim.r[k]>=s}" aria-label="${s} de 5">★</button>`).join('')}</div></div>`).join('');
+  return `<div class="simdone"><div class="avg"><b id="simAvg">${avg}</b><small>media</small></div><div><h2>Simulacro terminado</h2><p>${sim.L.length} extracto${sim.L.length===1?'':'s'} · ${fmt(sim.tot)}</p></div></div><p class="hint">Puntúa cómo salió cada uno.</p>${sum}<textarea id="simNote" rows="2" placeholder="Notas: qué falló, qué repetir…">${escH(sim.note||'')}</textarea><div class="simbtns"><button class="xs" id="simAgain">Repetir los mismos</button><button class="mk" id="simSave">Guardar</button></div>`}
+ const n=RS.n&&RS.n<P.length?RS.n:P.length;
+ const hist=RS.hist.slice(-6).reverse().map(h=>{const r=h.r.filter(Boolean),m=r.length?(r.reduce((a,b)=>a+b,0)/r.length).toFixed(1):'—';return `<div class="hrow"><div><b>${h.d}</b><small>${h.ids.length} extractos</small></div><span class="hs">★ ${m}</span><button class="xs" data-rep="${RS.hist.indexOf(h)}">Repetir</button></div>`}).join('');
+ return `<div class="simcfg"><div class="cfg"><p class="lab"><span class="cn">1</span>De dónde salen</p><div>${chipsW('osrc',[['auto','Automático'],['sel','Mi selección'],['busq','Lo que busco'],['todo','Todo el libro']],RS.src)}<p class="hint">${srcName()} · ${P.length} extracto${P.length===1?'':'s'} disponibles</p></div></div>
+ <div class="cfg"><p class="lab"><span class="cn">2</span>Cuántos te piden</p><div>${chipsW('simN',NS,RS.n)}</div></div>
+ <div class="cfg"><p class="lab"><span class="cn">3</span>Tiempo para mirar la partitura</p><div>${chipsW('simP',[[0,'Nada'],[15,'15 s'],[30,'30 s'],[60,'1 min']],RS.prep)}</div></div>
+ <div class="simsum"><b>${n}</b><span>extracto${n===1?'':'s'} al azar${RS.prep?' · '+RS.prep+' s para mirar cada uno':''}</span></div>
+ <button class="mk wide" id="simGo">Empezar simulacro</button>
+ <p class="hint">Truco: marca en la Lista los que quieras (Petrushka, Mahler 5, Ravel…) y deja que el simulacro escoja entre ellos.</p></div>${hist?`<p class="lab">Últimos simulacros</p><div class="hist">${hist}</div>`:''}`}
 function simTick(){if(!sim)return;if(sim.ph==='prep'){sim.left--;if(sim.left<=0){sim.ph='play';buzz([30,60,30])}}else sim.el++;sim.tot++;
- const c=$('#simClk');if(c)c.textContent=sim.ph==='prep'?fmt(sim.left):fmt(sim.el);const p=$('#simPh');if(p&&p.className!=='phase '+sim.ph){p.className='phase '+sim.ph;p.textContent=sim.ph==='prep'?'Mira la partitura y prepárate…':'¡Toca!'}}
+ const c=$('#simClk');if(c)c.textContent=sim.ph==='prep'?fmt(sim.left):fmt(sim.el);
+ const a=$('#simArc');if(a)a.style.strokeDashoffset=sim.ph==='prep'&&RS.prep?RC*(1-sim.left/RS.prep):0;
+ const t=$('#simTm');if(t&&!t.classList.contains('t-'+sim.ph)){t.className='timer t-'+sim.ph;$('#simPh').textContent=phTxt()}}
 function simStart(L){repStop();sim={L,i:0,r:L.map(()=>0),ph:RS.prep?'prep':'play',left:RS.prep,el:0,tot:0};simT=setInterval(simTick,1000);R.orq();window.scrollTo({top:0,behavior:'smooth'})}
 function simBind(el){
  el.querySelectorAll('#simN button').forEach(b=>b.onclick=()=>{RS.n=+b.dataset.v;rsave();R.orq()});
  el.querySelectorAll('#simP button').forEach(b=>b.onclick=()=>{RS.prep=+b.dataset.v;rsave();R.orq()});
  const g=$('#simGo');if(g)g.onclick=()=>{const P=pool();if(!P.length)return toast('No hay extractos con esa selección');simStart(shuf(P).slice(0,RS.n||P.length))};
  el.querySelectorAll('[data-rep]').forEach(b=>b.onclick=()=>{const h=RS.hist[+b.dataset.rep];simStart(shuf(h.ids.map(i=>ORQ[i]).filter(Boolean)))});
- const nx=$('#simNx');if(nx)nx.onclick=()=>{sim.i++;sim.ph=RS.prep?'prep':'play';sim.left=RS.prep;sim.el=0;if(sim.i>=sim.L.length)repStop();buzz(10);R.orq();const c=el.querySelector('.xcard');c&&c.classList.add('pop')};
+ const nx=$('#simNx');if(nx)nx.onclick=()=>{sim.i++;sim.ph=RS.prep?'prep':'play';sim.left=RS.prep;sim.el=0;if(sim.i>=sim.L.length)repStop();buzz(10);R.orq();const c=el.querySelector('.scard');c&&c.classList.add('pop')};
  const en=$('#simEnd');if(en)en.onclick=()=>{sim.L=sim.L.slice(0,sim.i+1);sim.r=sim.r.slice(0,sim.i+1);sim.i=sim.L.length;repStop();R.orq()};
- el.querySelectorAll('.stars').forEach(s=>s.onclick=e=>{const b=e.target.closest('button');if(!b)return;const k=+s.dataset.k;sim.r[k]=+b.dataset.s;s.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',+x.dataset.s<=sim.r[k]));buzz(5)});
+ el.querySelectorAll('.stars').forEach(s=>s.onclick=e=>{const b=e.target.closest('button');if(!b)return;const k=+s.dataset.k;sim.r[k]=+b.dataset.s;s.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',+x.dataset.s<=sim.r[k]));buzz(5);const r=sim.r.filter(Boolean),av=$('#simAvg');if(av)av.textContent=r.length?(r.reduce((a,b)=>a+b,0)/r.length).toFixed(1):'—'});
  const nt=$('#simNote');if(nt)nt.oninput=()=>sim.note=nt.value;
  const ag=$('#simAgain');if(ag)ag.onclick=()=>simStart(shuf(sim.L));
  const sv=$('#simSave');if(sv)sv.onclick=()=>{RS.hist.push({d:new Date().toLocaleDateString('es-ES'),ids:sim.L.map(x=>x.id),r:sim.r,o:sim.note||''});RS.hist=RS.hist.slice(-40);rsave();
@@ -1591,7 +1650,7 @@ R.jz=()=>{const el=$('#jz');const f=JZ.filter(x=>(!RS.jtag||x.g===RS.jtag)&&matc
  el.innerHTML=`<div class="hero"><h1>Jazz</h1><p>Técnica de lenguaje con el motor de Campana y un bombo de standards para practicar temas en cualquier tonalidad.</p></div>
  <h2 class="sect">Lenguaje y técnica</h2><div class="tiles jt">${JPRE.map((p,i)=>`<button class="tile" data-jp="${i}"><b>${p[3]}</b><small>${p[4]}</small></button>`).join('')}</div>
  <h2 class="sect">Standards</h2>${rseg('jmode',[['lista','Lista'],['ruleta','Ruleta']],RS.jmode)}
- <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="jq" type="search" placeholder="Busca: parker, blues, Fa, bossa…" value="${escH(jq)}" autocomplete="off"><span class="cnt">${f.length}</span></div>${tags}
+ <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="jq" type="search" placeholder="Buscar tema, autor o estilo" value="${escH(jq)}" autocomplete="off"><span class="cnt">${f.length}</span></div>${tags}
  <div class="rbody">${body}</div><p class="hint">Tonalidades del Real Book en concierto; la columna Si♭ es lo que lees tú. Comprueba la tonalidad con tu grupo: muchas versiones cambian.</p>`;
  el.querySelectorAll('[data-jp]').forEach(b=>b.onclick=()=>{const p=JPRE[+b.dataset.jp];st.vars[p[0]]=p[1];st.scale=p[2];save();location.hash=p[0]});
  el.querySelectorAll('#jmode button').forEach(b=>b.onclick=()=>{RS.jmode=b.dataset.v;jcur=null;rsave();R.jz()});
