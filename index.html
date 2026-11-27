@@ -243,6 +243,10 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px soli
 @media(prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}}
 
 /* ---- repertorio y jazz ---- */
+.tipl{margin:6px 0 0;padding:0;list-style:none}.tipl li{position:relative;padding:5px 0 5px 20px}.tipl li::before{content:"";position:absolute;left:3px;top:13px;width:7px;height:7px;border-radius:50%;background:var(--acc)}
+.tipl li b{display:inline;font-size:inherit;margin:0}
+.resnote{display:flex;align-items:center;gap:8px;width:100%;margin:0 0 10px;padding:9px 12px;border-radius:12px;background:color-mix(in srgb,var(--acc) 18%,var(--chip));font-size:13px;font-weight:700;text-align:left;animation:rise .3s both}.resnote svg{width:18px;height:18px;flex:none;color:var(--acc)}
+
 .cbox.good{background:linear-gradient(135deg,var(--ink),color-mix(in srgb,var(--acc) 35%,var(--ink)))}.cwarn{margin:6px 0;padding:10px 12px;border-radius:12px;background:color-mix(in srgb,#d0462e 14%,var(--bg))}.cobs{margin:6px 0;padding:10px 12px;border-radius:12px;background:var(--bg)}.autoA{font-weight:700;color:var(--acc);margin-left:6px}
 
 .mref{display:grid;gap:8px;margin:10px 0 6px}
@@ -500,6 +504,7 @@ html.standalone input,html.standalone textarea{-webkit-user-select:text;user-sel
  </div>
  <div class="vars strip" id="vars"></div>
  <div class="head"><div><h1 id="title"></h1><p class="meta" id="meta"></p></div></div>
+ <button class="resnote" id="resNote" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg>Antes de empezar, lee las instrucciones de abajo: este ejercicio es delicado</button>
  <div class="score" id="score"></div>
  <div class="keysel" id="keyBox"><div class="keys" id="keys" aria-label="Tonalidad"></div><div class="scales strip" id="scales" aria-label="Escala"></div></div>
  <p class="tip" id="tip"></p>
@@ -1805,9 +1810,9 @@ function planAll(w,min){const ks=Object.keys(w).filter(k=>w[k]>0);if(!ks.length)
 function renderPse(P,anim){const box=$('#score');box.classList.remove('paper');
  $('#title').textContent=itemName(P);$('#meta').textContent=itemSub(P);
  if(P.cat==='orq'){box.innerHTML=`<div class="pseBox">${exCard(ORQ[P.id],'<button class="xs" id="pseSw">Otro</button>')}</div>`;
-  $('#tip').innerHTML='<b>Cómo practicarlo</b>Tócalo primero entero y a tempo, como en la audición, sin parar. Después aísla lo que haya fallado, trabájalo lento y vuelve a tocarlo entero. Deja descansar el labio entre repeticiones.'}
+  $('#tip').innerHTML=tipHTML('Tócalo primero entero y a tempo, como en la audición, sin parar. Después aísla lo que haya fallado, trabájalo lento y vuelve a tocarlo entero. Deja descansar el labio entre repeticiones.')}
  else{box.innerHTML=`<div class="pseBox">${jCard(JZ[P.id],P.k)}<div class="row2"><button class="xs" id="pseSw">Otro tema</button></div></div>`;
-  $('#tip').innerHTML='<b>Cómo practicarlo</b>Toca la melodía (de memoria si puedes) y luego improvisa sobre la forma con el cifrado del Real Book. Si la tonalidad te resulta nueva, repasa antes los arpegios de cada acorde.'}
+  $('#tip').innerHTML=tipHTML('Toca la melodía (de memoria si puedes) y luego improvisa sobre la forma con el cifrado del Real Book. Si la tonalidad te resulta nueva, repasa antes los arpegios de cada acorde.')}
  box.querySelectorAll('[data-pg]').forEach(b=>b.onclick=()=>openPg(+b.dataset.pg));
  $('#pseSw').onclick=()=>{const used=run.plan.filter(i=>i.cat===P.cat).map(i=>i.id);
   if(P.cat==='orq'){const ids=(RS.sel.length?RS.sel:ORQ.map(x=>x.id)).filter(i=>!used.includes(i));P.id=ids.length?rpick(ids):rpick(ORQ).id}
@@ -2052,6 +2057,7 @@ function renderEst(){const j=ESTT==='jazz';if(!j)R.mref();$('#estC').hidden=j;$(
 document.querySelectorAll('.esttabs button').forEach(b=>b.onclick=()=>{if(ESTT===b.dataset.t)return;ESTT=b.dataset.t;try{localStorage.setItem('campana_estt',ESTT);history.replaceState(null,'','#'+ESTT)}catch(e){}buzz(6);renderEst();const sc=ESTT==='jazz'?$('#estJ'):$('#estC');sc.classList.remove('tabin');void sc.offsetWidth;sc.classList.add('tabin');window.scrollTo({top:0,behavior:'smooth'})});
 document.querySelectorAll('#tabbar button').forEach(b=>b.onclick=()=>{const h=b.dataset.h;if((h===''&&view==='home')||(h==='estudiar'&&view==='est'))return window.scrollTo({top:0,behavior:'smooth'});location.hash=h});
 document.querySelectorAll('.coachcard').forEach(b=>b.onclick=()=>location.hash='coach');
+$('#resNote').onclick=()=>$('#tip').scrollIntoView({behavior:'smooth',block:'center'});
 $('#moreSet').onclick=()=>{closeSheet();location.hash='perfil'};
 
 /* home */
@@ -2143,10 +2149,12 @@ pick('#vars',id=>{st.vars[st.cat]=id});pick('#keys',id=>{st.key=+id});pick('#sca
 const PAPER={ink:'#141416',soft:'#7d7d85',acc:'#b8860b',bg:'#ffffff'};
 function colors(){if(st.paper)return PAPER;const probe=document.createElement('i');document.body.appendChild(probe);const out={};
  for(const [k,v] of [['ink','--ink'],['soft','--soft'],['acc','--acc'],['bg','--bg']]){probe.style.color=`var(${v})`;out[k]=getComputedStyle(probe).color}probe.remove();return out}
+/* instrucciones en puntos: una frase por punto */
+const tipHTML=t=>'<b>Cómo practicarlo</b><ul class="tipl">'+String(t||'').split(/(?<=[.!?:](?:<\/b>)?)\s+(?=(?:<b>)?[A-ZÁÉÍÓÚÑ¿¡])/).map(x=>x.trim()).filter(Boolean).map(x=>'<li>'+x+'</li>').join('')+'</ul>';
 function render(anim){const P=pse();if(P){sc=null;renderPse(P,anim);return}sc=buildScore(S());const rn=RANGES[S().range];
  $('#title').textContent=run?itemName(run.plan[run.i]):sc.title.split(' · ')[1];
  $('#meta').textContent=[sc.keyName?cap(sc.keyName):null,sc.meta,'Registro '+rn.n.toLowerCase(),sc.rest?(sc.rest==='bar'?'descanso cada compás':sc.rest==='phrase'?'descanso cada frase':'uno y uno: escucha y repite'):null].filter(Boolean).join(' · ');
- $('#tip').innerHTML='<b>Cómo practicarlo</b>'+sc.tip;$('#tv').textContent='♩ '+tempo();draw(anim)}
+ $('#tip').innerHTML=tipHTML(sc.tip);$('#resNote').hidden=S().cat!=='res';$('#tv').textContent='♩ '+tempo();draw(anim)}
 function draw(anim){const box=$('#score');if(view!=='ex'||!sc)return;box.classList.toggle('paper',!!st.paper);
  if(sc.empty)box.innerHTML=`<p class="empty">${sc.empty}</p>`;
  else{const cw=(box.clientWidth||600)-(st.paper?24:0);const W=Math.max(330,Math.min(1400,cw/(0.92*st.zoom)));box.innerHTML=toSVG(renderScore(sc,W,{fing:st.fing}),colors(),22,8);if(sc.rest==='echo')sc.ev.forEach((e,i)=>{if(e.app)box.querySelectorAll(`[data-i="${i}"]`).forEach(p=>p.classList.add('appn'))})}
