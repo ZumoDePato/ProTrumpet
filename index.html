@@ -243,6 +243,13 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px soli
 @media(prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}}
 
 /* ---- repertorio y jazz ---- */
+.rcards.one{gap:10px}
+.mtl details{background:var(--chip);border-radius:18px;padding:0 16px;margin:0 0 8px}
+.mtl .grp{margin:4px 0 12px}.mtl .grp .lab{margin:8px 0 6px}
+.mtl .xi .xt{background:var(--bg)}.mtl .xi.pend .xt{opacity:.55}
+.st{font-size:12px;font-weight:800;border-radius:999px;padding:3px 9px;white-space:nowrap;flex:none}.st.ok{background:var(--acc);color:var(--accInk)}.st.pd{background:var(--bg);color:var(--soft)}
+.mtl .xi .xt{justify-content:space-between}
+
 .contbig{width:100%;margin:20px 0 0;min-height:104px;padding:20px 18px;border-radius:24px;animation:rise .35s both}
 .contbig .pl{width:58px;height:58px}.contbig .pl svg{width:24px;height:24px}
 .contbig small{font-size:14px}.contbig b{font-size:21px;letter-spacing:-.01em}
@@ -525,15 +532,16 @@ html.standalone input,html.standalone textarea{-webkit-user-select:text;user-sel
  <div class="esttabs" role="tablist"><button role="tab" data-t="clasico" id="tabC">Clásico</button><button role="tab" data-t="jazz" id="tabJ">Jazz</button><i class="estpill"></i></div>
  <section id="estC">
   <h2 class="sect">Repertorio</h2>
-  <div class="rcards one"><button class="rcard o" data-h="orquestal"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg></span><span><small>Probespiel</small><b>Repertorio orquestal</b><em>Buscador · aleatorio · ruleta · simulacro</em></span></button></div>
+  <div class="rcards one"><button class="rcard o" data-h="orquestal"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg></span><span><small>Probespiel</small><b>Repertorio orquestal</b><em>Buscador · aleatorio · ruleta · simulacro</em></span></button><button class="rcard o" data-h="metodos"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/><path d="M9 7h7M9 11h5"/></svg></span><span><small>Clarke, Arban, Schlossberg…</small><b>Métodos</b><em>En cualquier tonalidad y escala</em></span></button></div>
  <h2 class="sect">Técnica</h2>
  <div class="cards" id="cards"></div>
- <h2 class="sect">Métodos de referencia</h2>
+ <h2 class="sect">Enfoques de estudio</h2>
   <div id="mref"></div>
  </section>
  <section id="estJ" hidden></section>
 </main>
 <main id="orq" class="view wrapx" hidden></main>
+<main id="mtl" class="view wrapx" hidden></main>
 <main id="cch" class="view wrapx" hidden></main>
 <main id="jz" class="view wrapx" hidden></main>
 <main id="tpv" class="view wrapx" hidden><div id="v"></div></main>
@@ -577,6 +585,62 @@ html.standalone input,html.standalone textarea{-webkit-user-select:text;user-sel
 <div class="toast" id="toast" role="status"></div>
 
 <script>
+/* ===== BRASSO · catálogo de MÉTODOS (solo dominio público, ediciones originales) =====
+   Cada ejercicio:
+     {id, t:'título', notas:'…' (vacío = Pendiente), c:'4/4', tono:'C', modo:'mayor', tipo:'patron'|'estudio', tip:'…'}
+   · tipo 'patron'  → se puede cambiar de tonalidad Y de escala (Clarke, Schlossberg…)
+   · tipo 'estudio' → solo se transporta de tonalidad (Etudes, estudios melódicos)
+   · tono/modo      → tonalidad original del ejercicio en el libro (escrita para Si♭)
+   Notación de `notas` (por GRADO de la escala, no notas fijas). Ver METODOS-notacion.md:
+     1..7 grado · ' octava arriba · , octava abajo · # b ## bb alteración respecto a la escala
+     /1 /2 /4 /8 /16 duración · . con puntillo · t tresillo (8t, 4t)
+     ( empieza ligadura · ) la termina · ~ ligadura de prolongación con la siguiente
+     > acento · ! staccato · _ tenuto · {mf} matiz para la nota siguiente
+     r/4 silencio · | barra de compás (se comprueba que cada compás cuadre)
+   NO se inventan notas: solo se transcribe nota a nota desde el PDF original (IMSLP). */
+const METODOS=(()=>{const P=(t,extra)=>Object.assign({t},extra||{});
+const nums=(n,f,from=1)=>Array.from({length:n},(_,i)=>P(f(i+from)));
+const L=[
+ {id:'clarke-elem',autor:'Herbert L. Clarke',obra:'Elementary Studies',anio:1909,tipo:'patron',
+  info:'30 lecciones y 116 ejercicios: de valores largos en una octava hasta todas las tonalidades mayores.',
+  grupos:[{t:'Lecciones',ej:nums(30,n=>'Lección '+n)}]},
+ {id:'clarke-tec',autor:'Herbert L. Clarke',obra:'Technical Studies',anio:1912,tipo:'patron',
+  info:'10 estudios y 190 ejercicios. Los estudios 1 a 8 terminan en un Etude; el 10.º acaba con An Irish Ballad y An Old German Folksong.',
+  grupos:[
+   {t:'Estudios',ej:nums(10,n=>'Estudio '+n)},
+   {t:'Etudes',tipo:'estudio',ej:['Etude I (nº 26)','Etude II (nº 45)','Etude III (nº 65)','Etude IV (nº 86)','Etude V (nº 117)','Etude VI (nº 132)','Etude VII (nº 170)','Etude VIII (nº 177)','An Irish Ballad (nº 189)','An Old German Folksong (nº 190)'].map(t=>P(t))}]},
+ {id:'clarke-char',autor:'Herbert L. Clarke',obra:'Characteristic Studies',anio:1915,tipo:'estudio',
+  info:'24 estudios que alternan mayor y menor, de Do mayor (nº 1) a Sol♯ menor (nº 24).',
+  grupos:[{t:'Estudios',ej:nums(24,n=>'Estudio '+n)}]},
+ {id:'clarke-drills',autor:'Herbert L. Clarke',obra:'Setting Up Drills',anio:1929,tipo:'patron',
+  info:'38 ejercicios en cuatro grupos.',
+  grupos:[{t:'Grupos',ej:nums(4,n=>'Grupo '+n)}]},
+ {id:'arban',autor:'Jean-Baptiste Arban',obra:'Grande méthode complète',anio:1864,tipo:'patron',
+  info:'Edición original de 1864, no la revisión moderna de Carl Fischer.',
+  grupos:[
+   {t:'Técnica',ej:['Primeros estudios','Ligados','Escalas','Ornamentos','Estudios avanzados','Doble y triple picado','Fanfarria'].map(t=>P(t))},
+   {t:'14 Estudios característicos',tipo:'estudio',ej:nums(14,n=>'Estudio característico '+n)}]},
+ {id:'schlossberg',autor:'Max Schlossberg',obra:'Daily Drills and Technical Studies',anio:1937,tipo:'patron',
+  info:'Publicado en 1937; Schlossberg murió en 1936. Usar la edición original.',
+  grupos:[{t:'Secciones',ej:['Notas largas','Intervalos','Octavas','Flexibilidad','Acordes','Escalas','Escalas cromáticas'].map(t=>P(t))},
+   {t:'Estudios',tipo:'estudio',ej:[P('Estudios')]}]},
+ {id:'charlier',autor:'Théo Charlier',obra:'36 Études transcendantes',anio:1926,tipo:'estudio',
+  info:'Charlier murió en 1944: en España es de dominio público desde 2025.',
+  grupos:[{t:'Estudios',ej:nums(36,n=>'Estudio '+n)}]},
+ {id:'saint-jacome',autor:'Louis A. Saint-Jacome',obra:'Grand Method',tipo:'patron',
+  info:'Método del siglo XIX.',grupos:[{t:'Secciones',ej:['Ejercicios técnicos','Escalas'].map(t=>P(t))},{t:'Estudios',tipo:'estudio',ej:[P('Estudios')]}]},
+ {id:'kopprasch',autor:'Georg Kopprasch',obra:'60 Studies',tipo:'estudio',info:'Estudios del siglo XIX.',grupos:[{t:'Estudios',ej:nums(60,n=>'Estudio '+n)}]},
+ {id:'bousquet',autor:'Narcisse Bousquet',obra:'36 Celebrated Studies',tipo:'estudio',info:'Estudios del siglo XIX.',grupos:[{t:'Estudios',ej:nums(36,n=>'Estudio '+n)}]},
+ {id:'brandt',autor:'Vassily Brandt',obra:'Estudios orquestales',tipo:'estudio',info:'Brandt murió en 1923.',grupos:[{t:'Colecciones',ej:['34 Studies','Last Studies'].map(t=>P(t))}]},
+ {id:'concone',autor:'Giuseppe Concone',obra:'Vocalises (Lyrical Studies)',tipo:'estudio',info:'Estudios líricos; Concone murió en 1861.',grupos:[{t:'Estudios',ej:[P('Lyrical Studies')]}]},
+ {id:'bordogni',autor:'Marco Bordogni',obra:'Vocalises',tipo:'estudio',info:'Bordogni murió en 1856.',grupos:[{t:'Vocalises',ej:[P('Vocalises')]}]},
+ {id:'gatti',autor:'Domenico Gatti',obra:'Grand Method',tipo:'patron',info:'Método del siglo XIX.',grupos:[{t:'Secciones',ej:['Ejercicios','Estudios'].map(t=>P(t))}]}
+];
+/* ids estables: método:grupo:ejercicio, y herencia de tipo/compás/tonalidad */
+L.forEach(m=>m.grupos.forEach((g,gi)=>g.ej.forEach((e,ei)=>{e.id=e.id||(m.id+':'+gi+':'+ei);e.tipo=e.tipo||g.tipo||m.tipo;e.c=e.c||g.c||'4/4';e.tono=e.tono||'C';e.modo=e.modo||'mayor';e.met=m.id})));
+return L})();
+if(typeof module!=='undefined'&&typeof window==='undefined')module.exports=METODOS;
+
 /* ===== Campana · motor musical (sin DOM) ===== */
 const W_=48,H_=24,Q_=12,E_=6,S_=3,TR_=4;
 const STEP_SEMI=[0,2,4,5,7,9,11];
@@ -640,13 +704,16 @@ function makeCtx(keyI,scaleId,rangeId){
 /* ---- event helpers ---- */
 const N=(p,d,o={})=>Object.assign({p,d},o);
 const Rr=d=>({p:null,d,tup:d===TR_});
+/* compás actual: BAR = duración del compás en ticks (48 = redonda) */
+let BAR=48,TSN=4,TSD=4,BEAMQ=12;
+function useMeter(ts){const m=String(ts||'4/4').match(/^(\d+)\/(\d+)$/);const n=m?+m[1]:4,d=m?+m[2]:4;TSN=n;TSD=d;BAR=n*48/d;BEAMQ=(d===8&&n%3===0)?18:12}
 const tot=ev=>ev.reduce((a,e)=>a+e.d,0);
 function closeMeasure(ev){let pos=tot(ev)%48;if(pos)for(const r of restsFill(pos,48-pos))ev.push(r)}
 function finish(ev,p,o={}){const pos=tot(ev)%48;
  if(pos===0)ev.push(N(p,48,o));else if(pos%12===0)ev.push(N(p,48-pos,o));else{ev.push(N(p,12-pos%12,o));closeMeasure(ev)}}
 function restsFill(pos,rem){const out=[];while(rem>0){let d;
  if(pos%12){const r=Math.min(12-pos%12,rem);d=r>=6?6:r>=4?4:3;if(d>r)d=r}
- else if(pos===0&&rem===48)d=48;else if(pos%24===0&&rem>=24)d=24;else d=12;
+ else if(pos===0&&rem===BAR)d=BAR;else if(pos%24===0&&rem>=24)d=24;else d=12;
  out.push(Rr(d));pos+=d;rem-=d}return out}
 const slur=(a)=>{const n=a.filter(e=>e.p);if(n.length>1){n[0].sS=(n[0].sS||0)+1;n[n.length-1].sE=(n[n.length-1].sE||0)+1}};
 const fOf=p=>FING[midiOf(p)]||'';
@@ -729,6 +796,49 @@ function resGen(ctx,v){const ev=[],top=ctx.top,nt=(m,d,o={})=>{const p=spell(m);
  /* intervalos que se abren desde el Do central */
  const base=60;let k=1;while(base+k<=top&&k<=12){const a=nt(base,H_,{dyn:k===1?'mf':null}),b=nt(base+k,H_);ev.push(a,b);slur([a,b]);rest();k++}
  return {ev,meta:'desde Do, cada vez un semitono más'}}
+
+/* ===== MÉTODOS: ejercicios guardados por grado de la escala, transportables ===== */
+const MET_DATA=(typeof METODOS!=='undefined')?METODOS:((typeof require!=='undefined')?require('./metodos.js'):[]);
+const MET_EX={};MET_DATA.forEach(m=>m.grupos.forEach(g=>g.ej.forEach(e=>{MET_EX[e.id]={...e,m,g}})));
+const MET_SCALES=Object.keys(SCALES).filter(k=>SCALES[k].L&&SCALES[k].L.length===7&&SCALES[k].S.length===7);
+const LETI={C:0,D:1,E:2,F:3,G:4,A:5,B:6};
+const tonicIndex=t=>{const m=String(t||'C').match(/^([A-G])([#b]?)$/);if(!m)return 0;const s=LETI[m[1]],a=m[2]==='#'?1:m[2]==='b'?-1:0;const i=TONICS.findIndex(x=>x.s===s&&x.a===a);
+ if(i>=0)return i;const pc=(STEP_SEMI[s]+a+12)%12;return TONICS.findIndex(x=>(STEP_SEMI[x.s]+x.a+12)%12===pc)};
+const DEN={1:48,2:24,4:12,8:6,16:3};
+/* lee la notación y devuelve eventos con grado (sin altura todavía) */
+function parseMet(str,bar){const out=[],errs=[];let dyn=null,slurOpen=[],pos=0,barNo=1;
+ for(const tk0 of String(str||'').trim().split(/\s+/).filter(Boolean)){let tk=tk0;
+  if(tk==='|'||tk==='||'){if(pos%bar!==0)errs.push('compás '+barNo+': '+(pos%bar)+'/'+bar);barNo++;pos=Math.ceil(pos/bar)*bar;continue}
+  const dm=tk.match(/^\{(ppp|pp|p|mp|mf|f|ff|fff|sfz|fp)\}(.*)$/);if(dm){dyn=dm[1];tk=dm[2];if(!tk)continue}
+  let open=0;while(tk[0]==='('){open++;tk=tk.slice(1)}
+  let close=0,tie=false,art=null;
+  for(;;){const z=tk.slice(-1);if(z===')'){close++;tk=tk.slice(0,-1)}else if(z==='~'){tie=true;tk=tk.slice(0,-1)}else if(z==='>'){art='acc';tk=tk.slice(0,-1)}else if(z==='!'){art='st';tk=tk.slice(0,-1)}else if(z==='_'){art='ten';tk=tk.slice(0,-1)}else break}
+  const m=tk.match(/^(r|(##|bb|#|b)?([1-7])([',]*))\/(1|2|4|8|16)(\.)?(t)?$/);
+  if(!m){errs.push('no entiendo «'+tk0+'»');continue}
+  let d=DEN[m[5]];if(m[6])d=d*1.5;if(m[7])d=d*2/3;
+  if(d!==Math.round(d)){errs.push('duración no admitida «'+tk0+'»');continue}
+  const e={d};if(m[7]&&d===4)e.tup=true;
+  if(m[1]!=='r'){e.deg=+m[3]-1;e.alt={'#':1,'##':2,'b':-1,'bb':-2}[m[2]||'']||0;e.oct=(m[4].match(/'/g)||[]).length-(m[4].match(/,/g)||[]).length;
+   if(dyn){e.dyn=dyn;dyn=null}if(art)e.art=art;if(tie)e.tie=true}
+  for(let k=0;k<open;k++)slurOpen.push(out.length);
+  out.push(e);pos+=d;
+  for(let k=0;k<close;k++){const a=slurOpen.pop();if(a!=null){out[a].sS=(out[a].sS||0)+1;e.sE=(e.sE||0)+1}}}
+ if(pos%bar)errs.push('último compás incompleto');
+ out.forEach((e,i)=>{if(e.tie){const n=out[i+1];if(n&&n.deg!=null){n.tied=true;e.sS=(e.sS||0)+1;n.sE=(n.sE||0)+1}else delete e.tie}});
+ return {ev:out,errs}}
+/* da altura a cada grado en la tonalidad/escala elegidas y lo encaja en el registro de la trompeta (escrito Fa♯3–Do6) */
+function realizeMet(parsed,ctx){const ev=parsed.ev.map(e=>{if(e.deg==null)return {...Rr(e.d),...(e.tup?{tup:true}:{})};
+  const p={...ctx.deg(e.deg+7*e.oct,1)};p.a+=e.alt;const n={...e,p};delete n.deg;delete n.alt;delete n.oct;return n});
+ const ms=ev.filter(e=>e.p).map(e=>midiOf(e.p));
+ if(ms.length){let best=0,bs=1e9;for(const sh of[-24,-12,0,12,24]){const lo=Math.min(...ms)+sh,hi=Math.max(...ms)+sh;const s=Math.max(0,54-lo)*2+Math.max(0,hi-84)*2+Math.abs((lo+hi)/2-69)*0.05;if(s<bs){bs=s;best=sh}}
+  if(best)ev.forEach(e=>{if(e.p)e.p={...e.p,o:e.p.o+best/12}})}
+ ev.forEach(e=>{if(e.p)e.f=fOf(e.p)});return ev}
+function metGen(ctx,v){const x=MET_EX[v];if(!x||!x.notas)return {ev:[],empty:'Pendiente de transcribir. Sube el PDF de la edición original (IMSLP) para pasarlo nota a nota.'};
+ const ts=x.c||'4/4';useMeter(ts);const P=parseMet(x.notas,BAR);const ev=realizeMet(P,ctx);
+ const base='Basado en '+x.m.autor+', '+x.m.obra+(x.m.anio?' ('+x.m.anio+')':'');
+ return {ev,ts,title:x.t,meta:base+(P.errs.length?' · ⚠ revisar: '+P.errs.slice(0,2).join('; '):''),
+  tip:(x.tip?x.tip+' ':'')+base+'. '+(x.tipo==='patron'?'Puedes cambiar la tonalidad y la escala.':'Puedes transportarlo a cualquier tonalidad.')}}
+const metVars=()=>Object.values(MET_EX).filter(e=>e.notas).map(e=>[e.id,e.t]);
 const INTV={t3:[2,'terceras'],t4:[3,'cuartas'],t5:[4,'quintas'],t6:[5,'sextas']};
 /* escala por intervalos: cada grado con el que está k grados más arriba; sube hasta donde llega el registro y baja en espejo */
 function intGen(ctx,v){const [k,nom]=INTV[v],ev=[];
@@ -785,36 +895,39 @@ const CATS=[
   tip:'La lengua solo interrumpe el aire, nunca lo para. En doble y triple picado la K debe sonar igual que la T: practica también la línea solo con K, despacio.'},
  {id:'res',n:'Resistencia',scale:false,tempo:60,noRest:true,gen:resGen,vars:[['seis','Seis notas (estilo Caruso)'],['segundas','Segundas'],['arm','Armónicos sin despegar'],['abre','Intervalos que se abren']],
   tip:'<b>No te quites la boquilla de los labios en todo el ejercicio, tampoco en los silencios.</b> Marca el pulso con el pie (♩ = 50–60). En cada compás de silencio, saca el aire en dos tiempos e inspira por la nariz en otros dos, sin mover la embocadura. Toca siempre mf, con el aire constante: no es para tocar fuerte. Es delicado: empieza con 5–10 minutos, como mucho 15–20, y descansa después al menos lo mismo que hayas tocado. Si notas dolor o el labio dormido, para. No lo empieces en las dos semanas antes de una audición ni lo hagas el día antes.'},
+ {id:'met',n:'Métodos',scale:true,tempo:80,hidden:true,gen:metGen,get vars(){const v=metVars();return v.length?v:[['_','—']]},
+  tip:'Ejercicio de método.'},
  {id:'emi',n:'Emisión',scale:true,tempo:66,gen:emitGen,vars:[['ataques','Ataques limpios'],['largas','Notas largas'],['saltos','Ataques a distancia'],['aire','Sin lengua']],
   tip:'Respira en el silencio y ataca sin preparar la nota: el sonido debe empezar ya en su centro, sin golpe ni rampa. En notas largas, el regulador (p < f > p) se reparte igual en las dos mitades.'}];
 
 function buildScore(st){const cat=CATS.find(c=>c.id===st.cat);const v=st.vars[cat.id]||cat.vars[0][0];
- const ctx=makeCtx(st.key,cat.scale?st.scale:'mayor',st.range);const r=cat.gen(ctx,v);
- const vn=cat.vars.find(x=>x[0]===v)[1];
- const sc={cat,v,title:cat.n+' · '+vn,tip:cat.tip,fifths:cat.scale?ctx.fifths:0,ev:withRests(r.ev||[],cat.noRest?'off':st.rest),empty:r.empty,
+ let scl=cat.scale?st.scale:'mayor';if(cat.id==='met'){const x=MET_EX[v];if(x&&(x.tipo==='estudio'||!MET_SCALES.includes(scl)))scl=x&&x.tipo==='estudio'?x.modo:(MET_SCALES.includes(scl)?scl:'mayor')}
+ const ctx=makeCtx(st.key,scl,st.range);useMeter('4/4');const r=cat.gen(ctx,v);useMeter(r.ts);
+ const vn=(cat.vars.find(x=>x[0]===v)||[v,v])[1];
+ const sc={cat,v,ts:r.ts||'4/4',title:cat.n+' · '+(r.title||vn),tip:r.tip||cat.tip,fifths:cat.scale?ctx.fifths:0,ev:withRests(r.ev||[],cat.noRest?'off':st.rest),empty:r.empty,
   keyName:cat.scale?ctx.keyName:null,meta:r.meta,range:RANGES[st.range],rest:!cat.noRest&&st.rest&&st.rest!=='off'?st.rest:null};sc.tail=sc.ev.tail||0;
  sc.ev.forEach((e,i)=>e._i=i);return sc}
 
 /* ---- compases de descanso ---- */
 /* uno y uno: la app toca cada compás (tú descansas) y en el siguiente lo tocas tú */
 function withEcho(ev){const src=ev.map(e=>{const c={...e};delete c.sS;delete c.sE;return c});const sl=computeSlurs(ev);
- const rem=tot(src)%48;if(rem){let pos=rem;for(const r of restsFill(pos,48-pos)){src.push(r);pos+=r.d}}
- const ms=[];let cur=[],pos=0;src.forEach((e,i)=>{cur.push(i);pos+=e.d;if(pos>=48){ms.push(cur);cur=[];pos=0}});
+ const rem=tot(src)%BAR;if(rem){let pos=rem;for(const r of restsFill(pos,BAR-pos)){src.push(r);pos+=r.d}}
+ const ms=[];let cur=[],pos=0;src.forEach((e,i)=>{cur.push(i);pos+=e.d;if(pos>=BAR){ms.push(cur);cur=[];pos=0}});
  const out=[];ms.forEach(m=>{if(!m.some(i=>src[i].p)){m.forEach(i=>out.push({...src[i]}));return}
   const mk=app=>{const seg=m.map(i=>({...src[i],app}));sl.forEach(([a,b])=>{const ns=m.map((i,k)=>[i,k]).filter(([i])=>i>=a&&i<=b&&src[i].p).map(([,k])=>k);if(ns.length>1){seg[ns[0]].sS=(seg[ns[0]].sS||0)+1;seg[ns[ns.length-1]].sE=(seg[ns[ns.length-1]].sE||0)+1}});return seg};
   out.push(...mk(true),...mk(false))});
  out.tail=0;return out}
 function withRests(ev,mode){if(!mode||mode==='off'||!ev.length)return ev;if(mode==='echo')return withEcho(ev);
  const src=ev.map(e=>{const c={...e};delete c.sS;delete c.sE;return c});const sl=computeSlurs(ev);
- const rem=tot(src)%48;if(rem){let pos=rem;for(const r of restsFill(pos,48-pos)){src.push(r);pos+=r.d}}
- const ms=[];let cur=[],pos=0;src.forEach((e,i)=>{cur.push(i);pos+=e.d;if(pos>=48){ms.push(cur);cur=[];pos=0}});
+ const rem=tot(src)%BAR;if(rem){let pos=rem;for(const r of restsFill(pos,BAR-pos)){src.push(r);pos+=r.d}}
+ const ms=[];let cur=[],pos=0;src.forEach((e,i)=>{cur.push(i);pos+=e.d;if(pos>=BAR){ms.push(cur);cur=[];pos=0}});
  const mOf=new Array(src.length);ms.forEach((m,k)=>m.forEach(i=>mOf[i]=k));
  const cross=new Set();sl.forEach(([a,b])=>{for(let k=mOf[a];k<mOf[b];k++)cross.add(k)});
  const phrases=[];let ph=[];ms.forEach((m,k)=>{ph.push(m);if(mode==='bar'||!cross.has(k)){phrases.push(ph);ph=[]}});if(ph.length)phrases.push(ph);
  const out=[];phrases.forEach((p,pi)=>{const idx=p.flat();const seg=new Set(idx);
   sl.forEach(([a,b])=>{const ns=idx.filter(i=>i>=a&&i<=b&&src[i].p);if(ns.length>1){src[ns[0]].sS=(src[ns[0]].sS||0)+1;src[ns[ns.length-1]].sE=(src[ns[ns.length-1]].sE||0)+1}});
   idx.forEach(i=>out.push(src[i]));
-  const n=Math.min(p.length,4);if(pi<phrases.length-1&&idx.some(i=>src[i].p)){for(let k=0;k<n;k++)out.push({...Rr(48),rest:true})}else if(pi===phrases.length-1)out.tail=n});
+  const n=Math.min(p.length,4);if(pi<phrases.length-1&&idx.some(i=>src[i].p)){for(let k=0;k<n;k++)out.push({...Rr(BAR),rest:true})}else if(pi===phrases.length-1)out.tail=n});
  return out}
 
 /* ---- sesiones (planificador local, sin API) ---- */
@@ -852,9 +965,9 @@ function planSession(w,min,rnd=Math.random){const pickR=a=>a[Math.floor(rnd()*a.
 
 /* ---- packing & accidentals ---- */
 function pack(ev){const ms=[];let cur=[],pos=0;
- for(const e of ev){cur.push({e,t:pos});pos+=e.d;if(pos>=48){ms.push(cur);cur=[];pos=0}}
- if(cur.length){for(const r of restsFill(pos,48-pos)){cur.push({e:r,t:pos});pos+=r.d}ms.push(cur)}
- for(const m of ms){for(let b=0;b<4;b++){const tu=m.filter(it=>it.e.tup&&Math.floor(it.t/12)===b);if(tu.length){tu[0].tS=1;tu[tu.length-1].tE=1}}}
+ for(const e of ev){cur.push({e,t:pos});pos+=e.d;if(pos>=BAR){ms.push(cur);cur=[];pos=0}}
+ if(cur.length){for(const r of restsFill(pos,BAR-pos)){cur.push({e:r,t:pos});pos+=r.d}ms.push(cur)}
+ for(const m of ms){for(let b=0;b<Math.ceil(BAR/12);b++){const tu=m.filter(it=>it.e.tup&&Math.floor(it.t/12)===b);if(tu.length){tu[0].tS=1;tu[tu.length-1].tE=1}}}
  return ms}
 function sigMap(f){const m=[0,0,0,0,0,0,0],sh=[3,0,4,1,5,2,6],fl=[6,2,5,1,4,0,3];
  if(f>0)for(let i=0;i<f;i++)m[sh[i]]=1;else for(let i=0;i<-f;i++)m[fl[i]]=-1;return m}
@@ -881,7 +994,7 @@ function accGlyph(c,x,y,a){
  else if(a===-1){c.line(x-2.6,y-13,x-2.6,y+4.5,1.2);c.path([['M',x-2.6,y+4.5],['C',x+5.5,y-0.5,x+3.5,y-6.5,x-2.6,y-1.6]],{stroke:'ink',w:1.7})}
  else if(a===0){c.line(x-2.2,y-10,x-2.2,y+3.6,1.1);c.line(x+2.2,y-3.6,x+2.2,y+10,1.1);c.quad([x-2.2,y-2.2],[x+2.2,y-3.6],[x+2.2,y-1.4],[x-2.2,y]);c.quad([x-2.2,y+3.4],[x+2.2,y+2],[x+2.2,y+4.2],[x-2.2,y+5.6])}}
 function restGlyph(c,x,d){
- if(d===48)c.rect(x-6,10,12,5);else if(d===24)c.rect(x-6,15,12,5);
+ if(d===48||d===BAR)c.rect(x-6,10,12,5);else if(d===24)c.rect(x-6,15,12,5);
  else if(d===12)c.path([['M',x-2,6],['L',x+3.6,12.6],['C',x+0.4,15.4,x+0.2,17.8,x+3.8,22.6],['C',x-1.4,21.4,x-3.6,25.4,x+0.6,29.4]],{stroke:'ink',w:2.3});
  else{const two=d===3;c.path(ell(x-2,14.5,2.4,2.4,0),{fill:'ink'});c.path([['M',x-2,15.5],['C',x,17,x+2.5,15.6,x+4,12.5],['L',x-0.5,28]],{stroke:'ink',w:1.4});
   if(two){c.path(ell(x-3.4,20.5,2.4,2.4,0),{fill:'ink'});c.path([['M',x-3.4,21.5],['C',x-1.4,23,x+1.2,21.6,x+2.6,18.5]],{stroke:'ink',w:1.4})}}}
@@ -889,7 +1002,7 @@ function restGlyph(c,x,d){
 const BW={48:44,36:38,24:32,18:28,12:25,9:22,8:24,6:20,4:18,3:15};
 const yOf=i=>40-i*5;
 
-function renderScore(sc,W,opt={}){
+function renderScore(sc,W,opt={}){useMeter(sc.ts);
  const fing=opt.fing||'dots';const ms=pack(sc.ev);markAcc(ms,sc.fifths);
  const nKs=Math.abs(sc.fifths);const hw=first=>30+nKs*8+(first?26:4)+4;
  ms.forEach(m=>{m.forEach(it=>{it.w=(BW[it.e.d]||25)+(it.acc!=null?9:0)});m.w=14+m.reduce((a,it)=>a+it.w,0)});
@@ -899,7 +1012,7 @@ function renderScore(sc,W,opt={}){
  const out=[];
  systems.forEach((sys,si)=>{const first=si===0,last=si===systems.length-1,h0=hw(first),av=W-h0,u=sys.reduce((a,m)=>a+m.w,0);
   const s=(last&&u<av*0.62)?Math.min(1.25,av/u):av/u;let x=h0;
-  for(const m of sys){m.x=x;let ix=x+8*s;for(const it of m){it.x=ix+(it.acc!=null?9*s:0)+6;if(!it.e.p&&it.e.d===48)it.x=x+m.w*s/2;ix+=it.w*s}x+=m.w*s;m.xe=x}
+  for(const m of sys){m.x=x;let ix=x+8*s;for(const it of m){it.x=ix+(it.acc!=null?9*s:0)+6;if(!it.e.p&&it.e.d===BAR)it.x=x+m.w*s/2;ix+=it.w*s}x+=m.w*s;m.xe=x}
   out.push(drawSystem(sys,x,first,last,sc,fing))});
  return {systems:out,W,count:ms.length}}
 
@@ -908,14 +1021,14 @@ function drawSystem(sys,xEnd,first,last,sc,fing){const c=new Cv();
  c.path(CLEF,{stroke:'ink',w:2.3});c.path(ell(8.6,48.6,2.6,2.6,0),{fill:'ink'});
  let x=30;const f=sc.fifths;const shI=[8,5,9,6,3,7,4],flI=[4,7,3,6,2,5,1];
  for(let i=0;i<Math.abs(f);i++){accGlyph(c,x+3,yOf(f>0?shI[i]:flI[i]),f>0?1:-1);x+=8}
- if(first){c.text(x+11,18,'4',26,'tb');c.text(x+11,38,'4',26,'tb')}
+ if(first){c.text(x+11,18,String(TSN),26,'tb');c.text(x+11,38,String(TSD),26,'tb')}
  if(sys[0].no>1)c.text(2,-9,String(sys[0].no),9,'r','start','soft');
  const notes=[];const dirOf=new Map();
  for(const m of sys){
   // beam groups
   const groups=[];let g=[];
   const flush=()=>{if(g.length)groups.push(g);g=[]};
-  for(const it of m){const e=it.e;if(e.p&&e.d<12){if(g.length&&Math.floor(g[0].t/12)!==Math.floor(it.t/12))flush();g.push(it)}else flush()}flush();
+  for(const it of m){const e=it.e;if(e.p&&e.d<12){if(g.length&&Math.floor(g[0].t/BEAMQ)!==Math.floor(it.t/BEAMQ))flush();g.push(it)}else flush()}flush();
   const merged=[];for(const gr of groups){const pv=merged[merged.length-1];
    if(pv&&pv.length===2&&gr.length===2&&pv.every(i=>i.e.d===6)&&gr.every(i=>i.e.d===6)&&Math.floor(pv[0].t/24)===Math.floor(gr[0].t/24)&&gr[0].t===pv[1].t+6)pv.push(...gr);else merged.push(gr.slice())}
   m.groups=merged;
@@ -1069,22 +1182,22 @@ function makePDF(items,opt={}){const pdf=new PDF(),M=46,Wi=780,s=(pdf.W-2*M)/Wi;
 /* ---- MusicXML ---- */
 const TYPE={48:['whole',0],36:['half',1],24:['half',0],18:['quarter',1],12:['quarter',0],9:['eighth',1],6:['eighth',0],3:['16th',0],4:['eighth',0],8:['quarter',0]};
 const ACCX={'-1':'flat','1':'sharp','0':'natural','-2':'flat-flat','2':'double-sharp'};
-function toMusicXML(sc,tempo){const ms=pack(sc.ev);markAcc(ms,sc.fifths);const slurs=computeSlurs(sc.ev);
+function toMusicXML(sc,tempo){useMeter(sc.ts);const ms=pack(sc.ev);markAcc(ms,sc.fifths);const slurs=computeSlurs(sc.ev).filter(([a,b])=>!(sc.ev[a].tie&&sc.ev[b]&&sc.ev[b].tied&&b===a+1));
  const sS=new Map(),sE=new Map();slurs.forEach(([a,b],n)=>{(sS.get(a)||sS.set(a,[]).get(a)).push(n+1);(sE.get(b)||sE.set(b,[]).get(b)).push(n+1)});
  let x=`<?xml version="1.0" encoding="UTF-8"?>\n<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.1 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">\n<score-partwise version="3.1">\n<work><work-title>${escX(sc.title)}</work-title></work>\n<identification><encoding><software>Brasso</software></encoding></identification>\n<part-list><score-part id="P1"><part-name>Trompeta en Si${'♭'}</part-name></score-part></part-list>\n<part id="P1">\n`;
  const dir=(inner,pl='below',off)=>`<direction placement="${pl}"><direction-type>${inner}</direction-type>${off!=null?`<offset>${off}</offset>`:''}</direction>`;
  ms.forEach((m,k)=>{x+=`<measure number="${k+1}">`;
-  if(k===0)x+=`<attributes><divisions>12</divisions><key><fifths>${sc.fifths}</fifths></key><time><beats>4</beats><beat-type>4</beat-type></time><clef><sign>G</sign><line>2</line></clef><transpose><diatonic>-1</diatonic><chromatic>-2</chromatic></transpose></attributes>`+
+  if(k===0)x+=`<attributes><divisions>12</divisions><key><fifths>${sc.fifths}</fifths></key><time><beats>${TSN}</beats><beat-type>${TSD}</beat-type></time><clef><sign>G</sign><line>2</line></clef><transpose><diatonic>-1</diatonic><chromatic>-2</chromatic></transpose></attributes>`+
    `<direction placement="above"><direction-type><metronome><beat-unit>quarter</beat-unit><per-minute>${tempo}</per-minute></metronome></direction-type><sound tempo="${tempo}"/></direction>`;
   for(const it of m){const e=it.e;
    if(e.p&&e.dyn)x+=dir(`<dynamics><${e.dyn}/></dynamics>`);
    if(e.p&&e.lab)x+=dir(`<words font-style="italic">${escX(e.lab)}</words>`,'above');
    if(e.p&&e.hair==='<>')x+=dir('<wedge type="crescendo"/>')+dir('<wedge type="stop"/>','below',22)+dir('<wedge type="diminuendo"/>','below',24);
    const [ty,dot]=TYPE[e.d]||['quarter',0];
-   x+='<note>'+(e.p?`<pitch><step>${LET_EN[e.p.s]}</step>${e.p.a?`<alter>${e.p.a}</alter>`:''}<octave>${e.p.o}</octave></pitch>`:(e.d===48?'<rest measure="yes"/>':'<rest/>'))+
-    `<duration>${e.d}</duration><voice>1</voice><type>${ty}</type>${dot?'<dot/>':''}${it.acc!=null?`<accidental>${ACCX[it.acc]}</accidental>`:''}`+
+   x+='<note>'+(e.p?`<pitch><step>${LET_EN[e.p.s]}</step>${e.p.a?`<alter>${e.p.a}</alter>`:''}<octave>${e.p.o}</octave></pitch>`:(e.d===BAR?'<rest measure="yes"/>':'<rest/>'))+
+    `<duration>${e.d}</duration>${e.tied?'<tie type="stop"/>':''}${e.tie?'<tie type="start"/>':''}<voice>1</voice><type>${ty}</type>${dot?'<dot/>':''}${it.acc!=null?`<accidental>${ACCX[it.acc]}</accidental>`:''}`+
     (e.tup?'<time-modification><actual-notes>3</actual-notes><normal-notes>2</normal-notes></time-modification>':'');
-   let no='';if(e.p){(sS.get(e._i)||[]).forEach(n=>no+=`<slur type="start" number="${n%6+1}"/>`);(sE.get(e._i)||[]).forEach(n=>no+=`<slur type="stop" number="${n%6+1}"/>`)}
+   let no='';if(e.p){if(e.tied)no+='<tied type="stop"/>';if(e.tie)no+='<tied type="start"/>';(sS.get(e._i)||[]).forEach(n=>no+=`<slur type="start" number="${n%6+1}"/>`);(sE.get(e._i)||[]).forEach(n=>no+=`<slur type="stop" number="${n%6+1}"/>`)}
    if(e.tup&&it.tS)no+='<tuplet type="start"/>';if(e.tup&&it.tE)no+='<tuplet type="stop"/>';
    if(e.art)no+=`<articulations><${{st:'staccato',acc:'accent',ten:'tenuto'}[e.art]}/></articulations>`;
    if(e.p&&e.f)no+=`<technical><fingering>${fingLabel(e.f)}</fingering></technical>`;
@@ -1102,7 +1215,7 @@ function zip(files){const parts=[],cen=[];let off=0;const enc=new TextEncoder();
  const cl=cen.reduce((a,b)=>a+b.length,0);const end=new Uint8Array([...u32(0x06054b50),...u16(0),...u16(0),...u16(files.length),...u16(files.length),...u32(cl),...u32(off),...u16(0)]);
  const all=[...parts,...cen,end];const tot=all.reduce((a,b)=>a+b.length,0),o=new Uint8Array(tot);let p=0;for(const a of all){o.set(a,p);p+=a.length}return o}
 
-if(typeof module!=="undefined"&&typeof window==="undefined")module.exports={withRests,parseAsk,planSession,CATS,SCALES,RANGES,TONICS,buildScore,renderScore,toSVG,makePDF,toMusicXML,zip,pname,midiOf,pack,LET_ES};
+if(typeof module!=="undefined"&&typeof window==="undefined")module.exports={MET_EX,MET_DATA,MET_SCALES,parseMet,tonicIndex,metVars,withRests,parseAsk,planSession,CATS,SCALES,RANGES,TONICS,buildScore,renderScore,toSVG,makePDF,toMusicXML,zip,pname,midiOf,pack,LET_ES};
 
 </script>
 <script>
@@ -1861,6 +1974,26 @@ const tpSave=()=>{try{window.tpSave&&window.tpSave()}catch(e){}};
 const libPdfs=()=>{const S=TPS();return S&&S.lib?S.lib.filter(x=>x.f!==undefined&&/pdf/i.test(x.f||'')):[]};
 async function libAdd(fl){const S=TPS();if(!S||!window.tpDbp)return;if(S.lib.some(x=>x.n===fl.name))return;const id=Date.now();try{await window.tpDbp('put','l'+id,fl);S.lib.push({id,n:fl.name,c:'Partitura',o:'Orchester-Probespiel (cargado desde Repertorio orquestal)',u:'',d:new Date().toISOString().slice(0,10),f:fl.type||'application/pdf'});tpSave()}catch(e){}}
 
+/* ================= MÉTODOS (catálogo) ================= */
+let mq='',mOpen={};try{mOpen=JSON.parse(localStorage.getItem('campana_mopen')||'{}')}catch(e){}
+R.mtl=()=>{const el=$('#mtl');const q=nrm(mq).split(/\s+/).filter(Boolean);
+ const hit=(m,e)=>!q.length||q.every(t=>nrm([m.autor,m.obra,m.anio,e?e.t:''].join(' ')).includes(t));
+ const ready=m=>m.grupos.reduce((a,g)=>a+g.ej.filter(e=>e.notas).length,0),total=m=>m.grupos.reduce((a,g)=>a+g.ej.length,0);
+ const list=MET_DATA.map(m=>{const gs=m.grupos.map(g=>({g,ej:g.ej.filter(e=>hit(m,e))})).filter(x=>x.ej.length);if(!gs.length)return '';
+  const op=q.length||mOpen[m.id];const r=ready(m),T=total(m);
+  return `<details data-m="${m.id}"${op?' open':''}><summary><span class="tagm">${m.tipo==='patron'?'Patrones':'Estudios'}</span><span><b>${escH(m.autor.split(' ').pop())} · ${escH(m.obra)}</b><small>Basado en ${escH(m.autor)}, ${escH(m.obra)}${m.anio?' ('+m.anio+')':''} · ${r}/${T} listos</small></span></summary>
+   <div class="mb"><p class="hint">${escH(m.info||'')}</p>${gs.map(({g,ej})=>`<div class="grp">${m.grupos.length>1?`<p class="lab">${escH(g.t)}</p>`:''}${ej.map(e=>`<div class="xi${e.notas?'':' pend'}"><button class="xt" data-ex="${e.id}"><span><b>${escH(e.t)}</b><small>${e.tipo==='patron'?'Tonalidad y escala':'Tonalidad'}${e.c&&e.c!=='4/4'?' · '+e.c:''}</small></span><span class="st ${e.notas?'ok':'pd'}">${e.notas?'Listo':'Pendiente'}</span></button></div>`).join('')}</div>`).join('')}</div></details>`}).join('');
+ const nR=MET_DATA.reduce((a,m)=>a+ready(m),0),nT=MET_DATA.reduce((a,m)=>a+total(m),0);
+ el.innerHTML=`<div class="hero"><h1>Métodos</h1><p>Métodos clásicos de dominio público, en sus ediciones originales. Cada ejercicio se transporta a cualquier tonalidad; los de patrones, también a cualquier escala.</p></div>
+ <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="mq" type="search" placeholder="Buscar método o ejercicio" value="${escH(mq)}" autocomplete="off"><span class="cnt">${nR}/${nT}</span></div>
+ <div class="mref mtl rbody">${list||'<p class="hint">Nada coincide con la búsqueda.</p>'}</div>
+ <p class="hint">Los ejercicios se pasan nota a nota desde el PDF de la edición original (IMSLP). Los que aún no están transcritos aparecen como «Pendiente».</p>`;
+ const qi=$('#mq');qi.oninput=()=>{mq=qi.value;const p=qi.selectionStart;R.mtl();const n=$('#mq');n.focus();n.setSelectionRange(p,p)};
+ el.querySelectorAll('details[data-m]').forEach(d=>d.ontoggle=()=>{if(q.length)return;mOpen[d.dataset.m]=d.open;try{localStorage.setItem('campana_mopen',JSON.stringify(mOpen))}catch(e){}});
+ el.querySelectorAll('[data-ex]').forEach(b=>b.onclick=()=>{const x=MET_EX[b.dataset.ex];if(!x)return;
+  if(!x.notas){buzz(6);toast('Pendiente de transcribir: sube el PDF de la edición original y lo paso nota a nota');return}
+  st.vars.met=x.id;st.key=tonicIndex(x.tono);st.scale=x.modo;save();location.hash='met'})};
+
 /* ================= COACH POR REGLAS (conocimiento de Rubén) ================= */
 /* Bloque A: qué hacer según cuánto falta para la audición. Bloques B (causas) y C (síntomas) se añaden después. */
 const LOWE=k=>({cat:'emi',v:'largas',key:k,scale:'mayor',rest:'bar',range:'ini'});
@@ -2041,10 +2174,11 @@ R.coach=()=>{const C0=todayChk();if(C0&&CS.sevDay!==C0.d){CS.sev=Math.max(1,Math
 /* routing */
 const TPR={hoy:['ini'],rutina:['rut'],cronometro:['ent','cron'],metronomo:['ent','met'],afinador:['ent','afi'],notas:['ent','gen'],grabar:['gra'],audiciones:['aud'],biblioteca:['bib'],coach:['coa'],coachia:['coa'],progreso:['pro'],perfil:['per']};
 const TPN={ini:'Plan del día',rut:'Mi rutina',cron:'Cronómetro',met:'Metrónomo',afi:'Afinador',gen:'Generador de notas',gra:'Grabar y analizar',aud:'Audiciones',bib:'Biblioteca',coa:'Coach',pro:'Progreso',per:'Ajustes y nube'};
-const VID={home:'home',ses:'ses',ex:'exv',tp:'tpv',orq:'orq',jz:'jz',cch:'cch',est:'est'};
+const VID={home:'home',ses:'ses',ex:'exv',tp:'tpv',orq:'orq',jz:'jz',cch:'cch',est:'est',mtl:'mtl'};
 function route(){const h=location.hash.slice(1);stop();const prev=view;if(h!=='orquestal')window.repStop&&repStop();
  if(h==='clasico'||h==='jazz'||h==='estudiar'){if(run)endRun(false);if(h!=='estudiar')ESTT=h;try{localStorage.setItem('campana_estt',ESTT)}catch(e){}show('est',prev==='home');return}
- if(h==='orquestal'||h==='coach'){if(run)endRun(false);show(h==='coach'?'cch':'orq',prev==='home'||prev==='est');return}
+ if(h==='orquestal'||h==='coach'||h==='metodos'){if(run)endRun(false);show(h==='coach'?'cch':h==='metodos'?'mtl':'orq',prev==='home'||prev==='est');return}
+ if(h==='met'&&!run&&!(typeof MET_EX!=='undefined'&&MET_EX[st.vars.met]&&MET_EX[st.vars.met].notas)){location.replace('#metodos');return}
  if(TPR[h]&&typeof V!=='undefined'){if(run)endRun(false);tab=TPR[h][0];if(TPR[h][1])ET=TPR[h][1];show('tp',prev==='home'||prev==='tp')}
  else if(h==='sesion'){if(run)endRun(false);show('ses',prev==='home')}
  else if(h==='paso'&&run)show('ex',true);
@@ -2059,8 +2193,9 @@ function show(v,fwd){const same=view===v&&v==='tp';view=v;window.TP_ON=v==='tp';
  else if(v==='jz'){$('#barTitle').textContent='Jazz';R.jz()}
  else if(v==='est'){$('#barTitle').textContent='Estudiar';renderHome();renderEst()}
  else if(v==='cch'){$('#barTitle').textContent='Coach';R.coach()}
+ else if(v==='mtl'){$('#barTitle').textContent='Métodos';R.mtl()}
  else if(v==='tp'){$('#barTitle').textContent=TPN[tab==='ent'?ET:tab];const vv=$('#v');if(!same){vv.classList.add('enter');setTimeout(()=>vv.classList.remove('enter'),600)}window.tpDraw&&window.tpDraw()}
- else{$('#barTitle').textContent=run?'Sesión':cat().n;exControls();render(false)}}
+ else{$('#barTitle').textContent=run?'Sesión':(cat().id==='met'&&MET_EX[vid()]?MET_EX[vid()].m.autor.split(' ').pop()+' · '+MET_EX[vid()].m.obra:cat().n);exControls();render(false)}}
 $('#back').onclick=()=>{if(view==='ex'&&run){location.hash='sesion';return}if(history.length>1&&location.hash)history.back();else location.hash=''};
 window.addEventListener('hashchange',route);
 let ESTT='clasico';try{ESTT=localStorage.getItem('campana_estt')||'clasico'}catch(e){}
@@ -2073,7 +2208,7 @@ $('#moreSet').onclick=()=>{closeSheet();location.hash='perfil'};
 
 /* home */
 function renderHome(){paintToday();
- $('#cards').innerHTML=CATS.map((c,i)=>`<button class="card" data-id="${c.id}" style="animation-delay:${i*35}ms">${artSVG(c.id,'art')}<b>${c.n}</b><span>${DESC[c.id]} · ${c.vars.length} ejercicios</span></button>`).join('');
+ $('#cards').innerHTML=CATS.filter(c=>!c.hidden).map((c,i)=>`<button class="card" data-id="${c.id}" style="animation-delay:${i*35}ms">${artSVG(c.id,'art')}<b>${c.n}</b><span>${DESC[c.id]} · ${c.vars.length} ejercicios</span></button>`).join('');
  const c=CATS.find(x=>x.id===st.cat);$('#contT').textContent=c.n+' · '+c.vars.find(v=>v[0]===(st.vars[c.id]||c.vars[0][0]))[1];
  if($("#rangeH"))seg($("#rangeH"),Object.entries(RANGES).map(([k,r])=>[k,r.n+'<small>'+r.d+'</small>']),st.range,id=>{st.range=id;save();mark($('#rangeH'),id);toast('Registro '+RANGES[id].n.toLowerCase()+' ('+RANGES[id].d+')')})}
 $('#cards').onclick=e=>{const b=e.target.closest('.card');if(b)location.hash=b.dataset.id};
@@ -2145,10 +2280,12 @@ function exControls(){const P=pse();$('#transport').hidden=!!P||view!=='ex';
  const c=cat();
  $('#run').hidden=!run;if(run)paintRun();
  $('#vars').hidden=!!run;
- $('#vars').innerHTML=c.vars.map(([id,n])=>`<button class="chip" data-id="${id}" aria-pressed="${id===vid()}">${n}</button>`).join('')+`<button class="chip dash" data-id="__rnd">Al azar</button>`;
+ const VL=c.id==='met'?c.vars.filter(([id])=>MET_EX[id]&&MET_EX[vid()]&&MET_EX[id].met===MET_EX[vid()].met):c.vars;
+ $('#vars').innerHTML=VL.map(([id,n])=>`<button class="chip" data-id="${id}" aria-pressed="${id===vid()}">${n}</button>`).join('')+`<button class="chip dash" data-id="__rnd">Al azar</button>`;
  $('#keyBox').hidden=!c.scale||!!run;
  $('#keys').innerHTML=KEY_N.map((n,i)=>`<button data-id="${i}" aria-pressed="${i===st.key}">${n}</button>`).join('');
- $('#scales').innerHTML=SC_ORDER.map(id=>`<button class="chip" data-id="${id}" aria-pressed="${id===st.scale}">${cap(SCALES[id].n)}</button>`).join('');
+ const MX=c.id==='met'?MET_EX[vid()]:null;$('#scales').hidden=!!(MX&&MX.tipo==='estudio');
+ $('#scales').innerHTML=SC_ORDER.filter(id=>!MX||MET_SCALES.includes(id)).map(id=>`<button class="chip" data-id="${id}" aria-pressed="${id===st.scale}">${cap(SCALES[id].n)}</button>`).join('');
  paintToggles();
  requestAnimationFrame(()=>['#vars','#keys','#scales'].forEach(s=>{const b=$(s+' [aria-pressed=true]');if(b)b.parentNode.scrollLeft=b.offsetLeft-b.parentNode.clientWidth/2+b.clientWidth/2}))}
 function paintToggles(){$('#metro').setAttribute('aria-pressed',st.metro);$('#loop').setAttribute('aria-pressed',st.loop);
@@ -2161,10 +2298,10 @@ const PAPER={ink:'#141416',soft:'#7d7d85',acc:'#b8860b',bg:'#ffffff'};
 function colors(){if(st.paper)return PAPER;const probe=document.createElement('i');document.body.appendChild(probe);const out={};
  for(const [k,v] of [['ink','--ink'],['soft','--soft'],['acc','--acc'],['bg','--bg']]){probe.style.color=`var(${v})`;out[k]=getComputedStyle(probe).color}probe.remove();return out}
 /* instrucciones en puntos: una frase por punto */
-const tipHTML=t=>'<b>Cómo practicarlo</b><ul class="tipl">'+String(t||'').split(/(?<=[.!?:](?:<\/b>)?)\s+(?=(?:<b>)?[A-ZÁÉÍÓÚÑ¿¡])/).map(x=>x.trim()).filter(Boolean).map(x=>'<li>'+x+'</li>').join('')+'</ul>';
+const tipHTML=t=>'<b>Cómo practicarlo</b><ul class="tipl">'+String(t||'').split(/(?<=[^\sA-ZÁÉÍÓÚÑ][.!?:](?:<\/b>)?)\s+(?=(?:<b>)?[A-ZÁÉÍÓÚÑ¿¡])/).map(x=>x.trim()).filter(Boolean).map(x=>'<li>'+x+'</li>').join('')+'</ul>';
 function render(anim){const P=pse();if(P){sc=null;renderPse(P,anim);return}sc=buildScore(S());const rn=RANGES[S().range];
  $('#title').textContent=run?itemName(run.plan[run.i]):sc.title.split(' · ')[1];
- $('#meta').textContent=[sc.keyName?cap(sc.keyName):null,sc.meta,'Registro '+rn.n.toLowerCase(),sc.rest?(sc.rest==='bar'?'descanso cada compás':sc.rest==='phrase'?'descanso cada frase':'uno y uno: escucha y repite'):null].filter(Boolean).join(' · ');
+ $('#meta').textContent=[sc.keyName?cap(sc.keyName):null,sc.meta,(sc.cat.id==='met'?null:'Registro '+rn.n.toLowerCase()),sc.rest?(sc.rest==='bar'?'descanso cada compás':sc.rest==='phrase'?'descanso cada frase':'uno y uno: escucha y repite'):null].filter(Boolean).join(' · ');
  $('#tip').innerHTML=tipHTML(sc.tip);$('#resNote').hidden=S().cat!=='res';$('#tv').textContent='♩ '+tempo();draw(anim)}
 function draw(anim){const box=$('#score');if(view!=='ex'||!sc)return;box.classList.toggle('paper',!!st.paper);
  if(sc.empty)box.innerHTML=`<p class="empty">${sc.empty}</p>`;
@@ -2218,12 +2355,12 @@ function play(again){if(playing&&!again){stop();return}if(!sc||sc.empty)return;
  const sl=computeSlurs(sc.ev),inS=i=>sl.some(([a,b])=>i>=a&&i<b);
  let t=t0;const els=new Map();document.querySelectorAll('#score path[data-i]').forEach(p=>els.set(+p.dataset.i,p));let prev=null;
  sc.ev.forEach((e,i)=>{const dur=e.d*tk_;
-  if(e.p){const m=midiOf(e.p)-2,fq=440*2**((m-69)/12);if(!(sc.rest==='echo'&&!e.app))tone(t,dur*(e.art==='st'?0.42:inS(i)?1.0:0.9),fq,i>0&&inS(i-1)&&sc.ev[i-1].p);
+  if(e.p){const m=midiOf(e.p)-2,fq=440*2**((m-69)/12);let dd=dur;for(let j=i;sc.ev[j]&&sc.ev[j].tie&&sc.ev[j+1];j++)dd+=sc.ev[j+1].d*tk_;if(!e.tied&&!(sc.rest==='echo'&&!e.app))tone(t,dd*(e.art==='st'?0.42:inS(i)?1.0:0.9),fq,i>0&&inS(i-1)&&sc.ev[i-1].p&&!sc.ev[i-1].tie);
    const el=els.get(i);playing.timers.push(setTimeout(()=>{document.querySelectorAll('#score path.on').forEach(p=>p.classList.remove('on'));if(el){el.classList.add('on');
     const r=el.getBoundingClientRect();if(r.bottom>innerHeight-110||r.top<70)window.scrollBy({top:r.top-innerHeight/3,behavior:reduce?'auto':'smooth'})}},Math.max(0,(t-ac.currentTime)*1000)))}
   t+=dur});
  const rest=st.loop&&sc.rest?sc.tail*48*tk_:0;const end=t+rest;
- if(st.metro||sc.rest==='echo'){const beats=Math.round((end-t0)/spb);for(let b=0;b<beats;b++)click(t0+b*spb,b%4===0)}
+ if(st.metro||sc.rest==='echo'){const beats=Math.round((end-t0)/spb);const bpb=Math.max(1,Math.round((sc.ts?(()=>{const q=String(sc.ts).split('/');return q[0]*4/q[1]})():4)));for(let b=0;b<beats;b++)click(t0+b*spb,b%bpb===0)}
  playing.next=end;
  if(st.loop){playing.timers.push(setTimeout(()=>{if(playing)play(true)},Math.max(0,(end-ac.currentTime)*1000-400)))}
  else playing.timers.push(setTimeout(stop,(t-ac.currentTime)*1000+250))}
