@@ -243,6 +243,8 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px soli
 @media(prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}}
 
 /* ---- repertorio y jazz ---- */
+.cbox.warn{background:color-mix(in srgb,#d0462e 16%,var(--chip))}.xs.wide2{width:100%;margin-top:8px;min-height:46px}
+
 .cq{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}.cq span{flex:1;min-width:0;line-height:1.35}
 .yn{display:flex;gap:4px;flex:none}.yn button{min-height:38px;min-width:50px;padding:0 10px;border-radius:12px;background:var(--bg);font-weight:800;font-size:14px}
 .yn button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
@@ -662,7 +664,9 @@ function intGen(ctx,v){const [k,nom]=INTV[v],ev=[];
  for(let i=imax+k;i>=k;i--)pair(i,i-k,-1);
  const t0=ctx.deg(0);finish(ev,t0,{f:fOf(t0)});
  return {ev,meta:'por '+nom+' · hasta '+pname(ctx.deg(imax+k,1))}}
-function scaleGen(ctx,v){if(INTV[v])return intGen(ctx,v);const ev=[];const {up,dn}=run(ctx,ctx.nOct);const du={corcheas:E_,semis:S_,negras:Q_}[v];
+/* escalita de 5 notas: do-re-mi-fa-sol-fa-mi-re-do, en el registro medio, ligada */
+function cincoGen(ctx){const ev=[],ns=[0,1,2,3,4,3,2,1].map(i=>{const p=ctx.deg(i,i<4?1:-1);return N(p,Q_,{f:fOf(p)})});ev.push(...ns);slur(ns);const t0=ctx.deg(0);finish(ev,t0,{f:fOf(t0)});return {ev,meta:'escalita de 5 notas'}}
+function scaleGen(ctx,v){if(v==='cinco')return cincoGen(ctx);if(INTV[v])return intGen(ctx,v);const ev=[];const {up,dn}=run(ctx,ctx.nOct);const du={corcheas:E_,semis:S_,negras:Q_}[v];
  const a=up.map(X=>N(X,du,{f:fOf(X),art:v==='negras'?'ten':null}));const b=dn.map(X=>N(X,du,{f:fOf(X),art:v==='negras'?'ten':null}));
  ev.push(...a,...b);const t0=ctx.deg(0);finish(ev,t0,{f:fOf(t0)});
  if(v!=='negras'){slur(a);const fin=ev.filter(e=>e.p).pop();slur([...b,fin])}
@@ -690,7 +694,7 @@ function patGen(ctx,v){const P=PATS[v],ev=[],top=ctx.nOct*ctx.len;
  const t0=ctx.deg(0);finish(ev,t0,{f:fOf(t0)});return {ev}}
 
 const CATS=[
- {id:'esc',n:'Escalas',scale:true,tempo:84,gen:scaleGen,vars:[['corcheas','Corcheas ligadas'],['semis','Semicorcheas'],['negras','Negras picadas'],['t3','Por terceras'],['t4','Por cuartas'],['t5','Por quintas'],['t6','Por sextas']],
+ {id:'esc',n:'Escalas',scale:true,tempo:84,gen:scaleGen,vars:[['corcheas','Corcheas ligadas'],['semis','Semicorcheas'],['negras','Negras picadas'],['cinco','Escalita de 5 notas'],['t3','Por terceras'],['t4','Por cuartas'],['t5','Por quintas'],['t6','Por sextas']],
   tip:'Empieza lento y sube el metrónomo solo cuando la escala salga tres veces seguidas sin fallo. Mantén el aire constante en los cambios de registro: el sonido de la nota aguda debe tener el mismo color que la grave.'},
  {id:'pat',n:'Patrones',scale:true,tempo:92,gen:patGen,vars:Object.entries(PATS).map(([k,p])=>[k,p.n]),
   tip:'Toca cada grupo como una pequeña frase con dirección, no como notas sueltas. Cuando lo tengas, cambia de escala o de tonalidad: el patrón debe sonar igual de fácil en todas.'},
@@ -1751,7 +1755,7 @@ const CK={
 /* síntomas que ya se reconocen; sus pautas llegan con los bloques B y C */
 const CSY=[
  ['aire',['aire','soplad','sucio','sucia','arenos','rasposo','no suena limpio','no tengo sonido','sonido feo','sonido roto','suena mal','pitido','ronco','opaco','apagado','sin brillo','sin cuerpo','sin centro']],
- ['cansancio',['molesta el labio','me molesta el labio','labio molesto','molestia','cansad','cansa','sin resistencia','resistencia','cargad','reventad','fatiga','mal del labio','labio mal','fatal del labio','labio fatal','labio muerto','sin labio','no tengo labio','labio no responde','no me responde','agarrot','hecho polvo','destrozad','me pase tocando','toque mucho','he tocado mucho']],
+ ['cansancio',['fatal','labio esta mal','molesta el labio','me molesta el labio','labio molesto','molestia','cansad','cansa','sin resistencia','resistencia','cargad','reventad','fatiga','mal del labio','labio mal','fatal del labio','labio fatal','labio muerto','sin labio','no tengo labio','labio no responde','no me responde','agarrot','hecho polvo','destrozad','me pase tocando','toque mucho','he tocado mucho']],
  ['agudos',['agudo','notas altas','registro alto','arriba no','no llego','no subo','no me sube','techo']],
  ['ataques',['ataque','chapa','no entra la nota','no entran las notas','no salen las notas','no me sale la nota','emision','pican mal','picado','lengua','no arranca','empezar la nota','entradas']],
  ['tension',['tenso','tensa','tension','rigid','estrecho','estrecha','apretad','aprieto','presion','duro','dura','bloquead','cerrad','garganta']],
@@ -1762,7 +1766,7 @@ const CSY=[
  ['dolor',['dolor','duele','hinchad','herida','sangr','pupa','corte en el labio','llaga','calentura']]];
 const CSN={aire:'aire en el sonido',cansancio:'labio cansado',agudos:'agudos',ataques:'ataques',tension:'tensión',roturas:'notas que se rompen',fiato:'falta de aire',nervios:'nervios',afinacion:'afinación',dolor:'dolor o labio hinchado'};
 const NUMW={un:1,una:1,uno:1,dos:2,tres:3,cuatro:4,cinco:5,seis:6,siete:7,ocho:8,nueve:9,diez:10,quince:15};
-function coachWhen(t){t=nrm(t);if(/pasado manana/.test(t))return 'dias';
+function coachWhen(t){t=nrm(t);if(!/(audici|prueba|concierto|recital|examen|bolo|actuac|tribunal|oposici|toco|tocamos|ensayo general|estreno)/.test(t))return null;if(/pasado manana/.test(t))return 'dias';
  if(/\b(hoy|esta tarde|esta noche|esta manana|en unas horas|en un rato|ahora)\b/.test(t))return 'hoy';
  if(/\bmanana\b/.test(t))return 'manana';
  let m=t.match(/(\d+|un|una|uno|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez|quince)\s+(dia|dias|semana|semanas|mes|meses)\b/);
@@ -1771,24 +1775,53 @@ function coachWhen(t){t=nrm(t);if(/pasado manana/.test(t))return 'dias';
  if(/(mes que viene|proximo mes|dentro de un mes)/.test(t))return 'semanas';return null}
 const coachSym=t=>{t=nrm(t);return CSY.filter(([k,ws])=>ws.some(w=>t.includes(nrm(w)))).map(([k])=>k)};
 
-/* ---- Bloque B: causas de fondo ---- */
+/* ---- Bloque B: causas de fondo (pautas de Rubén) ---- */
 const STEP=(o,min,tag)=>({scale:'mayor',key:0,rest:'bar',...o,min,tag});
+const BV=()=>CATS.find(c=>c.id==='bend').vars[0][0];
+/* preguntas compartidas: cada una se hace una sola vez */
+const CQ={corta:'¿Se te cortan las notas graves o agudas?',aire:'¿Te suena aire, el sonido no sale directo?',aprieta:'¿Notas que aprietas la boquilla para que salga?',rigido:'¿La flexibilidad y el legato van agarrotados, nada fluidos?',
+ agudo:'¿Aprietas sobre todo al subir al agudo?',vibra:'¿Notas poco aire y el labio vibrando de más?',medio:'¿Te pasa también en el registro medio, no solo en los extremos?',
+ garganta:'¿Notas la garganta cerrada o tensa?',cuerpo:'¿Tienes hombros, cuello o cuerpo rígidos?',frio:'¿Has empezado a tocar casi sin calentar?',mejora:'¿Va mejorando según tocas?'};
+/* plan para relajar y luego montar, de grave/medio hacia fuera */
+const montar=(v,name)=>{const lo=v>=6,r=lo?'ini':'med';return {name,items:[
+ STEP({...LOWE(rpick(LOWK)),range:'ini'},lo?4:3,'Sensación natural, sin bloqueo'),STEP({cat:'bend',v:BV(),range:'ini'},lo?5:4,'Relajar el labio'),
+ STEP({cat:'flex',v:'f2',range:'ini'},lo?5:4,'Flexibilidad base'),STEP({cat:'esc',v:'corcheas',key:rpick([0,5,7,10]),range:r},lo?4:5,'Montar con el aire'),
+ ...(v>=8?[]:[STEP({cat:'pat',v:'grupos4',key:rpick([0,5,7,10]),range:r},lo?4:5,'Del grave al agudo, sin extremos')])]}};
+const PARAR=v=>v>=8?['Si ya está todo agarrotado no hay manera: descansa, duerme un rato o incluso para un día de tocar.']:[];
 const CAU={
- fatiga:{n:'Fatiga o labio cargado',
+ fatiga:{n:'Fatiga o labio cargado',q:['corta','aire','aprieta','rigido'],
   why:'Suele venir de tocar mucho seguido o de haberte pasado el día anterior: al día siguiente no estás igual de fino.',
-  sig:['Te cansas muy rápido y notas el labio cargado.','Te sientes rígido: intervalos, flexibilidad y legato no fluyen, todo va agarrotado.','El paso del aire no es bueno y el sonido se ensucia un poco.','Se cortan los graves y los agudos; solo suena medio bien el registro medio, y apretando.'],
-  q:[['corta','¿Se te cortan las notas graves o agudas?'],['aire','¿Te suena aire en el sonido?'],['aprieta','¿Notas que aprietas la boquilla para que salga?'],['rigido','¿La flexibilidad y el legato van agarrotados, nada fluidos?']],
-  haz:v=>[...(v>=7?['Para de tocar 1–3 horas, lo que tengas de margen.','Si puedes, duerme un rato: al dormir el labio se regenera.','Al volver, monta poco a poco con la sesión de abajo.']:v>=4?['No sigas insistiendo: primero relaja el labio y después monta poco a poco con la sesión de abajo.']:['Estás algo cargado: monta con calma con la sesión de abajo, sin forzar.']),
-   'Siempre en el mismo orden: busca primero una sensación muy natural, un sonido sin ningún bloqueo; luego relaja el labio (bending, notas suaves); y después monta con el aire: flexibilidad, escalas y patrones del grave al agudo.','Sin ir a los extremos del registro. Según subas, descansa lo mismo que tocas o un pelín más.','No es para estar toda la tarde: media hora como mucho.'],
+  haz:v=>[...(v>=7?['Para de tocar 1–3 horas, lo que tengas de margen.','Si puedes, duerme un rato: al dormir el labio se regenera.','Al volver, monta poco a poco con la sesión de abajo.']:v>=4?['No sigas insistiendo: primero relaja el labio y después monta poco a poco.']:['Estás algo cargado: monta con calma, sin forzar.']),
+   'Siempre en el mismo orden: busca una sensación muy natural, un sonido sin ningún bloqueo; luego relaja el labio (bending, notas suaves); y después monta con el aire: flexibilidad, escalas y patrones del grave al agudo.','Sin ir a los extremos del registro. Según subas, descansa lo mismo que tocas o un pelín más.','No es para estar toda la tarde: media hora como mucho.'],
   evita:['Apretarte la boquilla.','Seguir tocando e insistiendo.','Tocar más fuerte para compensar.','Acostumbrarte a tocar desafinado (muy alto o muy bajo): te descentra y te cansa más.','Seguir tocando si te duele.','Machacarte mentalmente o forzarte a trabajar cuando la cabeza no da más.'],
-  plan:v=>{const lo=v>=6,r=lo?'ini':'med';return {name:'Coach · montar el labio después de fatiga',items:[
-   STEP({...LOWE(rpick(LOWK)),range:'ini'},lo?4:3,'Sensación natural, sin bloqueo'),
-   STEP({cat:'bend',v:CATS.find(c=>c.id==='bend').vars[0][0],range:'ini'},lo?5:4,'Relajar el labio'),
-   STEP({cat:'flex',v:'f2',range:'ini'},lo?5:4,'Flexibilidad base'),
-   STEP({cat:'esc',v:'corcheas',key:rpick([0,5,7,10]),range:r},lo?4:5,'Montar con el aire'),
-   ...(v>=8?[]:[STEP({cat:'pat',v:CATS.find(c=>c.id==='pat').vars[0][0],key:rpick([0,5,7,10]),range:r},lo?4:5,'Del grave al agudo, sin extremos')])]}}}
+  plan:v=>montar(v,'Coach · montar el labio después de fatiga')},
+ presion:{n:'Demasiada presión de boquilla',q:['aprieta','agudo','vibra'],
+  why:'Apretar la boquilla es un mecanismo de defensa: lo hacemos sin darnos cuenta cuando no controlamos lo básico de la flexibilidad. Sobre todo cuando no llegamos bien a un agudo o cuando no tiramos el aire directo: hay poco aire, más vibración, y apretamos.',
+  haz:v=>['En la trompeta no hay tantos factores; hay pocos, pero tienen que estar bien organizados. Vuelve a ellos: aire directo y flexibilidad.','Trabaja primero en el grave o el medio y luego amplía el registro poco a poco, sin apretar para llegar.',...PARAR(v)],
+  evita:['Apretar para llegar al agudo.','Seguir subiendo cuando ya está agarrotado.','Rayarte con mil cosas: son pocas y hay que ordenarlas.'],
+  plan:v=>({name:'Coach · soltar la presión',items:[STEP({cat:'emi',v:'largas',key:0,range:'med'},4,'Aire directo, sin apretar'),STEP({cat:'esc',v:'cinco',key:rpick([0,2,10]),range:'med'},4,'Escalita en el medio'),STEP({cat:'flex',v:'f2',range:'ini'},4,'Flexibilidad base'),...(v>=7?[]:[STEP({cat:'flex',v:'f3',range:'med'},4,'Ampliar poco a poco')])]})},
+ aire:{n:'Poco apoyo de aire',q:['aire','vibra','medio'],
+  why:'El aire no está saliendo de la forma correcta.',
+  haz:v=>['Para y vuelve a lo simple.','Notas de emisión en el registro medio, con notas largas, para comprobar que todo funciona.','Escalitas cortas en el medio (por ejemplo de Do a Sol y vuelta), sin subir al agudo ni bajar al grave.','Cuando funcione en el medio, amplía el registro poco a poco para limpiar el programa sin agarrotarte.',...PARAR(v)],
+  evita:['Ir a los extremos del registro para arreglarlo.','Compensar apretando la boquilla.'],
+  plan:v=>({name:'Coach · recolocar el aire',items:[STEP({cat:'emi',v:'largas',key:0,range:'med'},4,'Notas largas en el medio'),STEP({cat:'emi',v:'ataques',key:0,range:'med'},3,'Emisión en el medio'),STEP({cat:'esc',v:'cinco',key:rpick([0,2,10]),range:'med'},4,'Escalita en el medio'),STEP({cat:'esc',v:'cinco',key:rpick([5,7,10]),range:'med'},3,'Otra tonalidad, mismo registro'),...(v>=7?[]:[STEP({cat:'flex',v:'f2',range:'med'},3,'Ampliar poco a poco')])]})},
+ tension:{n:'Garganta o cuerpo tensos',q:['garganta','cuerpo','rigido'],
+  why:'Se gestiona como la fatiga: relajando. Y cuando la garganta está muy tensa y no se puede hacer nada, no se va a arreglar insistiendo.',
+  haz:v=>[...(v>=6?['Para, sobre todo mentalmente: mínimo 1 hora, mejor 1 hora y media o 2. O duerme un rato.','Muchas veces no se arregla hasta el día siguiente: no pasa nada.']:[]),'Haz ejercicios de relajación: notas largas suaves, bending y flexibilidad base en el grave.','Cuando vuelva a funcionar, haz las cosas bien y sin prisa.'],
+  evita:['Forzar para que se suelte.','Seguir tocando con la garganta cerrada.'],
+  plan:v=>({name:'Coach · soltar la tensión',items:[STEP({...LOWE(rpick(LOWK)),range:'ini'},4,'Relajar'),STEP({cat:'bend',v:BV(),range:'ini'},4,'Relajar'),STEP({cat:'flex',v:'f2',range:'ini'},4,'Flexibilidad base'),STEP({cat:'ped',v:'desc'},3,'Pedales suaves')]})},
+ calentamiento:{n:'Falta de calentamiento',q:['frio','mejora'],
+  why:'A calentar se aprende poco a poco. Ojo: no confundas el calentamiento con la técnica.',
+  haz:v=>['No tiene que ser largo: unas notas pasando por casi todo el registro, sin agarrotarte.','Si tienes una prueba importante, no tiene sentido subir hasta el contraagudo.','Por ejemplo: unas notas largas (o directamente flexibilidad), un poco de bending y flexibilidad base de 3 notas bajando poco a poco.','Lo mismo un pelín más agudo, y después ya ejercicios de flexibilidad algo mejores.'],
+  evita:['Convertir el calentamiento en una sesión de técnica.','Subir a los extremos del registro antes de una prueba.'],
+  plan:v=>CWU()}
 };
-
+/* el calentamiento de Rubén */
+const CWU=()=>({name:'Coach · calentamiento recomendado',items:[STEP({...LOWE(rpick([0,5,7,10])),range:'med',rest:'off'},3,'Notas largas'),STEP({cat:'flex',v:'f2',range:'ini',rest:'off'},2,'Un pelín de flexibilidad'),STEP({cat:'bend',v:BV(),range:'ini',rest:'off'},2,'Un poco de bending'),
+ STEP({cat:'flex',v:'f3',range:'ini',rest:'off'},3,'Flexibilidad base de 3 notas'),STEP({cat:'flex',v:'f3',range:'med',rest:'off'},3,'Lo mismo, un pelín más agudo'),STEP({cat:'flex',v:'tres',range:'med',rest:'off'},3,'Flexibilidad algo más exigente')]});
+/* consejos directos, sin preguntas */
+const SADV={nervios:{t:'Nervios',why:'Los nervios muchas veces se solucionan teniendo la obra más estudiada.',haz:['Visualízate en la audición o en la prueba con muy buenas sensaciones.','Eso genera un positivismo que a tu cabeza le viene muy bien, incluso si tienes un mal día.']},
+ dolor:{t:'Dolor o labio hinchado',why:'Con dolor no se toca.',haz:['Para de tocar.','Si hay herida, el labio sigue hinchado o el dolor no se va, consúltalo con un profesional.']}};
 /* ---- Situaciones concretas: explicaciones de Rubén sobre pasajes y problemas puntuales ---- */
 const SIT=[
  {id:'agudo-grave',test:t=>/agud|arriba|\balt[oa]s?\b/.test(t)&&/grave|abajo|bajo/.test(t)&&/(ligad|legato|baj|pasaje|salto|intervalo|no entra|no me entra|no sale)/.test(t),
@@ -1797,8 +1830,9 @@ const SIT=[
   haz:['Para un momento: no repitas el pasaje en bucle con el labio cerrado.','Relaja antes de volver: unas notas largas suaves en el grave, dejando que suenen abiertas.','Vuelve al pasaje pensando en soltar al bajar: el grave entra relajado, no apretado.','No pases tanto rato seguido en el agudo; alterna con registro medio y grave y descansa entre repeticiones.'],
   plan:()=>({name:'Coach · soltar el grave',items:[STEP({...LOWE(rpick(LOWK)),range:'ini'},3,'Grave relajado'),STEP({cat:'bend',v:'semi',range:'ini'},3,'Soltar el labio'),STEP({cat:'flex',v:'f2',range:'ini'},3,'Bajar abierto')]})}
 ];
-/* qué causas mirar según el síntoma (se completa con el bloque C) */
-const SYMC={aire:['fatiga'],cansancio:['fatiga'],tension:['fatiga'],roturas:['fatiga'],agudos:['fatiga'],ataques:['fatiga']};
+/* qué causas mirar según el síntoma, de más a menos probable */
+const SYMC={aire:['aire','fatiga','presion'],cansancio:['fatiga','presion'],agudos:['presion','aire','fatiga'],ataques:['aire','calentamiento','fatiga'],
+ tension:['tension','presion','fatiga'],roturas:['fatiga','calentamiento','presion'],fiato:['aire','tension'],afinacion:['aire','fatiga'],nervios:['tension']};
 const sevTxt=v=>v>=8?'muy mal':v>=6?'bastante cargado':v>=4?'regular':'algo cargado';
 let CS={txt:'',when:null,sym:[],wu:['largas','flex'],wm:10,ans:{},sev:5,sit:[]};
 try{Object.assign(CS,JSON.parse(localStorage.getItem('campana_coach')||'{}'))}catch(e){}
@@ -1815,32 +1849,34 @@ function goPlan(p){if(!p||!p.items.length)return;plan={name:p.name,items:p.items
 R.coach=()=>{const el=$('#cch'),K=CS.when&&CK[CS.when];cPlan=K?K.plan():null;wPlan=wuPlan();
  const whenC=[['hoy','Hoy'],['manana','Mañana'],['dias','En unos días'],['semanas','En semanas'],['','Sin audición']];
 
- const cks=[...new Set(CS.sym.flatMap(k=>SYMC[k]||[]))];let cauPlans={};
- const cau=cks.map(id=>{const C=CAU[id],A=CS.ans[id]||{},yes=C.q.filter(([k])=>A[k]===true).length,ansd=C.q.filter(([k])=>A[k]!=null).length;
-  const qs=C.q.map(([k,t])=>`<div class="cq"><span>${t}</span><div class="yn" data-c="${id}" data-k="${k}"><button data-v="1" aria-pressed="${A[k]===true}">Sí</button><button data-v="0" aria-pressed="${A[k]===false}">No</button></div></div>`).join('');
-  let res='';if(ansd>=2){if(yes>=2){const p=C.plan(CS.sev);cauPlans[id]=p;
-    res=`<div class="cres"><h3>Todo apunta a: ${C.n.toLowerCase()}</h3><p class="hint">${C.why}</p><p class="lab ok">Qué hacer · estás ${sevTxt(CS.sev)}</p><ul class="cl ok">${C.haz(CS.sev).map(x=>`<li>${x}</li>`).join('')}</ul><p class="lab no">Qué no hacer</p><ul class="cl no">${C.evita.map(x=>`<li>${x}</li>`).join('')}</ul>
-    <p class="lab">Para montar el labio${CS.sev>=7?' (después del descanso)':''}</p>${planHTML(p)}<button class="mk wide" data-cgo="${id}">Empezar</button></div>`}
-   else res=`<div class="cres"><p class="hint">${yes?'Puede haber algo de '+C.n.toLowerCase()+', pero no parece lo principal.':'No parece '+C.n.toLowerCase()+'.'} Las demás causas las estamos preparando.</p></div>`}
-  return `<div class="cbox"><p class="lab">Comprobemos</p><h2>¿Es ${C.n.toLowerCase()}?</h2>${qs}
-   <div class="sev"><div class="sevh"><span>¿Cómo de mal está el labio?</span><b id="sevV">${CS.sev}</b></div><input type="range" min="1" max="10" step="1" value="${CS.sev}" id="sevR" aria-label="Del 1 al 10"><div class="sevl"><span>Bien</span><span>Fatal</span></div></div>${res}</div>`}).join('');
+ const cks=[...new Set(CS.sym.flatMap(k=>(SYMC[k]||[]).slice(0,2)))];let cauPlans={};
+ const qk=[...new Set(cks.flatMap(id=>CAU[id].q))],A=CS.ans,nAns=qk.filter(k=>A[k]!=null).length;
+ const adv=CS.sym.filter(k=>SADV[k]).map(k=>{const X=SADV[k];return `<div class="cbox${k==='dolor'?' warn':''}"><h2>${X.t}</h2><p class="clead">${X.why}</p><ul class="cl ok">${X.haz.map(x=>`<li>${x}</li>`).join('')}</ul></div>`}).join('');
+ let res='';
+ if(nAns>=Math.min(2,qk.length)){const sc=cks.map(id=>{const q=CAU[id].q,y=q.filter(k=>A[k]===true).length;return {id,y,r:y/q.length}}).filter(x=>x.y>=2||(x.y>=1&&CAU[x.id].q.length===2&&x.r===1)).sort((a,b)=>b.r-a.r||b.y-a.y);
+  res=sc.length?sc.slice(0,2).map((x,n)=>{const C=CAU[x.id],p=C.plan(CS.sev);cauPlans[x.id]=p;
+   return `<div class="cres"><p class="lab">${n?'También puede ser':'Todo apunta a'}</p><h3>${C.n}</h3><p class="hint">${C.why}</p><p class="lab ok">Qué hacer</p><ul class="cl ok">${C.haz(CS.sev).map(x=>`<li>${x}</li>`).join('')}</ul><p class="lab no">Qué no hacer</p><ul class="cl no">${C.evita.map(x=>`<li>${x}</li>`).join('')}</ul>
+    <p class="lab">Sesión${x.id==='fatiga'&&CS.sev>=7?' (después del descanso)':''}</p>${planHTML(p)}<button class="mk wide" data-cgo="${x.id}">Empezar</button></div>`}).join('')
+  :`<div class="cres"><p class="hint">Con lo que me dices no encaja claramente ninguna causa. ${nAns<qk.length?'Contesta el resto de preguntas o ':''}prueba a contarlo de otra forma.</p></div>`}
+ const cau=qk.length?`<div class="cbox"><p class="lab">Unas preguntas</p><h2>Vamos a ver de dónde viene</h2>${qk.map(k=>`<div class="cq"><span>${CQ[k]}</span><div class="yn" data-k="${k}"><button data-v="1" aria-pressed="${A[k]===true}">Sí</button><button data-v="0" aria-pressed="${A[k]===false}">No</button></div></div>`).join('')}
+  <div class="sev"><div class="sevh"><span>¿Cómo de mal estás hoy?</span><b id="sevV">${CS.sev}</b></div><input type="range" min="1" max="10" step="1" value="${CS.sev}" id="sevR" aria-label="Del 1 al 10"><div class="sevl"><span>Bien</span><span>Fatal</span></div></div>${res}</div>`:'';
  let sitPlans={};const sits=(CS.sit||[]).map(id=>{const X=SIT.find(x=>x.id===id);if(!X)return '';const p=X.plan();sitPlans[id]=p;
   return `<div class="cbox ctx"><p class="lab">Lo que te pasa</p><h2>${X.t}</h2><p class="clead">${X.why}</p><p class="lab ok">Qué hacer</p><ul class="cl ok">${X.haz.map(x=>`<li>${x}</li>`).join('')}</ul><p class="lab">Para soltarlo</p>${planHTML(p)}<button class="mk wide" data-sgo="${id}">Empezar</button></div>`}).join('');
  const pick=CS.txt?`<div class="cbox"><p class="lab">${CS.sym.length?'¿Algo más? Toca lo que notes':'No te he entendido del todo. ¿Qué notas? Toca lo que te pase'}</p><div class="chips wrap" id="cSym">${CSY.map(([k])=>`<button data-v="${k}" aria-pressed="${CS.sym.includes(k)}">${CSN[k]}</button>`).join('')}</div></div>`:'';
- const sy=CS.sym.length?`<div class="cbox"><p class="lab">He notado</p><div class="tags">${CS.sym.map(k=>`<span>${CSN[k]}</span>`).join('')}</div><p class="hint">${CS.sym.includes('dolor')?'<b>Si hay dolor, herida o el labio sigue hinchado, para de tocar y consúltalo con un profesional.</b> ':''}${cks.length?'':'Las pautas para este síntoma las estamos preparando: llegan con las próximas causas.'}</p></div>`:'';
+ const sy=CS.sym.length?`<div class="cbox"><p class="lab">He notado</p><div class="tags">${CS.sym.map(k=>`<span>${CSN[k]}</span>`).join('')}</div><p class="hint">${cks.length?'':'Las pautas para este síntoma las estamos preparando: llegan con las próximas causas.'}</p></div>`:'';
  const ctx=K?`<div class="cbox ctx"><h2>${K.t}</h2><p class="clead">${K.lead}</p><p class="lab ok">Qué hacer</p><ul class="cl ok">${K.haz.map(x=>`<li>${x}</li>`).join('')}</ul><p class="lab no">Qué evitar</p><ul class="cl no">${K.evita.map(x=>`<li>${x}</li>`).join('')}</ul>
   ${cPlan&&cPlan.items.length?`<p class="lab">Sesión recomendada</p>${planHTML(cPlan)}${cPlan.note?`<p class="hint">${cPlan.note}</p>`:''}<div class="row2"><button class="xs" id="cSee">Ver en Sesión</button><button class="mk" id="cGo">Empezar</button></div>`:''}</div>`
   :(CS.txt?'<p class="hint">Cuéntame cuándo es la audición o el concierto (hoy, mañana, en tres días, en dos semanas…) o elígelo arriba.</p>':'');
  const wu=(CS.when==='hoy'||CS.when==='manana')?`<div class="cbox"><h2>Calentamiento para la audición</h2><p class="hint">Cada persona es un mundo: elige qué quieres calentar y cuánto tiempo tienes.${CS.when==='hoy'?' Muy breve si ya hiciste el de 3 horas antes.':''}</p>
   <div class="chips wrap" id="cWu">${WU.map(w=>`<button data-v="${w[0]}" aria-pressed="${CS.wu.includes(w[0])}">${w[1]}</button>`).join('')}</div>
   <p class="lab">Minutos</p><div class="chips wrap" id="cWm">${[5,8,10,15,20].map(m=>`<button data-v="${m}" aria-pressed="${CS.wm===m}">${m} min</button>`).join('')}</div>
-  ${wPlan?planHTML(wPlan)+'<button class="mk wide" id="wGo">Empezar calentamiento</button>':'<p class="hint">Elige al menos una cosa.</p>'}</div>`:'';
+  ${wPlan?planHTML(wPlan)+'<button class="mk wide" id="wGo">Empezar calentamiento</button>':'<p class="hint">Elige al menos una cosa.</p>'}<button class="xs wide2" id="wRec">O usa el calentamiento recomendado (16 min)</button></div>`:'';
  el.innerHTML=`<div class="hero"><h1>Coach</h1><p>Cuéntame qué te pasa y cuándo tocas. Te respondo con pautas de profesor de trompeta, sin internet y sin IA.</p></div>
  <div class="cask"><textarea id="cTxt" rows="3" placeholder="Ej.: mañana tengo audición y me suena aire">${escH(CS.txt)}</textarea><button class="mk" id="cAn">Analizar</button></div>
  <p class="lab">¿Cuándo es la audición?</p><div class="chips wrap" id="cWhen">${whenC.map(([v,t])=>`<button data-v="${v}" aria-pressed="${(CS.when||'')===v}">${t}</button>`).join('')}</div>
- <div class="rbody">${sits}${sy}${pick}${cau}${ctx}${wu}</div>
+ <div class="rbody">${sits}${sy}${pick}${adv}${cau}${ctx}${wu}</div>
  <p class="hint cfoot">¿Quieres el coach con IA o las observaciones de tus grabaciones? <a href="#coachia">Ábrelo aquí</a>.</p>`;
- $('#cAn').onclick=()=>{CS.txt=$('#cTxt').value.trim();const w=coachWhen(CS.txt);if(w)CS.when=w;CS.sym=coachSym(CS.txt);CS.sit=SIT.filter(x=>x.test(nrm(CS.txt))).map(x=>x.id);CS.ans={};csave();buzz(8);R.coach();const c=el.querySelector('.cbox');c&&c.scrollIntoView({behavior:'smooth',block:'start'})};
+ $('#cAn').onclick=()=>{CS.txt=$('#cTxt').value.trim();CS.when=coachWhen(CS.txt);CS.sym=coachSym(CS.txt);CS.sit=SIT.filter(x=>x.test(nrm(CS.txt))).map(x=>x.id);CS.ans={};csave();buzz(8);R.coach();const c=el.querySelector('.cbox');c&&c.scrollIntoView({behavior:'smooth',block:'start'})};
  $('#cTxt').onkeydown=e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();$('#cAn').click()}};
  el.querySelectorAll('#cSym button').forEach(b=>b.onclick=()=>{const v=b.dataset.v,i=CS.sym.indexOf(v);if(i<0)CS.sym.push(v);else CS.sym.splice(i,1);csave();buzz(5);const y=scrollY;R.coach();scrollTo(0,y)});
  el.querySelectorAll('#cWhen button').forEach(b=>b.onclick=()=>{CS.when=b.dataset.v||null;csave();R.coach()});
@@ -1849,7 +1885,8 @@ R.coach=()=>{const el=$('#cch'),K=CS.when&&CK[CS.when];cPlan=K?K.plan():null;wPl
  const g=$('#cGo');if(g)g.onclick=()=>goPlan(cPlan);
  const sv=$('#cSee');if(sv)sv.onclick=()=>{plan={name:cPlan.name,items:cPlan.items};done=null;location.hash='sesion'};
  const w=$('#wGo');if(w)w.onclick=()=>goPlan(wPlan);
- el.querySelectorAll('.yn button').forEach(b=>b.onclick=()=>{const p=b.parentNode,c=p.dataset.c,k=p.dataset.k;CS.ans[c]=CS.ans[c]||{};const v=b.dataset.v==='1';CS.ans[c][k]=CS.ans[c][k]===v?null:v;csave();buzz(5);const y=scrollY;R.coach();scrollTo(0,y)});
+ const wr=$('#wRec');if(wr)wr.onclick=()=>goPlan(CWU());
+ el.querySelectorAll('.yn button').forEach(b=>b.onclick=()=>{const k=b.parentNode.dataset.k;const v=b.dataset.v==='1';CS.ans[k]=CS.ans[k]===v?null:v;csave();buzz(5);const y=scrollY;R.coach();scrollTo(0,y)});
  const sr=$('#sevR');if(sr){sr.oninput=()=>{$('#sevV').textContent=sr.value};sr.onchange=()=>{CS.sev=+sr.value;csave();const y=scrollY;R.coach();scrollTo(0,y)}}
  el.querySelectorAll('[data-sgo]').forEach(b=>b.onclick=()=>goPlan(sitPlans[b.dataset.sgo]));
  el.querySelectorAll('[data-cgo]').forEach(b=>b.onclick=()=>goPlan(cauPlans[b.dataset.cgo]))};
