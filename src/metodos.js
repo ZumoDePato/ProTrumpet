@@ -34,9 +34,16 @@ const L=[
    {t:'Técnica',ej:['Primeros estudios','Ligados','Escalas','Ornamentos','Estudios avanzados','Doble y triple picado','Fanfarria'].map(t=>P(t))},
    {t:'14 Estudios característicos',tipo:'estudio',ej:nums(14,n=>'Estudio característico '+n)}]},
  {id:'schlossberg',autor:'Max Schlossberg',obra:'Daily Drills and Technical Studies',anio:1937,tipo:'patron',
-  info:'Publicado en 1937; Schlossberg murió en 1936. Usar la edición original.',
-  grupos:[{t:'Secciones',ej:['Notas largas','Intervalos','Octavas','Flexibilidad','Acordes','Escalas','Escalas cromáticas'].map(t=>P(t))},
-   {t:'Estudios',tipo:'estudio',ej:[P('Estudios')]}]},
+  info:'Publicado en 1937 (J. F. Hill & Co.); Schlossberg murió en 1936. 156 ejercicios en ocho partes, según el índice del libro. Toca solo los que puedas tocar con comodidad: unos pocos de cada grupo al día.',
+  grupos:[
+   {t:'I · Long Note Drills (1–37)',tipo:'estudio',c:'8/4',ej:Array.from({length:37},(_,i)=>P('Ejercicio '+(i+1)))},
+   {t:'II · Intervals (38–48)',ej:Array.from({length:11},(_,i)=>P('Ejercicio '+(i+38)))},
+   {t:'III · Octave Drills (49–58)',ej:Array.from({length:10},(_,i)=>P('Ejercicio '+(i+49)))},
+   {t:'IV · Lip Drills (59–69)',ej:Array.from({length:11},(_,i)=>P('Ejercicio '+(i+59)))},
+   {t:'V · Chord Drills (70–88)',ej:Array.from({length:19},(_,i)=>P('Ejercicio '+(i+70)))},
+   {t:'VI · Scale Drills (89–115)',ej:Array.from({length:27},(_,i)=>P('Ejercicio '+(i+89)))},
+   {t:'VII · Chromatic Scale Drills (116–128)',tipo:'estudio',ej:Array.from({length:13},(_,i)=>P('Ejercicio '+(i+116)))},
+   {t:'VIII · Etudes (129–156)',tipo:'estudio',ej:Array.from({length:28},(_,i)=>P('Ejercicio '+(i+129)))}]},
  {id:'charlier',autor:'Théo Charlier',obra:'36 Études transcendantes',anio:1926,tipo:'estudio',
   info:'Charlier murió en 1944: en España es de dominio público desde 2025.',
   grupos:[{t:'Estudios',ej:nums(36,n=>'Estudio '+n)}]},
@@ -51,5 +58,10 @@ const L=[
 ];
 /* ids estables: método:grupo:ejercicio, y herencia de tipo/compás/tonalidad */
 L.forEach(m=>m.grupos.forEach((g,gi)=>g.ej.forEach((e,ei)=>{e.id=e.id||(m.id+':'+gi+':'+ei);e.tipo=e.tipo||g.tipo||m.tipo;e.c=e.c||g.c||'4/4';e.tono=e.tono||'C';e.modo=e.modo||'mayor';e.met=m.id})));
+/* ---- transcripciones ---- */
+const SET=(id,o)=>{for(const m of L)for(const g of m.grupos)for(const e of g.ej)if(e.id===id)Object.assign(e,o)};
+// Schlossberg, Daily Drills (J. F. Hill & Co., 1937) · I Long Note Drills · Do mayor escrito, 8/4
+SET('schlossberg:0:0',{notas:"{mf}1/2_ 1/2_ 1/1> | 7,/2_ 7,/2_ 7,/1> | b7,/2_ b7,/2_ b7,/1> | 6,/2_ 6,/2_ 6,/1> | b6,/2_ b6,/2_ b6,/1> | 5,/2_ 5,/2_ 5,/1> | b5,/2_ b5,/2_ b5,/1> | 5/2_ 5/2_ 5/1> | b5/2_ b5/2_ b5/1> | 4/2_ 4/2_ 4/1> | 3/2_ 3/2_ 3/1> | b3/2_ b3/2_ b3/1> | 2/2_ 2/2_ 2/1> | b2/2_ b2/2_ b2/1> | 1'/2_ 1'/2_ 1'/1> | 7/2_ 7/2_ 7/1> | b7/2_ b7/2_ b7/1> | 6/2_ 6/2_ 6/1> | b6/2_ b6/2_ b6/1> | 5/2_ 5/2_ 5/1> | b5/2_ b5/2_ b5/1>",tip:'Muy lento. Cromático descendente desde Do4, Sol4 y Do5: dos blancas con tenuto y una redonda acentuada con calderón; respira en cada compás.'});
+SET('schlossberg:0:1',{notas:"{p}5/2_ 5/2_ 5/1<> | #4/2_ #4/2_ #4/1<> | 4/2_ 4/2_ 4/1<> | 3/2_ 3/2_ 3/1<> | b3/2_ b3/2_ b3/1<> | 2/2_ 2/2_ 2/1<> | b2/2_ b2/2_ b2/1<> | 1'/2_ 1'/2_ 1'/1<> | 7/2_ 7/2_ 7/1<> | b7/2_ b7/2_ b7/1<> | 6/2_ 6/2_ 6/1<> | b6/2_ b6/2_ b6/1<> | 5/2_ 5/2_ 5/1<> | b5/2_ b5/2_ b5/1<> | 1/2_ 1/2_ 1/1<> | 7,/2_ 7,/2_ 7,/1<> | b7,/2_ b7,/2_ b7,/1<> | 6,/2_ 6,/2_ 6,/1<> | b6,/2_ b6,/2_ b6,/1<> | 5,/2_ 5,/2_ 5,/1<> | b5,/2_ b5,/2_ b5,/1<>",tip:'Muy lento y en p, con regulador en la redonda. Las mismas series que el ejercicio 1, empezando por Sol4.'});
 return L})();
 if(typeof module!=='undefined'&&typeof window==='undefined')module.exports=METODOS;
