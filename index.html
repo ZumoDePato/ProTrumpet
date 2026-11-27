@@ -243,6 +243,8 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px soli
 @media(prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}}
 
 /* ---- repertorio y jazz ---- */
+#score .appn{opacity:.38}
+
 /* ---- dos secciones: Inicio y Estudiar ---- */
 .tabbar{position:fixed;left:0;right:0;margin:0 auto;width:max-content;bottom:calc(10px + env(safe-area-inset-bottom));z-index:8;display:flex;gap:4px;padding:5px;border-radius:999px;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(18px) saturate(1.5);-webkit-backdrop-filter:blur(18px) saturate(1.5);box-shadow:0 8px 28px rgba(0,0,0,.16),0 0 0 1px var(--line);animation:rise .35s both}
 .tabbar button{display:flex;align-items:center;gap:8px;min-height:48px;padding:0 20px;border-radius:999px;font-weight:800;font-size:15px;color:var(--soft);transition:background-color .25s,color .25s}
@@ -390,7 +392,7 @@ body.hasTabs main.view{padding-bottom:calc(96px + env(safe-area-inset-bottom))}
 .ji b{display:block;font-size:15px}.ji small{display:block;color:var(--soft);font-size:13px}.ji .kk{text-align:right;flex:none}
 .keys2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 4px}.keys2>div{background:color-mix(in srgb,var(--bg) 12%,transparent);border-radius:14px;padding:10px 12px}
 .keys2 small{display:block;font-size:12px;opacity:.7;font-weight:700}.keys2 b{font-size:24px}
-.tog{display:flex!important;align-items:center;gap:10px;font-weight:700;margin:10px 0;width:100%}.tog input{width:22px!important;height:22px;min-height:0!important;flex:none;margin:0;accent-color:var(--acc)}
+.jtog{display:flex;align-items:center;gap:10px;font-weight:700;margin:10px 0;width:100%}.jtog input{width:22px!important;height:22px;min-height:0!important;flex:none;margin:0;accent-color:var(--acc)}
 .tiles.jt .tile{min-height:92px}.tiles.jt .tile b{margin-top:0}
 .rcards{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px 0 4px}
 @media(max-width:600px){.rcards{grid-template-columns:1fr}}
@@ -518,7 +520,7 @@ html.standalone input,html.standalone textarea{-webkit-user-select:text;user-sel
 <div class="scrim" id="scrim" hidden></div>
 <section class="sheet" id="sheet" aria-label="Opciones" hidden>
  <div class="grab"></div><h3>Opciones</h3>
- <div class="sec"><p class="lab">Compás de descanso</p><div class="seg" id="restS"></div><p class="hint" style="margin:8px 0 0">Mete compases de silencio de la misma duración que lo tocado. La música y el metrónomo no paran.</p></div>
+ <div class="sec"><p class="lab">Compás de descanso</p><div class="seg" id="restS"></div><p class="hint" style="margin:8px 0 0">Mete compases de silencio de la misma duración que lo tocado. La música y el metrónomo no paran. <b>Uno y uno</b>: la app toca cada compás (en gris) mientras descansas y tú lo repites en el siguiente.</p></div>
  <div class="sec"><p class="lab">Registro</p><div class="seg" id="range"></div></div>
  <div class="sec"><p class="lab">Digitación</p><div class="seg" id="fing"></div>
   <div class="legend" id="legend"><span><svg width="8" height="20" viewBox="0 0 8 20"><circle cx="4" cy="3" r="2.5" fill="currentColor"/><circle cx="4" cy="10" r="2.3" fill="none" stroke="currentColor"/><circle cx="4" cy="17" r="2.3" fill="none" stroke="currentColor"/></svg>arriba, pistón 1</span></div></div>
@@ -746,7 +748,15 @@ function buildScore(st){const cat=CATS.find(c=>c.id===st.cat);const v=st.vars[ca
  sc.ev.forEach((e,i)=>e._i=i);return sc}
 
 /* ---- compases de descanso ---- */
-function withRests(ev,mode){if(!mode||mode==='off'||!ev.length)return ev;
+/* uno y uno: la app toca cada compás (tú descansas) y en el siguiente lo tocas tú */
+function withEcho(ev){const src=ev.map(e=>{const c={...e};delete c.sS;delete c.sE;return c});const sl=computeSlurs(ev);
+ const rem=tot(src)%48;if(rem){let pos=rem;for(const r of restsFill(pos,48-pos)){src.push(r);pos+=r.d}}
+ const ms=[];let cur=[],pos=0;src.forEach((e,i)=>{cur.push(i);pos+=e.d;if(pos>=48){ms.push(cur);cur=[];pos=0}});
+ const out=[];ms.forEach(m=>{if(!m.some(i=>src[i].p)){m.forEach(i=>out.push({...src[i]}));return}
+  const mk=app=>{const seg=m.map(i=>({...src[i],app}));sl.forEach(([a,b])=>{const ns=m.map((i,k)=>[i,k]).filter(([i])=>i>=a&&i<=b&&src[i].p).map(([,k])=>k);if(ns.length>1){seg[ns[0]].sS=(seg[ns[0]].sS||0)+1;seg[ns[ns.length-1]].sE=(seg[ns[ns.length-1]].sE||0)+1}});return seg};
+  out.push(...mk(true),...mk(false))});
+ out.tail=0;return out}
+function withRests(ev,mode){if(!mode||mode==='off'||!ev.length)return ev;if(mode==='echo')return withEcho(ev);
  const src=ev.map(e=>{const c={...e};delete c.sS;delete c.sE;return c});const sl=computeSlurs(ev);
  const rem=tot(src)%48;if(rem){let pos=rem;for(const r of restsFill(pos,48-pos)){src.push(r);pos+=r.d}}
  const ms=[];let cur=[],pos=0;src.forEach((e,i)=>{cur.push(i);pos+=e.d;if(pos>=48){ms.push(cur);cur=[];pos=0}});
@@ -1393,7 +1403,7 @@ const ART={
  orq:'<path d="M30 48V12l44-6v36"/><circle cx="22" cy="48" r="8" fill="currentColor"/><circle cx="66" cy="42" r="8" fill="currentColor"/>',
  jz:'<path d="M6 46c12 0 14-30 30-30s16 30 30 30 14-18 26-18"/><circle cx="36" cy="8" r="4" fill="currentColor"/>'};
 const artSVG=(id,cls)=>`<svg class="${cls}" viewBox="0 0 96 60" preserveAspectRatio="xMinYMid meet" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">${ART[id]}</svg>`;
-const REST_M=[['off','No'],['bar','Cada compás'],['phrase','Cada frase']];
+const REST_M=[['off','No'],['bar','Cada compás'],['phrase','Cada frase'],['echo','Uno y uno']];
 let st={v:2,cat:'esc',vars:{},key:0,scale:'mayor',range:'med',fing:'off',zoom:1,tempos:{},metro:false,rest:'off',loop:false,theme:'auto',paper:true,ses:{w:{},min:30},saved:[]};
 try{const o=JSON.parse(localStorage.getItem('campana')||'{}');if(!o.v||o.v<2){o.fing='off';o.v=2}Object.assign(st,o)}catch(e){}
 if(!CATS.find(c=>c.id===st.cat))st.cat='esc';
@@ -1701,7 +1711,7 @@ const jCard=(x,rk)=>{const k=rk==null?x.k:rk;return `<div class="xcard"><small>$
 R.jz=()=>{const el=$('#estJ');const f=JZ.filter(x=>(!RS.jtag||x.g===RS.jtag)&&match(x,jq));
  const tags=`<div class="chips">${[['','Todos'],...Object.entries(JZ_TAG)].map(([v,t])=>`<button data-tag="${v}" aria-pressed="${RS.jtag===v}">${t}</button>`).join('')}</div>`;
  let body;
- if(RS.jmode==='ruleta')body=`<label class="tog"><input type="checkbox" id="jrk" ${RS.jrk?'checked':''}> En una tonalidad al azar</label><div id="jBox">${jcur?jCard(jcur.x,jcur.k):'<div class="reel idle"><div class="strip2"><div class="rl"><b>¿Qué tema toca hoy?</b><small>'+f.length+' standards en el bombo</small></div></div><i class="rmark"></i></div>'}</div><button class="mk wide" id="jGo">Girar la ruleta</button>`;
+ if(RS.jmode==='ruleta')body=`<label class="jtog"><input type="checkbox" id="jrk" ${RS.jrk?'checked':''}> En una tonalidad al azar</label><div id="jBox">${jcur?jCard(jcur.x,jcur.k):'<div class="reel idle"><div class="strip2"><div class="rl"><b>¿Qué tema toca hoy?</b><small>'+f.length+' standards en el bombo</small></div></div><i class="rmark"></i></div>'}</div><button class="mk wide" id="jGo">Girar la ruleta</button>`;
  else body=f.map(x=>`<button class="ji" data-j="${x.id}"><span><b>${escH(x.t)}</b><small>${escH(x.c)} · ${escH(x.f)}</small></span><span class="kk"><b>${jkTxt(x.k,x.m)}</b><small>Si♭: ${jkTxt(x.k+2,x.m)}</small></span></button>`).join('')||'<p class="hint">Nada coincide.</p>';
  const jt=f=>JPRE.map((p,i)=>[p,i]).filter(([p])=>f(p)).map(([p,i])=>`<button class="tile" data-jp="${i}"><b>${p[3]}</b><small>${p[4]}</small></button>`).join('');
  el.innerHTML=`<div class="rbook"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg></span><span><b>Real Book</b><small>Muy pronto: aquí irá tu Real Book con buscador, como el repertorio orquestal.</small></span></div>
@@ -2033,7 +2043,7 @@ function exControls(){const P=pse();$('#transport').hidden=!!P||view!=='ex';
  paintToggles();
  requestAnimationFrame(()=>['#vars','#keys','#scales'].forEach(s=>{const b=$(s+' [aria-pressed=true]');if(b)b.parentNode.scrollLeft=b.offsetLeft-b.parentNode.clientWidth/2+b.clientWidth/2}))}
 function paintToggles(){$('#metro').setAttribute('aria-pressed',st.metro);$('#loop').setAttribute('aria-pressed',st.loop);
- $('#restB').setAttribute('aria-pressed',st.rest!=='off');$('#restTag').hidden=st.rest==='off';$('#restTag').textContent=st.rest==='bar'?'1:1':'frase'}
+ const rs=(run&&!pse()?S().rest:st.rest)||'off';$('#restB').setAttribute('aria-pressed',rs!=='off');$('#restTag').hidden=rs==='off';$('#restTag').textContent=rs==='bar'?'1:1':rs==='phrase'?'frase':'eco'}
 const pick=(sel,fn)=>{$(sel).onclick=e=>{const b=e.target.closest('button');if(!b)return;stop();
  if(b.dataset.id==='__rnd'){const c=cat();let v;do{v=c.vars[Math.floor(Math.random()*c.vars.length)][0]}while(c.vars.length>1&&v===vid());st.vars[c.id]=v;if(c.scale)st.key=Math.floor(Math.random()*12);save();exControls();render(true);return}
  fn(b.dataset.id);save();mark($(sel),b.dataset.id);b.scrollIntoView({block:'nearest',inline:'center',behavior:reduce?'auto':'smooth'});render(true)}};
@@ -2043,11 +2053,11 @@ function colors(){if(st.paper)return PAPER;const probe=document.createElement('i
  for(const [k,v] of [['ink','--ink'],['soft','--soft'],['acc','--acc'],['bg','--bg']]){probe.style.color=`var(${v})`;out[k]=getComputedStyle(probe).color}probe.remove();return out}
 function render(anim){const P=pse();if(P){sc=null;renderPse(P,anim);return}sc=buildScore(S());const rn=RANGES[S().range];
  $('#title').textContent=run?itemName(run.plan[run.i]):sc.title.split(' · ')[1];
- $('#meta').textContent=[sc.keyName?cap(sc.keyName):null,sc.meta,'Registro '+rn.n.toLowerCase(),sc.rest?(sc.rest==='bar'?'descanso cada compás':'descanso cada frase'):null].filter(Boolean).join(' · ');
+ $('#meta').textContent=[sc.keyName?cap(sc.keyName):null,sc.meta,'Registro '+rn.n.toLowerCase(),sc.rest?(sc.rest==='bar'?'descanso cada compás':sc.rest==='phrase'?'descanso cada frase':'uno y uno: escucha y repite'):null].filter(Boolean).join(' · ');
  $('#tip').innerHTML='<b>Cómo practicarlo</b>'+sc.tip;$('#tv').textContent='♩ '+tempo();draw(anim)}
 function draw(anim){const box=$('#score');if(view!=='ex'||!sc)return;box.classList.toggle('paper',!!st.paper);
  if(sc.empty)box.innerHTML=`<p class="empty">${sc.empty}</p>`;
- else{const cw=(box.clientWidth||600)-(st.paper?24:0);const W=Math.max(330,Math.min(1400,cw/(0.92*st.zoom)));box.innerHTML=toSVG(renderScore(sc,W,{fing:st.fing}),colors(),22,8)}
+ else{const cw=(box.clientWidth||600)-(st.paper?24:0);const W=Math.max(330,Math.min(1400,cw/(0.92*st.zoom)));box.innerHTML=toSVG(renderScore(sc,W,{fing:st.fing}),colors(),22,8);if(sc.rest==='echo')sc.ev.forEach((e,i)=>{if(e.app)box.querySelectorAll(`[data-i="${i}"]`).forEach(p=>p.classList.add('appn'))})}
  if(anim&&!reduce){box.classList.remove('swap');void box.offsetWidth;box.classList.add('swap')}}
 let rz;new ResizeObserver(()=>{clearTimeout(rz);rz=setTimeout(()=>draw(false),120)}).observe($('#score'));
 matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',()=>draw(false));
@@ -2057,9 +2067,9 @@ let hold;const rep=(el,d)=>{el.onpointerdown=()=>{setT(d);hold=setTimeout(functi
 rep($('#tmin'),-2);rep($('#tplus'),2);
 $('#metro').onclick=()=>{st.metro=!st.metro;save();paintToggles();toast(st.metro?'Metrónomo activado, con un compás de entrada':'Metrónomo desactivado')};
 $('#loop').onclick=()=>{st.loop=!st.loop;save();paintToggles();toast(st.loop?'Repetir: el ejercicio vuelve a empezar solo':'Repetir desactivado')};
-const setRest=id=>{const was=!!playing;stop();st.rest=id;save();paintToggles();if($('#restS').children.length)mark($('#restS'),id);render(true);if(was)play()};
-$('#restB').onclick=()=>{const i=REST_M.findIndex(r=>r[0]===st.rest);const n=REST_M[(i+1)%3];setRest(n[0]);
- toast(n[0]==='off'?'Sin compases de descanso':n[0]==='bar'?'Descanso: un compás de silencio tras cada compás':'Descanso: silencio de la misma duración tras cada frase')};
+const setRest=id=>{const was=!!playing;stop();st.rest=id;if(run&&!pse())run.plan[run.i].rest=id;save();paintToggles();if($('#restS').children.length)mark($('#restS'),id);render(true);if(was)play()};
+$('#restB').onclick=()=>{const i=REST_M.findIndex(r=>r[0]===S().rest);const n=REST_M[(i+1)%REST_M.length];setRest(n[0]);
+ toast(n[0]==='off'?'Sin compases de descanso':n[0]==='bar'?'Descanso: un compás de silencio tras cada compás':n[0]==='phrase'?'Descanso: silencio de la misma duración tras cada frase':'Uno y uno: la app toca un compás (tú descansas) y tú lo repites en el siguiente')};
 
 /* sheet */
 function openSheet(){
@@ -2097,12 +2107,12 @@ function play(again){if(playing&&!again){stop();return}if(!sc||sc.empty)return;
  const sl=computeSlurs(sc.ev),inS=i=>sl.some(([a,b])=>i>=a&&i<b);
  let t=t0;const els=new Map();document.querySelectorAll('#score path[data-i]').forEach(p=>els.set(+p.dataset.i,p));let prev=null;
  sc.ev.forEach((e,i)=>{const dur=e.d*tk_;
-  if(e.p){const m=midiOf(e.p)-2,fq=440*2**((m-69)/12);tone(t,dur*(e.art==='st'?0.42:inS(i)?1.0:0.9),fq,i>0&&inS(i-1)&&sc.ev[i-1].p);
+  if(e.p){const m=midiOf(e.p)-2,fq=440*2**((m-69)/12);if(!(sc.rest==='echo'&&!e.app))tone(t,dur*(e.art==='st'?0.42:inS(i)?1.0:0.9),fq,i>0&&inS(i-1)&&sc.ev[i-1].p);
    const el=els.get(i);playing.timers.push(setTimeout(()=>{document.querySelectorAll('#score path.on').forEach(p=>p.classList.remove('on'));if(el){el.classList.add('on');
     const r=el.getBoundingClientRect();if(r.bottom>innerHeight-110||r.top<70)window.scrollBy({top:r.top-innerHeight/3,behavior:reduce?'auto':'smooth'})}},Math.max(0,(t-ac.currentTime)*1000)))}
   t+=dur});
  const rest=st.loop&&sc.rest?sc.tail*48*tk_:0;const end=t+rest;
- if(st.metro){const beats=Math.round((end-t0)/spb);for(let b=0;b<beats;b++)click(t0+b*spb,b%4===0)}
+ if(st.metro||sc.rest==='echo'){const beats=Math.round((end-t0)/spb);for(let b=0;b<beats;b++)click(t0+b*spb,b%4===0)}
  playing.next=end;
  if(st.loop){playing.timers.push(setTimeout(()=>{if(playing)play(true)},Math.max(0,(end-ac.currentTime)*1000-400)))}
  else playing.timers.push(setTimeout(stop,(t-ac.currentTime)*1000+250))}
