@@ -243,6 +243,19 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px soli
 @media(prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}}
 
 /* ---- repertorio y jazz ---- */
+.cbox.good{background:linear-gradient(135deg,var(--ink),color-mix(in srgb,var(--acc) 35%,var(--ink)))}.cwarn{margin:6px 0;padding:10px 12px;border-radius:12px;background:color-mix(in srgb,#d0462e 14%,var(--bg))}.cobs{margin:6px 0;padding:10px 12px;border-radius:12px;background:var(--bg)}.autoA{font-weight:700;color:var(--acc);margin-left:6px}
+
+.mref{display:grid;gap:8px;margin:10px 0 6px}
+.mref details{background:var(--chip);border-radius:18px;padding:0 16px}
+.mref summary{list-style:none;display:flex;align-items:center;gap:12px;min-height:62px;cursor:pointer}
+.mref summary::-webkit-details-marker{display:none}
+.mref summary b{display:block;font-size:16px}.mref summary small{display:block;color:var(--soft);font-size:13px}
+.mref summary::after{content:"";width:9px;height:9px;border:solid var(--soft);border-width:0 2px 2px 0;transform:rotate(45deg);margin-left:auto;transition:transform .25s;flex:none}
+.mref details[open] summary::after{transform:rotate(-135deg)}
+.mref .mb{padding:0 0 14px;animation:rise .25s both}.mref .mb p{margin:0 0 10px;line-height:1.45}
+.mref .mb .row2{margin-top:6px}.mref .mb .xs{background:var(--bg)}
+.mref .tagm{font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--accInk);background:var(--acc);border-radius:999px;padding:3px 8px;flex:none}
+
 #score .appn{opacity:.38}
 
 /* ---- dos secciones: Inicio y Estudiar ---- */
@@ -465,7 +478,7 @@ html.standalone input,html.standalone textarea{-webkit-user-select:text;user-sel
  <h2 class="sect">Herramientas</h2>
  <div class="tiles"><button class="tile" data-h="afinador"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17a9 9 0 0 1 18 0"/><path d="M12 17l4-6"/><circle cx="12" cy="17" r="1.6" fill="currentColor"/></svg><b>Afinador</b><small>Aguja, cents y notas largas</small></button><button class="tile" data-h="metronomo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l4 18H4z"/><path d="M12 17l5-10"/></svg><b>Metrónomo</b><small>Acentos, aceleración, intervalos</small></button><button class="tile" data-h="cronometro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M10 2h4"/></svg><b>Cronómetro</b><small>Tiempo tocando y descanso</small></button><button class="tile" data-h="grabar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg><b>Grabar y analizar</b><small>Afinación, estabilidad, registro</small></button><button class="tile" data-h="notas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg><b>Generador de notas</b><small>Escucha notas, intervalos, arpegios</small></button></div>
  <h2 class="sect">Mi estudio</h2>
- <div class="tiles"><button class="tile" data-h="hoy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M3 9h18M8 2v4M16 2v4M9 15l2 2 4-4"/></svg><b>Plan del día</b><small>Estado físico y carga de hoy</small></button><button class="tile" data-h="rutina"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><b>Mi rutina</b><small>Tus métodos por bloques A–E</small></button><button class="tile" data-h="audiciones"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg><b>Audiciones</b><small>Cuenta atrás, repertorio, simulacros</small></button><button class="tile" data-h="biblioteca"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h5v16H4zM10 4h5v16h-5zM16 5l4 1-3 14-4-1"/></svg><b>Biblioteca</b><small>Partituras, audios y vídeos</small></button><button class="tile" data-h="coach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg><b>Coach</b><small>Observaciones y consulta con IA</small></button><button class="tile" data-h="progreso"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><b>Progreso</b><small>Minutos, bloques, fatiga, afinación</small></button><button class="tile" data-h="perfil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><b>Perfil y nube</b><small>Referencia, copia de seguridad, instalar</small></button></div>
+ <div class="tiles"><button class="tile" data-h="rutina"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><b>Mis ejercicios</b><small>Tus libros y métodos por bloques A–E</small></button><button class="tile" data-h="audiciones"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg><b>Audiciones</b><small>Cuenta atrás, repertorio, simulacros</small></button><button class="tile" data-h="biblioteca"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h5v16H4zM10 4h5v16h-5zM16 5l4 1-3 14-4-1"/></svg><b>Biblioteca</b><small>Partituras, audios y vídeos</small></button><button class="tile" data-h="progreso"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><b>Progreso</b><small>Minutos, bloques, fatiga, afinación</small></button><button class="tile" data-h="perfil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><b>Ajustes y nube</b><small>Micrófono, IA, copia de seguridad, instalar</small></button></div>
 </main>
 
 <main id="ses" class="view wrapx" hidden>
@@ -499,7 +512,8 @@ html.standalone input,html.standalone textarea{-webkit-user-select:text;user-sel
   <div class="rcards one"><button class="rcard o" data-h="orquestal"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg></span><span><small>Probespiel</small><b>Repertorio orquestal</b><em>Buscador · aleatorio · ruleta · simulacro</em></span></button></div>
  <h2 class="sect">Técnica</h2>
  <div class="cards" id="cards"></div>
- <div class="foot"><p class="lab">Tu registro</p><div class="seg" id="rangeH"></div></div>
+ <h2 class="sect">Métodos de referencia</h2>
+  <div id="mref"></div>
  </section>
  <section id="estJ" hidden></section>
 </main>
@@ -525,6 +539,7 @@ html.standalone input,html.standalone textarea{-webkit-user-select:text;user-sel
  <div class="sec"><p class="lab">Digitación</p><div class="seg" id="fing"></div>
   <div class="legend" id="legend"><span><svg width="8" height="20" viewBox="0 0 8 20"><circle cx="4" cy="3" r="2.5" fill="currentColor"/><circle cx="4" cy="10" r="2.3" fill="none" stroke="currentColor"/><circle cx="4" cy="17" r="2.3" fill="none" stroke="currentColor"/></svg>arriba, pistón 1</span></div></div>
  <div class="sec"><p class="lab">Tema</p><div class="seg" id="theme"></div></div>
+ <div class="sec"><button class="xs wide2" id="moreSet">Micrófono, nube, copia de seguridad e IA →</button></div>
  <div class="sec"><p class="lab">Partitura</p><div class="seg" id="paper"></div></div>
  <div class="sec"><p class="lab">Tamaño de la partitura</p><div class="seg" id="zoom"></div></div>
  <div class="sec"><p class="lab">Exportar</p><div class="ex">
@@ -683,6 +698,21 @@ function emitGen(ctx,v){const ev=[];const one=[];for(let i=0;i<=ctx.len;i++)one.
  else one.forEach((X,i)=>{ev.push(N(X,H_,{ly:'(h)',f:fOf(X),dyn:i?null:'mp'}),Rr(H_))});
  return {ev}}
 
+
+/* resistencia (long setting, inspirada en las reglas de Caruso): la boquilla no se separa ni en los silencios */
+function resGen(ctx,v){const ev=[],top=ctx.top,nt=(m,d,o={})=>{const p=spell(m);return N(p,d,{f:fOf(p),...o})},rest=()=>ev.push({...Rr(W_),rest:true,ly:'nariz'});
+ const lim=m=>m<=top;
+ if(v==='seis'){const ser=[67,68,69,70,71,72].filter(lim);if(!ser.length)return {ev:[],empty:'Sube el registro para este ejercicio.'};
+  for(let r=0;r<2;r++)ser.forEach((m,i)=>{ev.push(nt(m,H_,{ly:'(h)',dyn:!r&&!i?'mf':null}),nt(m,H_,{ly:'t'}),nt(m,W_,{ly:'t'}));rest()});
+  return {ev,meta:'Sol–Do, dos veces seguidas sin despegar'}}
+ if(v==='segundas'){const st=[];for(let m=64;m+2<=top&&st.length<9;m++)st.push(m);if(!st.length)return {ev:[],empty:'Sube el registro para este ejercicio.'};
+  [...st,...st.slice(0,-1).reverse()].forEach((m,i)=>{const a=nt(m,H_,{dyn:i?null:'mf'}),b=nt(m+2,H_);ev.push(a,b);slur([a,b]);ev.push(nt(m,W_));rest()});return {ev,meta:'segundas que suben y bajan'}}
+ if(v==='arm'){[0,2,1,3,4,5,6].forEach((o,i)=>{const ser=[60,67,72].map(m=>m-o).filter(lim);if(ser.length<2)return;const L=[...ser,...ser.slice(0,-1).reverse()];
+   const ns=L.map((m,k)=>nt(m,k===L.length-1?W_:H_,{dyn:!i&&!k?'mf':null}));let pos=tot(ns)%48;if(pos)ns.push(...restsFill(pos,48-pos));const so=ns.filter(e=>e.p);slur(so);ev.push(...ns);rest()});
+  return {ev,meta:'serie de armónicos en cada posición'}}
+ /* intervalos que se abren desde el Do central */
+ const base=60;let k=1;while(base+k<=top&&k<=12){const a=nt(base,H_,{dyn:k===1?'mf':null}),b=nt(base+k,H_);ev.push(a,b);slur([a,b]);rest();k++}
+ return {ev,meta:'desde Do, cada vez un semitono más'}}
 const INTV={t3:[2,'terceras'],t4:[3,'cuartas'],t5:[4,'quintas'],t6:[5,'sextas']};
 /* escala por intervalos: cada grado con el que está k grados más arriba; sube hasta donde llega el registro y baja en espejo */
 function intGen(ctx,v){const [k,nom]=INTV[v],ev=[];
@@ -737,14 +767,16 @@ const CATS=[
   tip:'Relaja la apertura de los labios y baja la mandíbula sin sacar la boquilla de su sitio. La nota "falsa" no es un armónico real: hay que construirla con el aire. Después de pedales, toca algo en registro medio para recolocar.'},
  {id:'pic',n:'Picado',scale:true,tempo:96,gen:pickGen,vars:[['simple','Simple (T)'],['doble','Doble (T-K)'],['triple','Triple (T-T-K)'],['escala','Escala picada'],['dobleEsc','Escala en doble'],['tripleEsc','Escala en triple']],
   tip:'La lengua solo interrumpe el aire, nunca lo para. En doble y triple picado la K debe sonar igual que la T: practica también la línea solo con K, despacio.'},
+ {id:'res',n:'Resistencia',scale:false,tempo:60,noRest:true,gen:resGen,vars:[['seis','Seis notas (estilo Caruso)'],['segundas','Segundas'],['arm','Armónicos sin despegar'],['abre','Intervalos que se abren']],
+  tip:'<b>No te quites la boquilla de los labios en todo el ejercicio, tampoco en los silencios.</b> Marca el pulso con el pie (♩ = 50–60). En cada compás de silencio, saca el aire en dos tiempos e inspira por la nariz en otros dos, sin mover la embocadura. Toca siempre mf, con el aire constante: no es para tocar fuerte. Es delicado: empieza con 5–10 minutos, como mucho 15–20, y descansa después al menos lo mismo que hayas tocado. Si notas dolor o el labio dormido, para. No lo empieces en las dos semanas antes de una audición ni lo hagas el día antes.'},
  {id:'emi',n:'Emisión',scale:true,tempo:66,gen:emitGen,vars:[['ataques','Ataques limpios'],['largas','Notas largas'],['saltos','Ataques a distancia'],['aire','Sin lengua']],
   tip:'Respira en el silencio y ataca sin preparar la nota: el sonido debe empezar ya en su centro, sin golpe ni rampa. En notas largas, el regulador (p < f > p) se reparte igual en las dos mitades.'}];
 
 function buildScore(st){const cat=CATS.find(c=>c.id===st.cat);const v=st.vars[cat.id]||cat.vars[0][0];
  const ctx=makeCtx(st.key,cat.scale?st.scale:'mayor',st.range);const r=cat.gen(ctx,v);
  const vn=cat.vars.find(x=>x[0]===v)[1];
- const sc={cat,v,title:cat.n+' · '+vn,tip:cat.tip,fifths:cat.scale?ctx.fifths:0,ev:withRests(r.ev||[],st.rest),empty:r.empty,
-  keyName:cat.scale?ctx.keyName:null,meta:r.meta,range:RANGES[st.range],rest:st.rest&&st.rest!=='off'?st.rest:null};sc.tail=sc.ev.tail||0;
+ const sc={cat,v,title:cat.n+' · '+vn,tip:cat.tip,fifths:cat.scale?ctx.fifths:0,ev:withRests(r.ev||[],cat.noRest?'off':st.rest),empty:r.empty,
+  keyName:cat.scale?ctx.keyName:null,meta:r.meta,range:RANGES[st.range],rest:!cat.noRest&&st.rest&&st.rest!=='off'?st.rest:null};sc.tail=sc.ev.tail||0;
  sc.ev.forEach((e,i)=>e._i=i);return sc}
 
 /* ---- compases de descanso ---- */
@@ -770,11 +802,11 @@ function withRests(ev,mode){if(!mode||mode==='off'||!ev.length)return ev;if(mode
  return out}
 
 /* ---- sesiones (planificador local, sin API) ---- */
-const ORDER=['emi','flex','fija','esc','pat','pic','bend','ped'];
+const ORDER=['emi','flex','fija','esc','pat','pic','bend','ped','res'];
 const SES_SCALES=['mayor','menor','armonica','melodica','dorica','mixolidia','penta','blues'];
 const KW={emi:['emision','ataque','nota larga','notas largas','sonido','calentar','calentamiento','aire'],flex:['flexib','ligadura','lip slur','slurs'],
  fija:['posicion','posiciones','armonico'],esc:['escala','tercera','cuarta','quinta','sexta','intervalos'],pat:['patron','secuencia','melod','bebop','frase'],
- pic:['picado','lengua','articul','doble','triple','staccato','stacatto'],bend:['bend'],ped:['pedal'],
+ pic:['picado','lengua','articul','doble','triple','staccato','stacatto'],bend:['bend'],ped:['pedal'],res:['resistencia','caruso','aguante','long setting','sin despegar'],
  rel:['relaj','rigid','tension','tenso','tensa','soltar','suelt','destens','descarg','labio cargado','labio duro','agarrot'],
  orq:['repertorio','orquest','extracto','solos','solo orquestal','solos orquestales','probespiel','audicion','pasaje'],
  jz:['jazz','standard','impro','swing','real book']};
@@ -1194,7 +1226,7 @@ pro(){const ds=[...Array(7)].map((_,i)=>{const d=new Date();d.setDate(d.getDate(
  <div class="card"><h2>Tiempo por bloque</h2><div class="bars">${bl.map(([k,m])=>`<span>${k} · ${BL[k].n.split(' ')[0]}</span><div class="bar" style="width:${m/bm*100}%;background:var(--gr)"></div><span>${Math.round(m)}′</span>`).join('')}</div></div>
  ${evoCard()}${regEvo()}${methodBars()}<div class="card"><h2>Fatiga: labios y tensión</h2><div class="bars">${ds.map((d,i)=>{const c=ck[i];return `<span>${d.slice(5)}</span>${c?`<div class="bar" style="width:${c.L*10}%;background:${c.L<=4?'var(--rd)':'var(--br)'}"></div><span>${c.L}/10</span>`:'<span class="mut">sin dato</span><span></span><span></span>'}`}).join('')}</div><p class="mut">Barra: estado de los labios. Más horas no suman puntos: lo que cuenta es regularidad y recuperación.</p></div>
  ${(()=>{const rg=Math.max(0,100-Math.max(0,Math.abs(used-5)-1)*30),rc=rest==0?0:rest<=2?100:50,ls=ck.filter(Boolean),q=ls.length?Math.round(ls.reduce((a,c)=>a+c.L,0)/ls.length*10):null,R=S.rec.filter(r=>r.reg).slice(-6);const br=(t,v)=>`<span>${t}</span><div class='bar' style='width:${v}%;background:var(--gr)'></div><span>${v}%</span>`;return `<div class='card'><h2>Equilibrio semanal</h2><div class='bars'>${br('Regularidad',rg)}${br('Recuperación',rc)}${q!=null?br('Labios',q):''}</div><p class='mut'>Regularidad: 4–6 días con estudio. Recuperación: 1–2 días de descanso. Tocar más horas no suma.</p></div>${R.length?`<div class='card'><h2>Afinación por registro (cents)</h2><table style='width:100%;font-size:14px'><tr><td></td><td>Grave</td><td>Medio</td><td>Agudo</td></tr>${R.map(r=>`<tr><td>${r.d.slice(5)}</td>${r.reg.map(v=>`<td>${v==null?'—':(v>0?'+':'')+v}</td>`).join('')}</tr>`).join('')}</table><p class='mut'>Positivo = alto, negativo = bajo.</p></div>`:''}`})()}${S.rec.length?`<div class='card'><h2>Afinación en tus grabaciones</h2><div class='bars'>${S.rec.slice(-10).map(r=>`<span>${r.d.slice(5)}</span><div class='bar' style='width:${r.in10}%;background:var(--gr)'></div><span>${r.in10}%</span>`).join('')}</div><p class='mut'>Tiempo dentro de ±10 cents. Compara solo grabaciones del mismo material.</p></div>`:''}<div class="card mut">Pendiente: calidad del timbre (no medible aún).</div>`},
-per(){return `<h1>Perfil</h1><div class="card"><h2>Micrófono</h2><p class="mut">Para usar el afinador y grabar, abre Trumpet Pro en Chrome mediante una dirección HTTPS y concede el permiso de micrófono. Las vistas previas incrustadas y los archivos abiertos directamente pueden bloquearlo.</p><div class="row"><button class="s o" onclick="gum().then(s=>{s.getTracks().forEach(t=>t.stop());mm2('Micrófono disponible y permiso concedido.')}).catch(micErr)">Comprobar micrófono</button></div>${mst?`<p class="mut">${esc(mst)}</p>`:''}</div><div class="card"><h2>Instalar como app</h2><p class="mut">Cuando esté publicada en HTTPS, Chrome permitirá añadirla a la pantalla de inicio y abrirla a pantalla completa.</p><button class="s o" onclick="installApp()">Instalar Trumpet Pro</button><p class="mut" id="pwaMsg"></p></div><div class="card"><label>Afinación de referencia (La, Hz)</label><input type="number" min="430" max="450" value="${S.ref}" onchange="S.ref=+this.value||440;save()">
+per(){return `<h1>Ajustes y nube</h1><div class="card"><h2>Micrófono</h2><p class="mut">Para usar el afinador y grabar, abre Trumpet Pro en Chrome mediante una dirección HTTPS y concede el permiso de micrófono. Las vistas previas incrustadas y los archivos abiertos directamente pueden bloquearlo.</p><div class="row"><button class="s o" onclick="gum().then(s=>{s.getTracks().forEach(t=>t.stop());mm2('Micrófono disponible y permiso concedido.')}).catch(micErr)">Comprobar micrófono</button></div>${mst?`<p class="mut">${esc(mst)}</p>`:''}</div><div class="card"><h2>Instalar como app</h2><p class="mut">Cuando esté publicada en HTTPS, Chrome permitirá añadirla a la pantalla de inicio y abrirla a pantalla completa.</p><button class="s o" onclick="installApp()">Instalar Trumpet Pro</button><p class="mut" id="pwaMsg"></p></div><div class="card"><label>Afinación de referencia (La, Hz)</label><input type="number" min="430" max="450" value="${S.ref}" onchange="S.ref=+this.value||440;save()">
  <p class="mut">Tus datos se guardan en este dispositivo y, con tu sesión de claude.ai, también en la nube. Los audios y archivos se suben solo si el visor lo permite.</p></div>
  ${coachCfg()}<div class='card'><h2>Nube</h2><p class='mut'>${cdoc()?'Conectado: tu cuenta de claude.ai guarda una copia automática de tus datos.':'Sin conexión a la nube en este visor.'}</p><div class='row'><button class='s' onclick='push().then(draw)'>Guardar ahora</button><button class='s o' onclick='pull()'>Restaurar</button><button class='s o' onclick='dl2()'>Descargar copia</button></div><p class='mut'>${esc(cm)}</p></div><div class="card"><h2>Exportar / importar</h2><textarea id="ex" rows="5">${esc(JSON.stringify({...S,ck:undefined}))}</textarea><div class="row" style="margin-top:8px"><button class="o s" onclick="$('#ex').select();document.execCommand('copy')">Copiar</button><button class="o s" onclick="imp()">Importar texto</button></div></div>`}};
 let CA=0,CB=0,rc=null,msg='';
@@ -1363,7 +1395,14 @@ async function installApp(){const e=$('#pwaMsg');if(installPrompt){installPrompt
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 const TPH={ini:'hoy',rut:'rutina',gra:'grabar',aud:'audiciones',bib:'biblioteca',coa:'coachia',pro:'progreso',per:'perfil'},ETH={cron:'cronometro',met:'metronomo',afi:'afinador',gen:'notas'};
 function draw(){if(!window.TP_ON)return;const w=tab==='ent'?ETH[ET]:TPH[tab];if(location.hash.slice(1)!==w){location.hash=w;return}const v=$('#v');if(v)v.innerHTML=V[tab]()}
-window.tpSave=save;window.tpDraw=draw;window.tpState=()=>S;
+window.tpSave=save;window.tpDraw=draw;window.tpState=()=>S;window.tpDbp=dbp;window.tpObs=()=>{const ds=[...Array(7)].map((_,i)=>{const d=new Date();d.setDate(d.getDate()-6+i);return ymd(d)}),L7=S.log.filter(l=>ds.includes(l.d)),tot=L7.reduce((a,l)=>a+l.sec,0)/60,o=[],w=[];
+ const l3=S.checks.slice(-3);if(l3.length==3&&l3.reduce((a,x)=>a+x.L,0)/3<=5)w.push('Los labios llevan tres registros seguidos con valoración baja: baja la carga y añade un día de recuperación.');
+ if(ds.every(d=>S.log.some(l=>l.d===d)))w.push('No has descansado ningún día esta semana. Programa al menos un día de recuperación.');
+ ['A','B','C','D'].forEach(k=>{if(tot>60&&!L7.some(l=>l.b===k))o.push('Esta semana no has trabajado el bloque '+k+' ('+BL[k].n+').')});
+ const r=S.rec;if(r.length>=2){const a=r[r.length-2],b=r[r.length-1];o.push('Última comparación de grabaciones: dentro de ±10¢ pasó de '+a.in10+'% a '+b.in10+'%.')}
+ if(r.length&&r[r.length-1].reg){const n=['grave','medio','agudo'];r[r.length-1].reg.forEach((v,i)=>{if(v!=null&&Math.abs(v)>=12)o.push('En la última grabación el registro '+n[i]+' sale '+(v>0?'alto':'bajo')+' ('+(v>0?'+':'')+v+'¢ de media).')})}
+ if(r.length&&r[r.length-1].cut>=3)o.push('La última grabación tiene '+r[r.length-1].cut+' cortes dentro de notas: escúchala para confirmarlo.');
+ return {w,o,min7:Math.round(tot)}};window.tpToday=()=>today();
 window.tpLog=(b,name,sec)=>{S.log.push({d:today(),b,name,sec:Math.round(sec)});save()};
 window.tpToday=()=>{const p=S.plan&&S.plan.d===today()?S.plan:null,done=S.log.filter(l=>l.d===today()).reduce((a,l)=>a+l.sec,0)/60,tot=p?p.items.filter(i=>i.t==='play').reduce((a,i)=>a+i.min,0):0,nx=p?p.items.find(i=>!i.done):null;return{done,tot,check:!!chk(),nx:nx?nx.name:null}};
 
@@ -1389,7 +1428,7 @@ async function copyAsk(){const q=($('#cq')&&$('#cq').value.trim())||'Revisa mi �
 const $=s=>document.querySelector(s);
 const KEY_N=['Do','Re♭','Re','Mi♭','Mi','Fa','Fa♯','Sol','La♭','La','Si♭','Si'];
 const SC_ORDER=['mayor','menor','armonica','melodica','dorica','frigia','lidia','mixolidia','penta','pentam','blues','bebop','tonos','cromatica'];
-const DESC={esc:'14 escalas, de mayor a bebop',pat:'Secuencias melódicas y bebop',flex:'Ligaduras de labio',fija:'Serie de armónicos por posición',bend:'Bajar la nota con el labio',ped:'Notas pedal y falsas',pic:'Simple, doble y triple',emi:'Ataques y notas largas'};
+const DESC={res:'Sin despegar la boquilla, estilo Caruso',esc:'14 escalas, de mayor a bebop',pat:'Secuencias melódicas y bebop',flex:'Ligaduras de labio',fija:'Serie de armónicos por posición',bend:'Bajar la nota con el labio',ped:'Notas pedal y falsas',pic:'Simple, doble y triple',emi:'Ataques y notas largas'};
 const ART={
  esc:'<path d="M8 50h14V40h14V30h14V20h14V10h14"/>',
  pat:'<path d="M6 44l12-22 10 14 12-24 10 18 12-20 10 16"/>',
@@ -1399,6 +1438,7 @@ const ART={
  ped:'<path d="M50 6v34"/><path d="M40 30l10 10 10-10"/><path d="M28 50h44M34 56h32"/>',
  pic:'<circle cx="14" cy="30" r="5" fill="currentColor"/><circle cx="34" cy="30" r="5" fill="currentColor"/><circle cx="54" cy="30" r="5" fill="currentColor"/><circle cx="74" cy="30" r="5" fill="currentColor"/><path d="M10 48h8M30 48h8M50 48h8M70 48h8"/>',
  emi:'<path d="M6 30l38-16M6 30l38 16M50 14l40 16M50 46l40-16"/>',
+ res:'<rect x="8" y="22" width="80" height="16" rx="8"/><path d="M20 30h56" stroke-dasharray="2 8"/>',
  rel:'<path d="M4 40c14-14 26-14 40 0s30 14 48 0"/><path d="M4 24c14-10 26-10 40 0s30 10 48 0" opacity=".5"/>',
  orq:'<path d="M30 48V12l44-6v36"/><circle cx="22" cy="48" r="8" fill="currentColor"/><circle cx="66" cy="42" r="8" fill="currentColor"/>',
  jz:'<path d="M6 46c12 0 14-30 30-30s16 30 30 30 14-18 26-18"/><circle cx="36" cy="8" r="4" fill="currentColor"/>'};
@@ -1630,8 +1670,8 @@ R.orq=()=>{const el=$('#orq');const f=srt(ORQ.filter(x=>match(x,oq)),oq,x=>x.c+'
  else if(RS.mode==='azar'){body=srcRow+`<div id="azBox">${cur?exCard(cur):'<p class="hint">Pulsa «Siguiente» para sacar un extracto al azar. No se repite ninguno hasta que salgan todos.</p>'}</div><p class="hint">${bagN?`${bagN} de ${bag.length+bagN} en esta ronda`:''}</p><button class="mk wide" id="azGo">${cur?'Siguiente al azar':'Empezar'}</button>`}
  else if(RS.mode==='ruleta'){body=srcRow+`<div id="rBox">${cur?exCard(cur):'<div class="reel idle"><div class="strip2"><div class="rl"><b>¿Cuál te toca?</b><small>Gira la ruleta</small></div></div><i class="rmark"></i></div>'}</div><button class="mk wide" id="rGo">Girar la ruleta</button>`}
  else body=simView(P,'');
- const selBar=RS.sel.length?`<div class="selbar"><span><b>${RS.sel.length}</b> en mi selección</span><button class="xs" id="selClr">Vaciar</button></div>`:'';
- const pdf=`<div class="pdfbox"><p class="lab">Libro en PDF</p><p class="hint">${PDF?'Cargado en este dispositivo. «Abrir en el PDF» salta a la página del extracto.':'Opcional: carga tu PDF del Probespiel y cada extracto abrirá su página. Se queda solo en este dispositivo.'}</p><div class="row2"><label class="xs filebtn">${PDF?'Cambiar PDF':'Cargar PDF'}<input type="file" accept="application/pdf,.pdf" id="pdfIn" hidden></label><label class="hint off">Desfase de página <input type="number" id="pdfOff" value="${RS.off}" min="-20" max="40"></label></div></div>`;
+ const NA=nextAud();const selBar=RS.sel.length?`<div class="selbar"><span><b>${RS.sel.length}</b> en mi selección</span><span class="row2" style="margin:0">${NA?`<button class="xs" id="selAud">A «${escH(NA.n)}»</button>`:''}<button class="xs" id="selClr">Vaciar</button></span></div>`:'';
+ const pdf=`<div class="pdfbox"><p class="lab">Libro en PDF</p><p class="hint">${PDF?'Cargado. «Abrir en el PDF» salta a la página del extracto. También está en tu Biblioteca.':'Opcional: carga tu PDF del Probespiel (se guarda también en tu Biblioteca) y cada extracto abrirá su página.'}</p><div class="row2"><label class="xs filebtn">${PDF?'Cambiar PDF':'Cargar PDF'}<input type="file" accept="application/pdf,.pdf" id="pdfIn" hidden></label>${libPdfs().length?`<select id="pdfLib" class="xs"><option value="">O elige uno de tu Biblioteca…</option>${libPdfs().map(x=>`<option value="${x.id}">${escH(x.n)}</option>`).join('')}</select>`:''}<label class="hint off">Desfase de página <input type="number" id="pdfOff" value="${RS.off}" min="-20" max="40"></label></div></div>`;
  const focus=RS.mode==='sim'&&sim;el.classList.toggle('focus',!!focus);
  if(focus){el.innerHTML=`<div class="rbody">${body}</div>`;el.querySelectorAll('[data-pg]').forEach(b=>b.onclick=()=>openPg(+b.dataset.pg));simBind(el);return}
  el.innerHTML=`<div class="hero"><h1>Repertorio orquestal</h1><p>${ORQ.length} extractos del Orchester-Probespiel (Pliquett · Lösch). Búscalos, sácalos al azar, gira la ruleta o monta un simulacro de audición.</p></div>
@@ -1643,13 +1683,15 @@ R.orq=()=>{const el=$('#orq');const f=srt(ORQ.filter(x=>match(x,oq)),oq,x=>x.c+'
  el.querySelectorAll('[data-sel]').forEach(b=>b.onclick=()=>{const id=+b.dataset.sel,i=RS.sel.indexOf(id);if(i<0)RS.sel.push(id);else RS.sel.splice(i,1);rsave();const on=i<0;b.setAttribute('aria-pressed',on);b.parentNode.classList.toggle('on',on);buzz(6);const sb=el.querySelector('.selbar');if(!sb||!RS.sel.length)R.orq();else sb.querySelector('b').textContent=RS.sel.length});
  el.querySelectorAll('[data-pg]').forEach(b=>b.onclick=()=>openPg(+b.dataset.pg));
  const sc=$('#selClr');if(sc)sc.onclick=()=>{RS.sel=[];rsave();R.orq()};
+ const sa=$('#selAud');if(sa)sa.onclick=()=>{const A=nextAud();if(!A)return;let n=0;RS.sel.forEach(id=>{const x=ORQ[id],t=x.c+' · '+x.w+(x.x?' ('+x.x+')':'');if(!A.rep.some(r=>r.t===t)){A.rep.push({t,k:'ex',r:5,rec:''});n++}});tpSave();toast(n?n+' extracto'+(n>1?'s':'')+' añadidos a «'+A.n+'»':'Ya estaban todos en «'+A.n+'»')};
  const az=$('#azGo');if(az)az.onclick=()=>{const P=pool();if(!P.length)return toast('No hay extractos con esa búsqueda');
    if(!bag.length||bag.some(x=>!P.includes(x))){bag=shuf(P);bagN=0;if(cur&&bag.length>1&&bag[0]===cur)bag.push(bag.shift())}
    cur=bag.shift();bagN++;if(!bag.length){toast('Ronda completa: han salido todos');bagN=0}R.orq();const c=el.querySelector('.xcard');c&&c.classList.add('pop')};
  const rg=$('#rGo');if(rg)rg.onclick=()=>{const P=pool();if(!P.length)return toast('No hay extractos con esa búsqueda');rg.disabled=true;
    const fin=P[Math.floor(Math.random()*P.length)];spin($('#rBox'),P,fin,oline,()=>setTimeout(()=>{cur=fin;R.orq();const c=el.querySelector('.xcard');c&&c.classList.add('pop')},650))};
- const pi=$('#pdfIn');pi.onchange=async()=>{const fl=pi.files[0];if(!fl)return;try{await pput(fl);PDF=fl;if(PDFU)URL.revokeObjectURL(PDFU);PDFU=URL.createObjectURL(fl);toast('PDF guardado en este dispositivo');R.orq()}catch(e){toast('No se pudo guardar el PDF: '+e.message)}};
+ const pi=$('#pdfIn');pi.onchange=async()=>{const fl=pi.files[0];if(!fl)return;try{await pput(fl);PDF=fl;libAdd(fl);if(PDFU)URL.revokeObjectURL(PDFU);PDFU=URL.createObjectURL(fl);toast('PDF guardado en este dispositivo');R.orq()}catch(e){toast('No se pudo guardar el PDF: '+e.message)}};
  const po=$('#pdfOff');po.onchange=()=>{RS.off=+po.value||0;rsave()};
+ const pl=$('#pdfLib');if(pl)pl.onchange=async()=>{const id=pl.value;if(!id)return;try{const b=await window.tpDbp('get','l'+id);if(!b)throw new Error('archivo no encontrado');await pput(b);PDF=b;if(PDFU)URL.revokeObjectURL(PDFU);PDFU=URL.createObjectURL(b);toast('Usando el PDF de tu Biblioteca');R.orq()}catch(e){toast('No se pudo abrir: '+e.message)}};
  simBind(el)};
 
 /* ---- simulacro ---- */
@@ -1671,7 +1713,8 @@ function simView(P,srcRow){
   return `<div class="simdone"><div class="avg"><b id="simAvg">${avg}</b><small>media</small></div><div><h2>Simulacro terminado</h2><p>${sim.L.length} extracto${sim.L.length===1?'':'s'} · ${fmt(sim.tot)}</p></div></div><p class="hint">Puntúa cómo salió cada uno.</p>${sum}<textarea id="simNote" rows="2" placeholder="Notas: qué falló, qué repetir…">${escH(sim.note||'')}</textarea><div class="simbtns"><button class="xs" id="simAgain">Repetir los mismos</button><button class="mk" id="simSave">Guardar</button></div>`}
  const n=RS.n&&RS.n<P.length?RS.n:P.length;
  const hist=RS.hist.slice(-6).reverse().map(h=>{const r=h.r.filter(Boolean),m=r.length?(r.reduce((a,b)=>a+b,0)/r.length).toFixed(1):'—';return `<div class="hrow"><div><b>${h.d}</b><small>${h.ids.length} extractos</small></div><span class="hs">★ ${m}</span><button class="xs" data-rep="${RS.hist.indexOf(h)}">Repetir</button></div>`}).join('');
- return `<div class="simcfg"><div class="cfg"><p class="lab"><span class="cn">1</span>De dónde salen</p><div>${chipsW('osrc',[['auto','Automático'],['sel','Mi selección'],['busq','Lo que busco'],['todo','Todo el libro']],RS.src)}<p class="hint">${srcName()} · ${P.length} extracto${P.length===1?'':'s'} disponibles</p></div></div>
+ const NA=nextAud();
+ return `${NA?`<p class="hint">Se guardará también en tu audición <b>${escH(NA.n)}</b> (faltan ${dLeft(NA.d)} días).</p>`:''}<div class="simcfg"><div class="cfg"><p class="lab"><span class="cn">1</span>De dónde salen</p><div>${chipsW('osrc',[['auto','Automático'],['sel','Mi selección'],['busq','Lo que busco'],['todo','Todo el libro']],RS.src)}<p class="hint">${srcName()} · ${P.length} extracto${P.length===1?'':'s'} disponibles</p></div></div>
  <div class="cfg"><p class="lab"><span class="cn">2</span>Cuántos te piden</p><div>${chipsW('simN',NS,RS.n)}</div></div>
  <div class="cfg"><p class="lab"><span class="cn">3</span>Tiempo para mirar la partitura</p><div>${chipsW('simP',[[0,'Nada'],[15,'15 s'],[30,'30 s'],[60,'1 min']],RS.prep)}</div></div>
  <div class="simsum"><b>${n}</b><span>extracto${n===1?'':'s'} al azar${RS.prep?' · '+RS.prep+' s para mirar cada uno':''}</span></div>
@@ -1693,6 +1736,7 @@ function simBind(el){
  const nt=$('#simNote');if(nt)nt.oninput=()=>sim.note=nt.value;
  const ag=$('#simAgain');if(ag)ag.onclick=()=>simStart(shuf(sim.L));
  const sv=$('#simSave');if(sv)sv.onclick=()=>{RS.hist.push({d:new Date().toLocaleDateString('es-ES'),ids:sim.L.map(x=>x.id),r:sim.r,o:sim.note||''});RS.hist=RS.hist.slice(-40);rsave();
+   const A=nextAud(),rr_=sim.r.filter(Boolean);if(A&&rr_.length){A.sims.push({d:new Date().toISOString().slice(0,10),s:Math.round(rr_.reduce((a,b)=>a+b,0)/rr_.length*2),rec:'',o:'Simulacro en Campana: '+sim.L.map(x=>x.w).join(', ')+(sim.note?' · '+sim.note:'')});tpSave()}
    try{if(window.tpLog&&sim.tot>=5)window.tpLog('D','Simulacro orquestal ('+sim.L.length+' extractos)',sim.tot)}catch(e){}sim=null;toast('Simulacro guardado');R.orq()}}
 
 /* ================= JAZZ ================= */
@@ -1732,7 +1776,7 @@ R.jz=()=>{const el=$('#estJ');const f=JZ.filter(x=>(!RS.jtag||x.g===RS.jtag)&&ma
 
 /* ================= SESIÓN GUIADA: repertorio, jazz y relajación ================= */
 const PSE={orq:1,jz:1};
-const PICKS=['emi','flex','fija','esc','pat','pic','bend','ped','rel','jz','orq'];
+const PICKS=['emi','flex','fija','esc','pat','pic','bend','ped','res','rel','jz','orq'];
 const cn=id=>({rel:'Relajación',orq:'Solos orquestales',jz:'Jazz'})[id]||CATS.find(c=>c.id===id).n;
 const rpick=a=>a[Math.floor(Math.random()*a.length)];
 const LOWK=[6,7,8,9];/* Fa♯, Sol, La♭, La: empiezan en la parte grave cómoda */
@@ -1770,6 +1814,36 @@ function renderPse(P,anim){const box=$('#score');box.classList.remove('paper');
   else{const L=JZ.filter(x=>!used.includes(x.id)&&(!RS.jtag||x.g===RS.jtag));P.id=(L.length?rpick(L):rpick(JZ)).id;if(RS.jrk)P.k=Math.floor(Math.random()*12)}
   buzz(8);renderPse(P,true);paintRun()};
  if(anim){const c=box.querySelector('.xcard');c&&c.classList.add('pop')}}
+
+/* ================= MÉTODOS DE REFERENCIA ================= */
+const MREF=[
+ ['Resistencia','Carmine Caruso','Long setting',
+  'La boquilla no se separa de los labios en todo el ejercicio, ni en los silencios. Se marca el pulso con el pie, se respira por la nariz para no mover la embocadura y el aire va constante a mf. Notas largas y blancas que construyen resistencia sin forzar.',
+  'Es delicado: empieza con poco (5–10 min), descansa después y para si duele. No lo empieces cerca de una audición.',[['res','seis','Seis notas'],['res','segundas','Segundas'],['res','arm','Armónicos sin despegar']]],
+ ['Flexibilidad','Bai Lin','Lip Flexibilities',
+  'Ligaduras de labio por posiciones que van ganando velocidad y amplitud. La idea es que el sonido no cambie al pasar de un armónico a otro.','',[['flex','f3','Tres armónicos'],['flex','tres','Tresillos'],['flex','semi','Semicorcheas']]],
+ ['Flexibilidad','Earl D. Irons','27 Groups of Exercises',
+  'Ligaduras en todas las posiciones, del grave al agudo, apoyadas en el aire más que en el labio.','',[['fija','arp','Arpegio por armónicos'],['flex','f3','Tres armónicos']]],
+ ['Paso de aire','James Stamp','Warm-Ups and Studies',
+  'Buzzing de boquilla, pedales y patrones que bajan para asentar el aire y el sonido antes de tocar. Muy usado como calentamiento.','',[['ped','desc','Descenso a pedal'],['emi','largas','Notas largas']]],
+ ['Paso de aire','Vincent Chicowicz','Flow Studies',
+  'Frases largas y ligadas que bajan por semitonos: el aire no se corta y el sonido se mantiene igual de lleno en todo el registro.','',[['emi','aire','Sin lengua'],['pat','cantabile','Cantabile']]],
+ ['Sonido','Max Schlossberg','Daily Drills',
+  'Notas largas, octavas, ligaduras y escalas. Un clásico de orquesta para el sonido y la emisión diaria.','',[['emi','largas','Notas largas'],['fija','largas','Notas largas por posición']]],
+ ['Resistencia y flujo','Herbert L. Clarke','Technical Studies',
+  'Frases largas en semicorcheas, suaves y sin respirar a mitad: trabajan la resistencia, la digitación y que el aire fluya.','',[['pat','grupos4','Grupos de 4'],['esc','semis','Escalas en semicorcheas']]]];
+R.mref=()=>{const el=$('#mref');if(!el||el.dataset.ok)return;el.dataset.ok=1;el.className='mref';
+ el.innerHTML=MREF.map(([t,a,b,d,warn,ex])=>`<details><summary><span class="tagm">${t}</span><span><b>${a}</b><small>${b}</small></span></summary><div class="mb"><p>${d}</p>${warn?`<p class="hint"><b>${warn}</b></p>`:''}<p class="lab">Practicar en Campana</p><div class="row2">${ex.filter(([c,v])=>CATS.find(x=>x.id===c)?.vars.some(y=>y[0]===v)).map(([c,v,n])=>`<button class="xs" data-go="${c}|${v}">${n}</button>`).join('')}</div></div></details>`).join('')+'<p class="hint">Resúmenes propios para orientarte; los libros tienen los ejercicios completos.</p>';
+ el.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{const [c,v]=b.dataset.go.split('|');st.vars[c]=v;save();location.hash=c})};
+
+/* ================= CONEXIONES CON AUDICIONES Y BIBLIOTECA ================= */
+const TPS=()=>{try{return window.tpState&&window.tpState()}catch(e){return null}};
+const dLeft=d=>Math.round((new Date(d+'T00:00')-new Date(new Date().toDateString()))/864e5);
+const nextAud=()=>{const S=TPS();if(!S||!S.aud)return null;return S.aud.filter(a=>dLeft(a.d)>=0).sort((x,y)=>dLeft(x.d)-dLeft(y.d))[0]||null};
+const tpSave=()=>{try{window.tpSave&&window.tpSave()}catch(e){}};
+
+const libPdfs=()=>{const S=TPS();return S&&S.lib?S.lib.filter(x=>x.f!==undefined&&/pdf/i.test(x.f||'')):[]};
+async function libAdd(fl){const S=TPS();if(!S||!window.tpDbp)return;if(S.lib.some(x=>x.n===fl.name))return;const id=Date.now();try{await window.tpDbp('put','l'+id,fl);S.lib.push({id,n:fl.name,c:'Partitura',o:'Orchester-Probespiel (cargado desde Repertorio orquestal)',u:'',d:new Date().toISOString().slice(0,10),f:fl.type||'application/pdf'});tpSave()}catch(e){}}
 
 /* ================= COACH POR REGLAS (conocimiento de Rubén) ================= */
 /* Bloque A: qué hacer según cuánto falta para la audición. Bloques B (causas) y C (síntomas) se añaden después. */
@@ -1870,11 +1944,18 @@ const SIT=[
   haz:['Para un momento: no repitas el pasaje en bucle con el labio cerrado.','Relaja antes de volver: unas notas largas suaves en el grave, dejando que suenen abiertas.','Vuelve al pasaje pensando en soltar al bajar: el grave entra relajado, no apretado.','No pases tanto rato seguido en el agudo; alterna con registro medio y grave y descansa entre repeticiones.'],
   plan:()=>({name:'Coach · soltar el grave',items:[STEP({...LOWE(rpick(LOWK)),range:'ini'},3,'Grave relajado'),STEP({cat:'bend',v:'semi',range:'ini'},3,'Soltar el labio'),STEP({cat:'flex',v:'f2',range:'ini'},3,'Bajar abierto')]})}
 ];
+
+/* ---- Cuando estás bien ---- */
+const isGood=t=>{t=nrm(t);if(/\bno (estoy|me siento|me encuentro|voy|tengo)\b[^.]{0,12}\b(bien|genial|fino|fresco)/.test(t))return false;
+ return /(estoy bien|me siento bien|me encuentro bien|genial|fenomenal|en forma|fresco|fresca|buen labio|buen dia|buenas sensaciones|con ganas|motivad|descansad|muy bien|perfecto|a tope|fino hoy|estoy fino|estoy fina|suena bien|me suena bien|todo bien)/.test(t)};
+const GOODK={t:'Buen día: aprovéchalo',lead:'Cuando el labio responde es el día de construir, no de reventarse: mañana también cuenta.',
+ haz:['Trabaja lo que más te cuesta: el pasaje difícil, el registro que no termina de salir o una técnica nueva.','Es buen día para un poco de resistencia (estilo Caruso), con cabeza y sin pasarte de tiempo.','Mantén los descansos aunque te sientas bien: lo que tocas de más hoy se paga mañana.','Graba algo: así tienes una referencia de cómo suenas en un buen día.'],
+ evita:['Tocar horas seguidas porque «hoy sale todo».','Subir a los extremos del registro sin calentar.']};
 /* qué causas mirar según el síntoma, de más a menos probable */
 const SYMC={aire:['aire','fatiga','presion'],cansancio:['fatiga','presion'],agudos:['presion','aire','fatiga'],ataques:['aire','calentamiento','fatiga'],
  tension:['tension','presion','fatiga'],roturas:['fatiga','calentamiento','presion'],fiato:['aire','tension'],afinacion:['aire','fatiga'],nervios:['tension']};
 const sevTxt=v=>v>=8?'muy mal':v>=6?'bastante cargado':v>=4?'regular':'algo cargado';
-let CS={txt:'',when:null,sym:[],wu:['largas','flex'],wm:10,ans:{},sev:5,sit:[]};
+let CS={txt:'',when:null,sym:[],wu:['largas','flex'],wm:10,ans:{},sev:5,sit:[],good:false,sevDay:''};
 try{Object.assign(CS,JSON.parse(localStorage.getItem('campana_coach')||'{}'))}catch(e){}
 const csave=()=>{try{localStorage.setItem('campana_coach',JSON.stringify(CS))}catch(e){}};
 /* calentamiento del día de la audición: lo elige cada uno */
@@ -1886,7 +1967,13 @@ function wuPlan(){const ch=WU.filter(w=>CS.wu.includes(w[0]));if(!ch.length)retu
 const planHTML=p=>`<ol class="cpl">${p.items.map(it=>`<li><span><b>${escH(itemName(it))}</b><small>${escH(it.tag||'')}</small></span><em>${it.min} min</em></li>`).join('')}</ol>`;
 let cPlan=null,wPlan=null;
 function goPlan(p){if(!p||!p.items.length)return;plan={name:p.name,items:p.items};done=null;startRun()}
-R.coach=()=>{const el=$('#cch'),K=CS.when&&CK[CS.when];cPlan=K?K.plan():null;wPlan=wuPlan();
+const TPS2=()=>{try{return window.tpState&&window.tpState()}catch(e){return null}};
+const todayChk=()=>{const S=TPS2();if(!S||!S.checks||!window.tpToday)return null;return S.checks.find(c=>c.d===window.tpToday())||null};
+function sevToChk(v){const S=TPS2();if(!S||!window.tpToday)return;const d=window.tpToday();let c=S.checks.find(x=>x.d===d);if(!c){c={d,L:5,J:5,N:5,B:5,M:5,pain:false};S.checks.push(c)}c.L=Math.max(1,Math.min(10,11-v));try{window.tpSave()}catch(e){}}
+R.coach=()=>{const C0=todayChk();if(C0&&CS.sevDay!==C0.d){CS.sev=Math.max(1,Math.min(10,11-C0.L));CS.sevDay=C0.d}
+ if(C0&&C0.pain&&!CS.sym.includes('dolor'))CS.sym.push('dolor');
+ const NA=nextAud();if(!CS.when&&!CS.noAuto&&NA){const n=dLeft(NA.d);CS.when=n===0?'hoy':n===1?'manana':n<14?'dias':'semanas';CS.audAuto=NA.n+' · faltan '+n+' días'}
+ const el=$('#cch'),K=CS.when&&CK[CS.when];cPlan=K?K.plan():null;wPlan=wuPlan();
  const whenC=[['hoy','Hoy'],['manana','Mañana'],['dias','En unos días'],['semanas','En semanas'],['','Sin audición']];
 
  const cks=[...new Set(CS.sym.flatMap(k=>(SYMC[k]||[]).slice(0,2)))];let cauPlans={};
@@ -1902,7 +1989,10 @@ R.coach=()=>{const el=$('#cch'),K=CS.when&&CK[CS.when];cPlan=K?K.plan():null;wPl
   <div class="sev"><div class="sevh"><span>¿Cómo de mal estás hoy?</span><b id="sevV">${CS.sev}</b></div><input type="range" min="1" max="10" step="1" value="${CS.sev}" id="sevR" aria-label="Del 1 al 10"><div class="sevl"><span>Bien</span><span>Fatal</span></div></div>${res}</div>`:'';
  let sitPlans={};const sits=(CS.sit||[]).map(id=>{const X=SIT.find(x=>x.id===id);if(!X)return '';const p=X.plan();sitPlans[id]=p;
   return `<div class="cbox ctx"><p class="lab">Lo que te pasa</p><h2>${X.t}</h2><p class="clead">${X.why}</p><p class="lab ok">Qué hacer</p><ul class="cl ok">${X.haz.map(x=>`<li>${x}</li>`).join('')}</ul><p class="lab">Para soltarlo</p>${planHTML(p)}<button class="mk wide" data-sgo="${id}">Empezar</button></div>`}).join('');
- const pick=CS.txt?`<div class="cbox"><p class="lab">${CS.sym.length?'¿Algo más? Toca lo que notes':'No te he entendido del todo. ¿Qué notas? Toca lo que te pase'}</p><div class="chips wrap" id="cSym">${CSY.map(([k])=>`<button data-v="${k}" aria-pressed="${CS.sym.includes(k)}">${CSN[k]}</button>`).join('')}</div></div>`:'';
+ let goodC='',goodP=null;if(CS.good){const keep=CS.when==='hoy'||CS.when==='manana',noRes=keep||CS.when==='dias';goodP={name:'Coach · buen día',items:planAll(keep?{emi:1,flex:1,orq:2}:noRes?{emi:1,flex:2,esc:1,pat:1,orq:2}:{emi:1,flex:2,res:1,esc:1,pat:1,orq:1},keep?30:50)};
+  goodC=`<div class="cbox ctx good"><p class="lab">Qué bien</p><h2>${GOODK.t}</h2><p class="clead">${GOODK.lead}</p><p class="lab ok">Qué hacer</p><ul class="cl ok">${GOODK.haz.filter(x=>!(noRes&&/resistencia/.test(x))).map(x=>`<li>${x}</li>`).join('')}</ul><p class="lab no">Qué evitar</p><ul class="cl no">${GOODK.evita.map(x=>`<li>${x}</li>`).join('')}</ul><p class="lab">Sesión para aprovecharlo</p>${planHTML(goodP)}<button class="mk wide" id="gGo">Empezar</button></div>`}
+ let obsC='';try{const O=window.tpObs&&window.tpObs();if(O&&(O.w.length||O.o.length))obsC=`<div class="cbox"><p class="lab">En tus datos</p><h2>Lo que veo</h2>${O.w.map(x=>`<p class="cwarn">${x}</p>`).join('')}${O.o.map(x=>`<p class="cobs">${x}</p>`).join('')}</div>`}catch(e){}
+ const pick=CS.txt&&!CS.good?`<div class="cbox"><p class="lab">${CS.sym.length?'¿Algo más? Toca lo que notes':'No te he entendido del todo. ¿Qué notas? Toca lo que te pase'}</p><div class="chips wrap" id="cSym">${CSY.map(([k])=>`<button data-v="${k}" aria-pressed="${CS.sym.includes(k)}">${CSN[k]}</button>`).join('')}</div></div>`:'';
  const sy=CS.sym.length?`<div class="cbox"><p class="lab">He notado</p><div class="tags">${CS.sym.map(k=>`<span>${CSN[k]}</span>`).join('')}</div><p class="hint">${cks.length?'':'Las pautas para este síntoma las estamos preparando: llegan con las próximas causas.'}</p></div>`:'';
  const ctx=K?`<div class="cbox ctx"><h2>${K.t}</h2><p class="clead">${K.lead}</p><p class="lab ok">Qué hacer</p><ul class="cl ok">${K.haz.map(x=>`<li>${x}</li>`).join('')}</ul><p class="lab no">Qué evitar</p><ul class="cl no">${K.evita.map(x=>`<li>${x}</li>`).join('')}</ul>
   ${cPlan&&cPlan.items.length?`<p class="lab">Sesión recomendada</p>${planHTML(cPlan)}${cPlan.note?`<p class="hint">${cPlan.note}</p>`:''}<div class="row2"><button class="xs" id="cSee">Ver en Sesión</button><button class="mk" id="cGo">Empezar</button></div>`:''}</div>`
@@ -1911,29 +2001,30 @@ R.coach=()=>{const el=$('#cch'),K=CS.when&&CK[CS.when];cPlan=K?K.plan():null;wPl
   <div class="chips wrap" id="cWu">${WU.map(w=>`<button data-v="${w[0]}" aria-pressed="${CS.wu.includes(w[0])}">${w[1]}</button>`).join('')}</div>
   <p class="lab">Minutos</p><div class="chips wrap" id="cWm">${[5,8,10,15,20].map(m=>`<button data-v="${m}" aria-pressed="${CS.wm===m}">${m} min</button>`).join('')}</div>
   ${wPlan?planHTML(wPlan)+'<button class="mk wide" id="wGo">Empezar calentamiento</button>':'<p class="hint">Elige al menos una cosa.</p>'}<button class="xs wide2" id="wRec">O usa el calentamiento recomendado (16 min)</button></div>`:'';
- el.innerHTML=`<div class="hero"><h1>Coach</h1><p>Cuéntame qué te pasa y cuándo tocas. Te respondo con pautas de profesor de trompeta, sin internet y sin IA.</p></div>
- <div class="cask"><textarea id="cTxt" rows="3" placeholder="Ej.: mañana tengo audición y me suena aire">${escH(CS.txt)}</textarea><button class="mk" id="cAn">Analizar</button></div>
- <p class="lab">¿Cuándo es la audición?</p><div class="chips wrap" id="cWhen">${whenC.map(([v,t])=>`<button data-v="${v}" aria-pressed="${(CS.when||'')===v}">${t}</button>`).join('')}</div>
- <div class="rbody">${sits}${sy}${pick}${adv}${cau}${ctx}${wu}</div>
- <p class="hint cfoot">¿Quieres el coach con IA o las observaciones de tus grabaciones? <a href="#coachia">Ábrelo aquí</a>.</p>`;
- $('#cAn').onclick=()=>{CS.txt=$('#cTxt').value.trim();CS.when=coachWhen(CS.txt);CS.sym=coachSym(CS.txt);CS.sit=SIT.filter(x=>x.test(nrm(CS.txt))).map(x=>x.id);CS.ans={};csave();buzz(8);R.coach();const c=el.querySelector('.cbox');c&&c.scrollIntoView({behavior:'smooth',block:'start'})};
+ el.innerHTML=`<div class="hero"><h1>Coach</h1><p>Cuéntame cómo estás —bien o mal— y cuándo tocas. Te respondo con pautas de profesor de trompeta, sin internet y sin IA.</p></div>
+ <div class="cask"><textarea id="cTxt" rows="3" placeholder="Ej.: mañana tengo audición y me suena aire · hoy estoy genial">${escH(CS.txt)}</textarea><button class="mk" id="cAn">Analizar</button></div>
+ <p class="lab">¿Cuándo es la audición?${CS.audAuto&&CS.when?` <span class="autoA">${escH(CS.audAuto)}</span>`:''}</p><div class="chips wrap" id="cWhen">${whenC.map(([v,t])=>`<button data-v="${v}" aria-pressed="${(CS.when||'')===v}">${t}</button>`).join('')}</div>
+ <div class="rbody">${goodC}${sits}${sy}${pick}${adv}${cau}${ctx}${wu}${obsC}</div>
+ <p class="hint cfoot">Tu estado de hoy se comparte con el Plan del día. ¿Prefieres preguntar a la IA? <a href="#coachia">Coach con IA</a>.</p>`;
+ $('#cAn').onclick=()=>{CS.txt=$('#cTxt').value.trim();CS.when=coachWhen(CS.txt);CS.audAuto='';CS.sym=coachSym(CS.txt);CS.good=!CS.sym.length&&isGood(CS.txt);CS.sit=SIT.filter(x=>x.test(nrm(CS.txt))).map(x=>x.id);CS.ans={};csave();buzz(8);R.coach();const c=el.querySelector('.cbox');c&&c.scrollIntoView({behavior:'smooth',block:'start'})};
  $('#cTxt').onkeydown=e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();$('#cAn').click()}};
  el.querySelectorAll('#cSym button').forEach(b=>b.onclick=()=>{const v=b.dataset.v,i=CS.sym.indexOf(v);if(i<0)CS.sym.push(v);else CS.sym.splice(i,1);csave();buzz(5);const y=scrollY;R.coach();scrollTo(0,y)});
- el.querySelectorAll('#cWhen button').forEach(b=>b.onclick=()=>{CS.when=b.dataset.v||null;csave();R.coach()});
+ el.querySelectorAll('#cWhen button').forEach(b=>b.onclick=()=>{CS.when=b.dataset.v||null;CS.audAuto='';CS.noAuto=!b.dataset.v;csave();R.coach()});
  el.querySelectorAll('#cWu button').forEach(b=>b.onclick=()=>{const v=b.dataset.v,i=CS.wu.indexOf(v);if(i<0)CS.wu.push(v);else CS.wu.splice(i,1);CS.wu.sort((a,b)=>WU.findIndex(w=>w[0]===a)-WU.findIndex(w=>w[0]===b));csave();R.coach()});
  el.querySelectorAll('#cWm button').forEach(b=>b.onclick=()=>{CS.wm=+b.dataset.v;csave();R.coach()});
  const g=$('#cGo');if(g)g.onclick=()=>goPlan(cPlan);
  const sv=$('#cSee');if(sv)sv.onclick=()=>{plan={name:cPlan.name,items:cPlan.items};done=null;location.hash='sesion'};
  const w=$('#wGo');if(w)w.onclick=()=>goPlan(wPlan);
+ const gg=$('#gGo');if(gg)gg.onclick=()=>goPlan(goodP);
  const wr=$('#wRec');if(wr)wr.onclick=()=>goPlan(CWU());
  el.querySelectorAll('.yn button').forEach(b=>b.onclick=()=>{const k=b.parentNode.dataset.k;const v=b.dataset.v==='1';CS.ans[k]=CS.ans[k]===v?null:v;csave();buzz(5);const y=scrollY;R.coach();scrollTo(0,y)});
- const sr=$('#sevR');if(sr){sr.oninput=()=>{$('#sevV').textContent=sr.value};sr.onchange=()=>{CS.sev=+sr.value;csave();const y=scrollY;R.coach();scrollTo(0,y)}}
+ const sr=$('#sevR');if(sr){sr.oninput=()=>{$('#sevV').textContent=sr.value};sr.onchange=()=>{CS.sev=+sr.value;sevToChk(CS.sev);csave();const y=scrollY;R.coach();scrollTo(0,y)}}
  el.querySelectorAll('[data-sgo]').forEach(b=>b.onclick=()=>goPlan(sitPlans[b.dataset.sgo]));
  el.querySelectorAll('[data-cgo]').forEach(b=>b.onclick=()=>goPlan(cauPlans[b.dataset.cgo]))};
 
 /* routing */
 const TPR={hoy:['ini'],rutina:['rut'],cronometro:['ent','cron'],metronomo:['ent','met'],afinador:['ent','afi'],notas:['ent','gen'],grabar:['gra'],audiciones:['aud'],biblioteca:['bib'],coach:['coa'],coachia:['coa'],progreso:['pro'],perfil:['per']};
-const TPN={ini:'Plan del día',rut:'Mi rutina',cron:'Cronómetro',met:'Metrónomo',afi:'Afinador',gen:'Generador de notas',gra:'Grabar y analizar',aud:'Audiciones',bib:'Biblioteca',coa:'Coach',pro:'Progreso',per:'Perfil'};
+const TPN={ini:'Plan del día',rut:'Mi rutina',cron:'Cronómetro',met:'Metrónomo',afi:'Afinador',gen:'Generador de notas',gra:'Grabar y analizar',aud:'Audiciones',bib:'Biblioteca',coa:'Coach',pro:'Progreso',per:'Ajustes y nube'};
 const VID={home:'home',ses:'ses',ex:'exv',tp:'tpv',orq:'orq',jz:'jz',cch:'cch',est:'est'};
 function route(){const h=location.hash.slice(1);stop();const prev=view;if(h!=='orquestal')window.repStop&&repStop();
  if(h==='clasico'||h==='jazz'||h==='estudiar'){if(run)endRun(false);if(h!=='estudiar')ESTT=h;try{localStorage.setItem('campana_estt',ESTT)}catch(e){}show('est',prev==='home');return}
@@ -1957,16 +2048,17 @@ function show(v,fwd){const same=view===v&&v==='tp';view=v;window.TP_ON=v==='tp';
 $('#back').onclick=()=>{if(view==='ex'&&run){location.hash='sesion';return}if(history.length>1&&location.hash)history.back();else location.hash=''};
 window.addEventListener('hashchange',route);
 let ESTT='clasico';try{ESTT=localStorage.getItem('campana_estt')||'clasico'}catch(e){}
-function renderEst(){const j=ESTT==='jazz';$('#estC').hidden=j;$('#estJ').hidden=!j;$('#tabC').setAttribute('aria-selected',!j);$('#tabJ').setAttribute('aria-selected',j);$('#est').classList.toggle('isJ',j);if(j)R.jz()}
+function renderEst(){const j=ESTT==='jazz';if(!j)R.mref();$('#estC').hidden=j;$('#estJ').hidden=!j;$('#tabC').setAttribute('aria-selected',!j);$('#tabJ').setAttribute('aria-selected',j);$('#est').classList.toggle('isJ',j);if(j)R.jz()}
 document.querySelectorAll('.esttabs button').forEach(b=>b.onclick=()=>{if(ESTT===b.dataset.t)return;ESTT=b.dataset.t;try{localStorage.setItem('campana_estt',ESTT);history.replaceState(null,'','#'+ESTT)}catch(e){}buzz(6);renderEst();const sc=ESTT==='jazz'?$('#estJ'):$('#estC');sc.classList.remove('tabin');void sc.offsetWidth;sc.classList.add('tabin');window.scrollTo({top:0,behavior:'smooth'})});
 document.querySelectorAll('#tabbar button').forEach(b=>b.onclick=()=>{const h=b.dataset.h;if((h===''&&view==='home')||(h==='estudiar'&&view==='est'))return window.scrollTo({top:0,behavior:'smooth'});location.hash=h});
 document.querySelectorAll('.coachcard').forEach(b=>b.onclick=()=>location.hash='coach');
+$('#moreSet').onclick=()=>{closeSheet();location.hash='perfil'};
 
 /* home */
 function renderHome(){paintToday();
  $('#cards').innerHTML=CATS.map((c,i)=>`<button class="card" data-id="${c.id}" style="animation-delay:${i*35}ms">${artSVG(c.id,'art')}<b>${c.n}</b><span>${DESC[c.id]} · ${c.vars.length} ejercicios</span></button>`).join('');
  const c=CATS.find(x=>x.id===st.cat);$('#contT').textContent=c.n+' · '+c.vars.find(v=>v[0]===(st.vars[c.id]||c.vars[0][0]))[1];
- seg($('#rangeH'),Object.entries(RANGES).map(([k,r])=>[k,r.n+'<small>'+r.d+'</small>']),st.range,id=>{st.range=id;save();mark($('#rangeH'),id);toast('Registro '+RANGES[id].n.toLowerCase()+' ('+RANGES[id].d+')')})}
+ if($("#rangeH"))seg($("#rangeH"),Object.entries(RANGES).map(([k,r])=>[k,r.n+'<small>'+r.d+'</small>']),st.range,id=>{st.range=id;save();mark($('#rangeH'),id);toast('Registro '+RANGES[id].n.toLowerCase()+' ('+RANGES[id].d+')')})}
 $('#cards').onclick=e=>{const b=e.target.closest('.card');if(b)location.hash=b.dataset.id};
 document.querySelectorAll('#home .tiles').forEach(t=>t.onclick=e=>{const b=e.target.closest('.tile');if(b)location.hash=b.dataset.h});
 document.querySelectorAll('.rcard').forEach(b=>b.onclick=()=>location.hash=b.dataset.h);
@@ -2074,7 +2166,7 @@ $('#restB').onclick=()=>{const i=REST_M.findIndex(r=>r[0]===S().rest);const n=RE
 /* sheet */
 function openSheet(){
  seg($('#restS'),REST_M,st.rest,setRest);
- seg($('#range'),Object.entries(RANGES).map(([k,r])=>[k,r.n+'<small>'+r.d+'</small>']),st.range,id=>{stop();st.range=id;save();mark($('#range'),id);if(view==='ex')render(true);if(view==='home')mark($('#rangeH'),id);if(view==='ses')renderPlan()});
+ seg($('#range'),Object.entries(RANGES).map(([k,r])=>[k,r.n+'<small>'+r.d+'</small>']),st.range,id=>{stop();st.range=id;save();mark($('#range'),id);if(view==='ex')render(true);if($('#rangeH'))mark($('#rangeH'),id);if(view==='ses')renderPlan()});
  seg($('#fing'),[['off','Ocultar'],['dots','Pistones'],['num','Números']],st.fing,id=>{st.fing=id;save();mark($('#fing'),id);$('#legend').hidden=id!=='dots';draw(true)});$('#legend').hidden=st.fing!=='dots';
  seg($('#theme'),[['auto','Automático'],['light','Claro'],['dark','Oscuro']],st.theme,id=>{st.theme=id;save();mark($('#theme'),id);applyTheme()});
  seg($('#paper'),[['1','Papel blanco'],['0','Según el tema']],st.paper?1:0,id=>{st.paper=id==='1';save();mark($('#paper'),id);draw(true)});
