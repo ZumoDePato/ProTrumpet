@@ -1749,9 +1749,17 @@ const CK={
   evita:['Cambios raros de última hora.','Cambiar la rutina por completo.','Empezar Caruso u otros ejercicios muy largos que no hacías.'],
   plan:()=>({name:'Coach · preparar la audición',items:planAll({emi:1,flex:2,esc:1,orq:2},45)})}};
 /* síntomas que ya se reconocen; sus pautas llegan con los bloques B y C */
-const CSY=[['aire',['aire','soplad','suena sucio','sonido sucio']],['cansancio',['cansad','sin resistencia','labio cargado','reventad','fatiga','mal del labio','labio mal','agarrot']],['agudos',['agudo','no me salen las notas altas','registro alto']],
- ['ataques',['ataque','chapa','no entra la nota','no salen las notas']],['tension',['tenso','tensa','rigid','estrecho','apretad']],['roturas',['se rompe','crack','gallo','pifia']],
- ['fiato',['fiato','me falta aire','sin aire','respir']],['nervios',['nervio','ansiedad','miedo','temblor','me tiembla']],['afinacion',['afinac','desafin','bajo de afinacion','alto de afinacion']],['dolor',['dolor','duele','hinchad','herida','sangr']]];
+const CSY=[
+ ['aire',['aire','soplad','sucio','sucia','arenos','rasposo','no suena limpio','no tengo sonido','sonido feo','sonido roto','suena mal','pitido','ronco','opaco','apagado','sin brillo','sin cuerpo','sin centro']],
+ ['cansancio',['cansad','cansa','sin resistencia','resistencia','cargad','reventad','fatiga','mal del labio','labio mal','fatal del labio','labio fatal','labio muerto','sin labio','no tengo labio','labio no responde','no me responde','agarrot','hecho polvo','destrozad','me pase tocando','toque mucho','he tocado mucho']],
+ ['agudos',['agudo','notas altas','registro alto','arriba no','no llego','no subo','no me sube','techo']],
+ ['ataques',['ataque','chapa','no entra la nota','no entran las notas','no salen las notas','no me sale la nota','emision','pican mal','picado','lengua','no arranca','empezar la nota','entradas']],
+ ['tension',['tenso','tensa','tension','rigid','estrecho','estrecha','apretad','aprieto','presion','duro','dura','bloquead','cerrad','garganta']],
+ ['roturas',['se rompe','se rompen','crack','gallo','pifia','falla','fallo','se corta','se cortan','resbala','se me va la nota','no aguanta la nota','legato','ligadura','flexibilidad']],
+ ['fiato',['fiato','me falta aire','me falta el aire','sin aire','respir','me ahogo','no llego al final de la frase','frases largas']],
+ ['nervios',['nervio','ansiedad','miedo','temblor','tiembla','panico','bloqueo mental','inseguro','insegura','presion del tribunal','me pongo malo']],
+ ['afinacion',['afinac','desafin','bajo de afinacion','alto de afinacion','calado','calada','me calo','afino']],
+ ['dolor',['dolor','duele','hinchad','herida','sangr','pupa','corte en el labio','llaga','calentura']]];
 const CSN={aire:'aire en el sonido',cansancio:'labio cansado',agudos:'agudos',ataques:'ataques',tension:'tensión',roturas:'notas que se rompen',fiato:'falta de aire',nervios:'nervios',afinacion:'afinación',dolor:'dolor o labio hinchado'};
 const NUMW={un:1,una:1,uno:1,dos:2,tres:3,cuatro:4,cinco:5,seis:6,siete:7,ocho:8,nueve:9,diez:10,quince:15};
 function coachWhen(t){t=nrm(t);if(/pasado manana/.test(t))return 'dias';
@@ -1807,6 +1815,7 @@ R.coach=()=>{const el=$('#cch'),K=CS.when&&CK[CS.when];cPlan=K?K.plan():null;wPl
    else res=`<div class="cres"><p class="hint">${yes?'Puede haber algo de '+C.n.toLowerCase()+', pero no parece lo principal.':'No parece '+C.n.toLowerCase()+'.'} Las demás causas las estamos preparando.</p></div>`}
   return `<div class="cbox"><p class="lab">Comprobemos</p><h2>¿Es ${C.n.toLowerCase()}?</h2>${qs}
    <div class="sev"><div class="sevh"><span>¿Cómo de mal está el labio?</span><b id="sevV">${CS.sev}</b></div><input type="range" min="1" max="10" step="1" value="${CS.sev}" id="sevR" aria-label="Del 1 al 10"><div class="sevl"><span>Bien</span><span>Fatal</span></div></div>${res}</div>`}).join('');
+ const pick=CS.txt?`<div class="cbox"><p class="lab">${CS.sym.length?'¿Algo más? Toca lo que notes':'No te he entendido del todo. ¿Qué notas? Toca lo que te pase'}</p><div class="chips wrap" id="cSym">${CSY.map(([k])=>`<button data-v="${k}" aria-pressed="${CS.sym.includes(k)}">${CSN[k]}</button>`).join('')}</div></div>`:'';
  const sy=CS.sym.length?`<div class="cbox"><p class="lab">He notado</p><div class="tags">${CS.sym.map(k=>`<span>${CSN[k]}</span>`).join('')}</div><p class="hint">${CS.sym.includes('dolor')?'<b>Si hay dolor, herida o el labio sigue hinchado, para de tocar y consúltalo con un profesional.</b> ':''}${cks.length?'':'Las pautas para este síntoma las estamos preparando: llegan con las próximas causas.'}</p></div>`:'';
  const ctx=K?`<div class="cbox ctx"><h2>${K.t}</h2><p class="clead">${K.lead}</p><p class="lab ok">Qué hacer</p><ul class="cl ok">${K.haz.map(x=>`<li>${x}</li>`).join('')}</ul><p class="lab no">Qué evitar</p><ul class="cl no">${K.evita.map(x=>`<li>${x}</li>`).join('')}</ul>
   ${cPlan&&cPlan.items.length?`<p class="lab">Sesión recomendada</p>${planHTML(cPlan)}${cPlan.note?`<p class="hint">${cPlan.note}</p>`:''}<div class="row2"><button class="xs" id="cSee">Ver en Sesión</button><button class="mk" id="cGo">Empezar</button></div>`:''}</div>`
@@ -1818,10 +1827,11 @@ R.coach=()=>{const el=$('#cch'),K=CS.when&&CK[CS.when];cPlan=K?K.plan():null;wPl
  el.innerHTML=`<div class="hero"><h1>Coach</h1><p>Cuéntame qué te pasa y cuándo tocas. Te respondo con pautas de profesor de trompeta, sin internet y sin IA.</p></div>
  <div class="cask"><textarea id="cTxt" rows="3" placeholder="Ej.: mañana tengo audición y me suena aire">${escH(CS.txt)}</textarea><button class="mk" id="cAn">Analizar</button></div>
  <p class="lab">¿Cuándo es la audición?</p><div class="chips wrap" id="cWhen">${whenC.map(([v,t])=>`<button data-v="${v}" aria-pressed="${(CS.when||'')===v}">${t}</button>`).join('')}</div>
- <div class="rbody">${sy}${cau}${ctx}${wu}</div>
+ <div class="rbody">${sy}${pick}${cau}${ctx}${wu}</div>
  <p class="hint cfoot">¿Quieres el coach con IA o las observaciones de tus grabaciones? <a href="#coachia">Ábrelo aquí</a>.</p>`;
  $('#cAn').onclick=()=>{CS.txt=$('#cTxt').value.trim();const w=coachWhen(CS.txt);if(w)CS.when=w;CS.sym=coachSym(CS.txt);CS.ans={};csave();buzz(8);R.coach();const c=el.querySelector('.cbox');c&&c.scrollIntoView({behavior:'smooth',block:'start'})};
  $('#cTxt').onkeydown=e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();$('#cAn').click()}};
+ el.querySelectorAll('#cSym button').forEach(b=>b.onclick=()=>{const v=b.dataset.v,i=CS.sym.indexOf(v);if(i<0)CS.sym.push(v);else CS.sym.splice(i,1);csave();buzz(5);const y=scrollY;R.coach();scrollTo(0,y)});
  el.querySelectorAll('#cWhen button').forEach(b=>b.onclick=()=>{CS.when=b.dataset.v||null;csave();R.coach()});
  el.querySelectorAll('#cWu button').forEach(b=>b.onclick=()=>{const v=b.dataset.v,i=CS.wu.indexOf(v);if(i<0)CS.wu.push(v);else CS.wu.splice(i,1);CS.wu.sort((a,b)=>WU.findIndex(w=>w[0]===a)-WU.findIndex(w=>w[0]===b));csave();R.coach()});
  el.querySelectorAll('#cWm button').forEach(b=>b.onclick=()=>{CS.wm=+b.dataset.v;csave();R.coach()});
