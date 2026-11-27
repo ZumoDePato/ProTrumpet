@@ -1,6 +1,8 @@
 {
-  "appId": "es.rubeats.campana",
-  "appName": "Campana",
+  "appId": "es.rubeats.brasso",
+  "appName": "Brasso",
   "webDir": "www",
-  "android": { "backgroundColor": "#ffffff" }
+  "android": {
+    "backgroundColor": "#000000"
+  }
 }

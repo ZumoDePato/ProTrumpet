@@ -1,4 +1,4 @@
-// Servidor del Coach de Campana (Cloudflare Worker) — GRATIS con Workers AI.
+// Servidor del Coach de Brasso (Cloudflare Worker) — GRATIS con Workers AI.
 //
 // Proveedor de IA, por orden de preferencia:
 //   1. Workers AI de Cloudflare (gratis cada día): añade un binding "Workers AI" con el nombre AI.

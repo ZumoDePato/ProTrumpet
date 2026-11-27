@@ -1,4 +1,4 @@
-# Campana · técnica de trompeta
+# Brasso · técnica de trompeta
 
 App web instalable (PWA) para estudiar trompeta: ejercicios de técnica escritos en partitura (escalas, patrones, flexibilidad, posiciones fijas, bending, pedales, picado y emisión), sesiones guiadas, PDF y MusicXML, más las herramientas de Trumpet Pro: plan del día, mi rutina, cronómetro, metrónomo, afinador, grabación y análisis, audiciones, biblioteca, coach y progreso.
 
