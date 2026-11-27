@@ -243,6 +243,13 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px soli
 @media(prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}}
 
 /* ---- repertorio y jazz ---- */
+.cq{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}.cq span{flex:1;min-width:0;line-height:1.35}
+.yn{display:flex;gap:4px;flex:none}.yn button{min-height:38px;min-width:50px;padding:0 10px;border-radius:12px;background:var(--bg);font-weight:800;font-size:14px}
+.yn button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+.sev{margin:14px 0 4px}.sevh{display:flex;justify-content:space-between;align-items:center;font-weight:700}.sevh b{font-size:26px;font-variant-numeric:tabular-nums}
+.sev input{width:100%;accent-color:var(--acc);margin:8px 0 0;min-height:30px}.sevl{display:flex;justify-content:space-between;font-size:12px;color:var(--soft);font-weight:700}
+.cres{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);animation:rise .3s both}.cres h3{margin:0 0 4px;font-size:19px}
+
 .cask{display:grid;gap:10px;margin:16px 0 4px}.cask textarea{width:100%;border:0;border-radius:18px;background:var(--chip);padding:14px;font-size:16px;color:var(--ink);resize:vertical}
 .cbox{background:var(--chip);border-radius:24px;padding:16px 18px;margin:14px 0;animation:rise .35s both}
 .cbox h2{margin:0 0 6px;font-size:22px;letter-spacing:-.01em}
@@ -1742,7 +1749,7 @@ const CK={
   evita:['Cambios raros de última hora.','Cambiar la rutina por completo.','Empezar Caruso u otros ejercicios muy largos que no hacías.'],
   plan:()=>({name:'Coach · preparar la audición',items:planAll({emi:1,flex:2,esc:1,orq:2},45)})}};
 /* síntomas que ya se reconocen; sus pautas llegan con los bloques B y C */
-const CSY=[['aire',['aire','soplad','suena sucio','sonido sucio']],['cansancio',['cansad','sin resistencia','labio cargado','reventad','fatiga']],['agudos',['agudo','no me salen las notas altas','registro alto']],
+const CSY=[['aire',['aire','soplad','suena sucio','sonido sucio']],['cansancio',['cansad','sin resistencia','labio cargado','reventad','fatiga','mal del labio','labio mal','agarrot']],['agudos',['agudo','no me salen las notas altas','registro alto']],
  ['ataques',['ataque','chapa','no entra la nota','no salen las notas']],['tension',['tenso','tensa','rigid','estrecho','apretad']],['roturas',['se rompe','crack','gallo','pifia']],
  ['fiato',['fiato','me falta aire','sin aire','respir']],['nervios',['nervio','ansiedad','miedo','temblor','me tiembla']],['afinacion',['afinac','desafin','bajo de afinacion','alto de afinacion']],['dolor',['dolor','duele','hinchad','herida','sangr']]];
 const CSN={aire:'aire en el sonido',cansancio:'labio cansado',agudos:'agudos',ataques:'ataques',tension:'tensión',roturas:'notas que se rompen',fiato:'falta de aire',nervios:'nervios',afinacion:'afinación',dolor:'dolor o labio hinchado'};
@@ -1755,7 +1762,28 @@ function coachWhen(t){t=nrm(t);if(/pasado manana/.test(t))return 'dias';
  if(/(semana que viene|proxima semana|esta semana|el finde|este fin de semana|el lunes|el martes|el miercoles|el jueves|el viernes|el sabado|el domingo)/.test(t))return 'dias';
  if(/(mes que viene|proximo mes|dentro de un mes)/.test(t))return 'semanas';return null}
 const coachSym=t=>{t=nrm(t);return CSY.filter(([k,ws])=>ws.some(w=>t.includes(nrm(w)))).map(([k])=>k)};
-let CS={txt:'',when:null,sym:[],wu:['largas','flex'],wm:10};
+
+/* ---- Bloque B: causas de fondo ---- */
+const STEP=(o,min,tag)=>({scale:'mayor',key:0,rest:'bar',...o,min,tag});
+const CAU={
+ fatiga:{n:'Fatiga o labio cargado',
+  why:'Suele venir de tocar mucho seguido o de haberte pasado el día anterior: al día siguiente no estás igual de fino.',
+  sig:['Te cansas muy rápido y notas el labio cargado.','Te sientes rígido: intervalos, flexibilidad y legato no fluyen, todo va agarrotado.','El paso del aire no es bueno y el sonido se ensucia un poco.','Se cortan los graves y los agudos; solo suena medio bien el registro medio, y apretando.'],
+  q:[['corta','¿Se te cortan las notas graves o agudas?'],['aire','¿Te suena aire en el sonido?'],['aprieta','¿Notas que aprietas la boquilla para que salga?'],['rigido','¿La flexibilidad y el legato van agarrotados, nada fluidos?']],
+  haz:v=>[...(v>=7?['Para de tocar 1–3 horas, lo que tengas de margen.','Si puedes, duerme un rato: al dormir el labio se regenera.','Al volver, monta poco a poco con la sesión de abajo.']:v>=4?['No sigas insistiendo: primero relaja el labio y después monta poco a poco con la sesión de abajo.']:['Estás algo cargado: monta con calma con la sesión de abajo, sin forzar.']),
+   'Siempre en el mismo orden: busca primero una sensación muy natural, un sonido sin ningún bloqueo; luego relaja el labio (bending, notas suaves); y después monta con el aire: flexibilidad, escalas y patrones del grave al agudo.','Sin ir a los extremos del registro. Según subas, descansa lo mismo que tocas o un pelín más.','No es para estar toda la tarde: media hora como mucho.'],
+  evita:['Apretarte la boquilla.','Seguir tocando e insistiendo.','Tocar más fuerte para compensar.','Acostumbrarte a tocar desafinado (muy alto o muy bajo): te descentra y te cansa más.','Seguir tocando si te duele.','Machacarte mentalmente o forzarte a trabajar cuando la cabeza no da más.'],
+  plan:v=>{const lo=v>=6,r=lo?'ini':'med';return {name:'Coach · montar el labio después de fatiga',items:[
+   STEP({...LOWE(rpick(LOWK)),range:'ini'},lo?4:3,'Sensación natural, sin bloqueo'),
+   STEP({cat:'bend',v:CATS.find(c=>c.id==='bend').vars[0][0],range:'ini'},lo?5:4,'Relajar el labio'),
+   STEP({cat:'flex',v:'f2',range:'ini'},lo?5:4,'Flexibilidad base'),
+   STEP({cat:'esc',v:'corcheas',key:rpick([0,5,7,10]),range:r},lo?4:5,'Montar con el aire'),
+   ...(v>=8?[]:[STEP({cat:'pat',v:CATS.find(c=>c.id==='pat').vars[0][0],key:rpick([0,5,7,10]),range:r},lo?4:5,'Del grave al agudo, sin extremos')])]}}}
+};
+/* qué causas mirar según el síntoma (se completa con el bloque C) */
+const SYMC={aire:['fatiga'],cansancio:['fatiga'],tension:['fatiga'],roturas:['fatiga'],agudos:['fatiga'],ataques:['fatiga']};
+const sevTxt=v=>v>=8?'muy mal':v>=6?'bastante cargado':v>=4?'regular':'algo cargado';
+let CS={txt:'',when:null,sym:[],wu:['largas','flex'],wm:10,ans:{},sev:5};
 try{Object.assign(CS,JSON.parse(localStorage.getItem('campana_coach')||'{}'))}catch(e){}
 const csave=()=>{try{localStorage.setItem('campana_coach',JSON.stringify(CS))}catch(e){}};
 /* calentamiento del día de la audición: lo elige cada uno */
@@ -1769,7 +1797,17 @@ let cPlan=null,wPlan=null;
 function goPlan(p){if(!p||!p.items.length)return;plan={name:p.name,items:p.items};done=null;startRun()}
 R.coach=()=>{const el=$('#cch'),K=CS.when&&CK[CS.when];cPlan=K?K.plan():null;wPlan=wuPlan();
  const whenC=[['hoy','Hoy'],['manana','Mañana'],['dias','En unos días'],['semanas','En semanas'],['','Sin audición']];
- const sy=CS.sym.length?`<div class="cbox"><p class="lab">He notado</p><div class="tags">${CS.sym.map(k=>`<span>${CSN[k]}</span>`).join('')}</div><p class="hint">${CS.sym.includes('dolor')?'<b>Si hay dolor, herida o el labio sigue hinchado, para de tocar y consúltalo con un profesional.</b> ':''}Las pautas para cada síntoma las estamos preparando: llegan en la próxima versión del coach.</p></div>`:'';
+
+ const cks=[...new Set(CS.sym.flatMap(k=>SYMC[k]||[]))];let cauPlans={};
+ const cau=cks.map(id=>{const C=CAU[id],A=CS.ans[id]||{},yes=C.q.filter(([k])=>A[k]===true).length,ansd=C.q.filter(([k])=>A[k]!=null).length;
+  const qs=C.q.map(([k,t])=>`<div class="cq"><span>${t}</span><div class="yn" data-c="${id}" data-k="${k}"><button data-v="1" aria-pressed="${A[k]===true}">Sí</button><button data-v="0" aria-pressed="${A[k]===false}">No</button></div></div>`).join('');
+  let res='';if(ansd>=2){if(yes>=2){const p=C.plan(CS.sev);cauPlans[id]=p;
+    res=`<div class="cres"><h3>Todo apunta a: ${C.n.toLowerCase()}</h3><p class="hint">${C.why}</p><p class="lab ok">Qué hacer · estás ${sevTxt(CS.sev)}</p><ul class="cl ok">${C.haz(CS.sev).map(x=>`<li>${x}</li>`).join('')}</ul><p class="lab no">Qué no hacer</p><ul class="cl no">${C.evita.map(x=>`<li>${x}</li>`).join('')}</ul>
+    <p class="lab">Para montar el labio${CS.sev>=7?' (después del descanso)':''}</p>${planHTML(p)}<button class="mk wide" data-cgo="${id}">Empezar</button></div>`}
+   else res=`<div class="cres"><p class="hint">${yes?'Puede haber algo de '+C.n.toLowerCase()+', pero no parece lo principal.':'No parece '+C.n.toLowerCase()+'.'} Las demás causas las estamos preparando.</p></div>`}
+  return `<div class="cbox"><p class="lab">Comprobemos</p><h2>¿Es ${C.n.toLowerCase()}?</h2>${qs}
+   <div class="sev"><div class="sevh"><span>¿Cómo de mal está el labio?</span><b id="sevV">${CS.sev}</b></div><input type="range" min="1" max="10" step="1" value="${CS.sev}" id="sevR" aria-label="Del 1 al 10"><div class="sevl"><span>Bien</span><span>Fatal</span></div></div>${res}</div>`}).join('');
+ const sy=CS.sym.length?`<div class="cbox"><p class="lab">He notado</p><div class="tags">${CS.sym.map(k=>`<span>${CSN[k]}</span>`).join('')}</div><p class="hint">${CS.sym.includes('dolor')?'<b>Si hay dolor, herida o el labio sigue hinchado, para de tocar y consúltalo con un profesional.</b> ':''}${cks.length?'':'Las pautas para este síntoma las estamos preparando: llegan con las próximas causas.'}</p></div>`:'';
  const ctx=K?`<div class="cbox ctx"><h2>${K.t}</h2><p class="clead">${K.lead}</p><p class="lab ok">Qué hacer</p><ul class="cl ok">${K.haz.map(x=>`<li>${x}</li>`).join('')}</ul><p class="lab no">Qué evitar</p><ul class="cl no">${K.evita.map(x=>`<li>${x}</li>`).join('')}</ul>
   ${cPlan&&cPlan.items.length?`<p class="lab">Sesión recomendada</p>${planHTML(cPlan)}${cPlan.note?`<p class="hint">${cPlan.note}</p>`:''}<div class="row2"><button class="xs" id="cSee">Ver en Sesión</button><button class="mk" id="cGo">Empezar</button></div>`:''}</div>`
   :(CS.txt?'<p class="hint">Cuéntame cuándo es la audición o el concierto (hoy, mañana, en tres días, en dos semanas…) o elígelo arriba.</p>':'');
@@ -1780,16 +1818,19 @@ R.coach=()=>{const el=$('#cch'),K=CS.when&&CK[CS.when];cPlan=K?K.plan():null;wPl
  el.innerHTML=`<div class="hero"><h1>Coach</h1><p>Cuéntame qué te pasa y cuándo tocas. Te respondo con pautas de profesor de trompeta, sin internet y sin IA.</p></div>
  <div class="cask"><textarea id="cTxt" rows="3" placeholder="Ej.: mañana tengo audición y me suena aire">${escH(CS.txt)}</textarea><button class="mk" id="cAn">Analizar</button></div>
  <p class="lab">¿Cuándo es la audición?</p><div class="chips wrap" id="cWhen">${whenC.map(([v,t])=>`<button data-v="${v}" aria-pressed="${(CS.when||'')===v}">${t}</button>`).join('')}</div>
- <div class="rbody">${ctx}${wu}${sy}</div>
+ <div class="rbody">${sy}${cau}${ctx}${wu}</div>
  <p class="hint cfoot">¿Quieres el coach con IA o las observaciones de tus grabaciones? <a href="#coachia">Ábrelo aquí</a>.</p>`;
- $('#cAn').onclick=()=>{CS.txt=$('#cTxt').value.trim();const w=coachWhen(CS.txt);if(w)CS.when=w;CS.sym=coachSym(CS.txt);csave();buzz(8);R.coach();const c=el.querySelector('.cbox');c&&c.scrollIntoView({behavior:'smooth',block:'start'})};
+ $('#cAn').onclick=()=>{CS.txt=$('#cTxt').value.trim();const w=coachWhen(CS.txt);if(w)CS.when=w;CS.sym=coachSym(CS.txt);CS.ans={};csave();buzz(8);R.coach();const c=el.querySelector('.cbox');c&&c.scrollIntoView({behavior:'smooth',block:'start'})};
  $('#cTxt').onkeydown=e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();$('#cAn').click()}};
  el.querySelectorAll('#cWhen button').forEach(b=>b.onclick=()=>{CS.when=b.dataset.v||null;csave();R.coach()});
  el.querySelectorAll('#cWu button').forEach(b=>b.onclick=()=>{const v=b.dataset.v,i=CS.wu.indexOf(v);if(i<0)CS.wu.push(v);else CS.wu.splice(i,1);CS.wu.sort((a,b)=>WU.findIndex(w=>w[0]===a)-WU.findIndex(w=>w[0]===b));csave();R.coach()});
  el.querySelectorAll('#cWm button').forEach(b=>b.onclick=()=>{CS.wm=+b.dataset.v;csave();R.coach()});
  const g=$('#cGo');if(g)g.onclick=()=>goPlan(cPlan);
  const sv=$('#cSee');if(sv)sv.onclick=()=>{plan={name:cPlan.name,items:cPlan.items};done=null;location.hash='sesion'};
- const w=$('#wGo');if(w)w.onclick=()=>goPlan(wPlan)};
+ const w=$('#wGo');if(w)w.onclick=()=>goPlan(wPlan);
+ el.querySelectorAll('.yn button').forEach(b=>b.onclick=()=>{const p=b.parentNode,c=p.dataset.c,k=p.dataset.k;CS.ans[c]=CS.ans[c]||{};const v=b.dataset.v==='1';CS.ans[c][k]=CS.ans[c][k]===v?null:v;csave();buzz(5);const y=scrollY;R.coach();scrollTo(0,y)});
+ const sr=$('#sevR');if(sr){sr.oninput=()=>{$('#sevV').textContent=sr.value};sr.onchange=()=>{CS.sev=+sr.value;csave();const y=scrollY;R.coach();scrollTo(0,y)}}
+ el.querySelectorAll('[data-cgo]').forEach(b=>b.onclick=()=>goPlan(cauPlans[b.dataset.cgo]))};
 
 /* routing */
 const TPR={hoy:['ini'],rutina:['rut'],cronometro:['ent','cron'],metronomo:['ent','met'],afinador:['ent','afi'],notas:['ent','gen'],grabar:['gra'],audiciones:['aud'],biblioteca:['bib'],coach:['coa'],coachia:['coa'],progreso:['pro'],perfil:['per']};
