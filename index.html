@@ -243,6 +243,15 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px soli
 @media(prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}}
 
 /* ---- repertorio y jazz ---- */
+.contbig{width:100%;margin:20px 0 0;min-height:104px;padding:20px 18px;border-radius:24px;animation:rise .35s both}
+.contbig .pl{width:58px;height:58px}.contbig .pl svg{width:24px;height:24px}
+.contbig small{font-size:14px}.contbig b{font-size:21px;letter-spacing:-.01em}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0 0}
+.pcard{display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:16px;border-radius:22px;background:var(--chip);text-align:left;min-height:138px;animation:rise .4s both}
+.pcard .pic{width:42px;height:42px;border-radius:14px;background:var(--acc);color:var(--accInk);display:grid;place-items:center;margin-bottom:8px}.pcard .pic svg{width:22px;height:22px}
+.pcard b{font-size:17px}.pcard small{font-size:13px;color:var(--soft);line-height:1.35}
+.today{margin-top:10px}
+
 .brand .blogo{width:30px;height:30px;border-radius:9px;display:block;box-shadow:0 0 0 1px var(--line)}
 
 .tipl{margin:6px 0 0;padding:0;list-style:none}.tipl li{position:relative;padding:5px 0 5px 20px}.tipl li::before{content:"";position:absolute;left:3px;top:13px;width:7px;height:7px;border-radius:50%;background:var(--acc)}
@@ -475,12 +484,12 @@ html.standalone input,html.standalone textarea{-webkit-user-select:text;user-sel
 
 <main id="home" class="view wrapx">
  <div class="hero"><h1>¿Qué trabajas hoy?</h1><p>Crea una sesión, pregúntale al coach o ve a <b>Estudiar</b> para la técnica y el repertorio.</p></div>
- <button class="today" id="todayCard"><span class="ring" id="ring"><b id="ringT">0′</b></span><span><small>Hoy</small><b id="todayT">Plan del día</b><em id="todayS"></em></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>
- <div class="duo">
-  <button class="big ink" id="toSes"><span class="pl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 7h14M5 12h10M5 17h6"/></svg></span><span><small>Sesión guiada</small><b>Dime qué quieres trabajar y te armo la rutina</b></span></button>
-  <button class="big soft" id="cont"><span class="pl"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z"/></svg></span><span><small>Continuar</small><b id="contT"></b></span></button>
+ <button class="big ink contbig" id="cont"><span class="pl"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z"/></svg></span><span><small>Continuar</small><b id="contT"></b></span></button>
+ <div class="pair">
+  <button class="pcard" id="toSes"><span class="pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 7h14M5 12h10M5 17h6"/></svg></span><b>Sesión guiada</b><small>Dime qué quieres trabajar y te armo la rutina</small></button>
+  <button class="pcard coachgo" data-h="coach"><span class="pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M9 11h.01M12 11h.01M15 11h.01"/></svg></span><b>Coach</b><small>¿Qué te pasa hoy? Te digo qué hacer</small></button>
  </div>
- <button class="coachcard" data-h="coach"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M9 11h.01M12 11h.01M15 11h.01"/></svg></span><span><small>Coach</small><b>¿Qué te pasa hoy?</b><em>Aire, labio cansado, agudos, audición mañana… te digo qué hacer</em></span></button>
+ <button class="today" id="todayCard"><span class="ring" id="ring"><b id="ringT">0′</b></span><span><small>Hoy</small><b id="todayT">Plan del día</b><em id="todayS"></em></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>
  <h2 class="sect">Herramientas</h2>
  <div class="tiles"><button class="tile" data-h="afinador"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17a9 9 0 0 1 18 0"/><path d="M12 17l4-6"/><circle cx="12" cy="17" r="1.6" fill="currentColor"/></svg><b>Afinador</b><small>Aguja, cents y notas largas</small></button><button class="tile" data-h="metronomo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l4 18H4z"/><path d="M12 17l5-10"/></svg><b>Metrónomo</b><small>Acentos, aceleración, intervalos</small></button><button class="tile" data-h="cronometro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M10 2h4"/></svg><b>Cronómetro</b><small>Tiempo tocando y descanso</small></button><button class="tile" data-h="grabar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg><b>Grabar y analizar</b><small>Afinación, estabilidad, registro</small></button><button class="tile" data-h="notas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg><b>Generador de notas</b><small>Escucha notas, intervalos, arpegios</small></button></div>
  <h2 class="sect">Mi estudio</h2>
@@ -2058,7 +2067,7 @@ let ESTT='clasico';try{ESTT=localStorage.getItem('campana_estt')||'clasico'}catc
 function renderEst(){const j=ESTT==='jazz';if(!j)R.mref();$('#estC').hidden=j;$('#estJ').hidden=!j;$('#tabC').setAttribute('aria-selected',!j);$('#tabJ').setAttribute('aria-selected',j);$('#est').classList.toggle('isJ',j);if(j)R.jz()}
 document.querySelectorAll('.esttabs button').forEach(b=>b.onclick=()=>{if(ESTT===b.dataset.t)return;ESTT=b.dataset.t;try{localStorage.setItem('campana_estt',ESTT);history.replaceState(null,'','#'+ESTT)}catch(e){}buzz(6);renderEst();const sc=ESTT==='jazz'?$('#estJ'):$('#estC');sc.classList.remove('tabin');void sc.offsetWidth;sc.classList.add('tabin');window.scrollTo({top:0,behavior:'smooth'})});
 document.querySelectorAll('#tabbar button').forEach(b=>b.onclick=()=>{const h=b.dataset.h;if((h===''&&view==='home')||(h==='estudiar'&&view==='est'))return window.scrollTo({top:0,behavior:'smooth'});location.hash=h});
-document.querySelectorAll('.coachcard').forEach(b=>b.onclick=()=>location.hash='coach');
+document.querySelectorAll('.coachgo').forEach(b=>b.onclick=()=>location.hash='coach');
 $('#resNote').onclick=()=>$('#tip').scrollIntoView({behavior:'smooth',block:'center'});
 $('#moreSet').onclick=()=>{closeSheet();location.hash='perfil'};
 
