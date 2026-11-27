@@ -243,6 +243,23 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px soli
 @media(prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}}
 
 /* ---- repertorio y jazz ---- */
+.cask{display:grid;gap:10px;margin:16px 0 4px}.cask textarea{width:100%;border:0;border-radius:18px;background:var(--chip);padding:14px;font-size:16px;color:var(--ink);resize:vertical}
+.cbox{background:var(--chip);border-radius:24px;padding:16px 18px;margin:14px 0;animation:rise .35s both}
+.cbox h2{margin:0 0 6px;font-size:22px;letter-spacing:-.01em}
+.cbox.ctx{background:var(--ink);color:var(--bg)}.cbox.ctx .hint{color:inherit;opacity:.7}.cbox.ctx .lab{color:inherit;opacity:.75}
+.clead{font-size:17px;line-height:1.4;margin:0 0 4px;opacity:.9}
+.cl{list-style:none;padding:0;margin:4px 0 6px}.cl li{position:relative;padding:6px 0 6px 28px;line-height:1.4}
+.cl li::before{content:"";position:absolute;left:2px;top:9px;width:16px;height:16px;border-radius:50%}
+.cl.ok li::before{background:var(--acc)}.cl.no li::before{box-shadow:inset 0 0 0 2px currentColor;opacity:.6}
+.cl.no li::after{content:"";position:absolute;left:6px;top:16.5px;width:8px;height:2px;background:currentColor;opacity:.6}
+.cpl{list-style:none;padding:0;margin:6px 0;counter-reset:c}.cpl li{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid color-mix(in srgb,currentColor 15%,transparent);counter-increment:c}
+.cpl li::before{content:counter(c);width:24px;height:24px;border-radius:50%;background:color-mix(in srgb,currentColor 14%,transparent);display:grid;place-items:center;font-size:12px;font-weight:800;flex:none}
+.cpl li span{flex:1;min-width:0}.cpl b{display:block;font-size:15px}.cpl small{display:block;font-size:12px;opacity:.65}.cpl em{font-style:normal;font-weight:800;white-space:nowrap}
+.cbox.ctx .xs{background:color-mix(in srgb,var(--bg) 16%,transparent);color:var(--bg)}
+.tags{display:flex;flex-wrap:wrap;gap:6px}.tags span{background:var(--ink);color:var(--bg);border-radius:999px;padding:6px 12px;font-weight:700;font-size:14px}
+.cbox .chips button{background:var(--bg)}.cbox .chips button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+.cfoot a{color:var(--ink);font-weight:700}
+
 .chips.wrap{flex-wrap:wrap;overflow:visible;padding:0}
 .chips.wrap button{min-height:40px;padding:0 15px}
 .simcfg{background:var(--chip);border-radius:24px;padding:6px 16px 12px;margin:8px 0}
@@ -450,6 +467,7 @@ html.standalone input,html.standalone textarea{-webkit-user-select:text;user-sel
 </main>
 
 <main id="orq" class="view wrapx" hidden></main>
+<main id="cch" class="view wrapx" hidden></main>
 <main id="jz" class="view wrapx" hidden></main>
 <main id="tpv" class="view wrapx" hidden><div id="v"></div></main>
 
@@ -1295,7 +1313,7 @@ function imp(){try{const o=JSON.parse($('#ex').value);if(Array.isArray(o.log)&&A
 let installPrompt=null;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e});
 async function installApp(){const e=$('#pwaMsg');if(installPrompt){installPrompt.prompt();const r=await installPrompt.userChoice;installPrompt=null;if(e)e.textContent=r.outcome==='accepted'?'Instalación iniciada.':'Instalación cancelada.'}else if(e)e.textContent='Si no aparece la opción, abre esta dirección HTTPS en Chrome y usa ⋮ → Instalar aplicación o Añadir a pantalla de inicio.'}
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
-const TPH={ini:'hoy',rut:'rutina',gra:'grabar',aud:'audiciones',bib:'biblioteca',coa:'coach',pro:'progreso',per:'perfil'},ETH={cron:'cronometro',met:'metronomo',afi:'afinador',gen:'notas'};
+const TPH={ini:'hoy',rut:'rutina',gra:'grabar',aud:'audiciones',bib:'biblioteca',coa:'coachia',pro:'progreso',per:'perfil'},ETH={cron:'cronometro',met:'metronomo',afi:'afinador',gen:'notas'};
 function draw(){if(!window.TP_ON)return;const w=tab==='ent'?ETH[ET]:TPH[tab];if(location.hash.slice(1)!==w){location.hash=w;return}const v=$('#v');if(v)v.innerHTML=V[tab]()}
 window.tpSave=save;window.tpDraw=draw;window.tpState=()=>S;
 window.tpLog=(b,name,sec)=>{S.log.push({d:today(),b,name,sec:Math.round(sec)});save()};
@@ -1702,12 +1720,83 @@ function renderPse(P,anim){const box=$('#score');box.classList.remove('paper');
   buzz(8);renderPse(P,true);paintRun()};
  if(anim){const c=box.querySelector('.xcard');c&&c.classList.add('pop')}}
 
+/* ================= COACH POR REGLAS (conocimiento de Rubén) ================= */
+/* Bloque A: qué hacer según cuánto falta para la audición. Bloques B (causas) y C (síntomas) se añaden después. */
+const LOWE=k=>({cat:'emi',v:'largas',key:k,scale:'mayor',rest:'bar',range:'ini'});
+const CK={
+ hoy:{t:'La audición es hoy',lead:'Hoy no se gana nada tocando: lo importante es llegar con el labio fresco.',
+  haz:['Como mucho, un calentamiento muy breve unas 3 horas antes, para que el labio no llegue frío.','Unas notas largas suaves y un pelín de flexibilidad, sin machacar. Casi nada.','Antes de entrar, tu calentamiento de audición (lo puedes montar abajo).'],
+  evita:['Tocar mucho o repasar el programa entero.','Cargar el labio con agudos, pasajes o ejercicios largos.'],
+  plan:()=>({name:'Coach · calentamiento breve (3 h antes)',items:[{...LOWE(rpick(LOWK)),min:4,tag:'Breve'},{cat:'flex',v:'f2',key:0,scale:'mayor',rest:'bar',range:'ini',min:2,tag:'Sin machacar'}]})},
+ manana:{t:'La audición es mañana',lead:'Mañana se toca con lo que ya tienes. Hoy toca cuidar el labio y la cabeza.',
+  haz:['Un pase rápido del programa, sin pararte a arreglar cosas.','Estar tranquilo.','Autocrítica de lo que pase en el pase: apúntalo, sin castigarte.'],
+  evita:['Practicar pasajes el día antes.','Machacar el labio.'],
+  plan:()=>{const ids=RS.sel.slice(0,6),items=[{...LOWE(rpick(LOWK)),min:4,tag:'Calentamiento'},{cat:'flex',v:'f2',key:0,scale:'mayor',rest:'bar',range:'ini',min:2,tag:'Calentamiento'}];
+   ids.forEach(id=>items.push({cat:'orq',id,min:3,tag:'Pase rápido'}));return {name:'Coach · víspera de audición',items,note:ids.length?'':'Marca tus extractos en Repertorio orquestal y el pase rápido aparecerá aquí.'}}},
+ dias:{t:'La audición es en unos días',lead:'Hay margen para estudiar, pero repartiendo el trabajo.',
+  haz:['Divide el trabajo por días: no toques el programa de arriba abajo toda la semana.','Practica con aire y pistones: sopla y digita los pasajes sin hacer vibrar los labios.','Canta mucho los intervalos y los pasajes que no salen.','Limpia esos pasajes aislados: lento primero, luego a tempo.','Trabaja la cabeza: pensamientos positivos y visualiza el día de la audición.'],
+  evita:['Tocar todo el repertorio entero cada día.'],
+  plan:()=>({name:'Coach · semana de audición',items:planAll({emi:1,flex:1,orq:2},40)})},
+ semanas:{t:'La audición es en semanas',lead:'Dos semanas antes ya no da tiempo a perfeccionar la técnica para ese concierto. Lo que sí cambia es llegar más o menos tenso y en mejor forma.',
+  haz:['Estudia bien la obra.','Trabaja para llegar relajado y en buena forma el día del concierto.','Mantén tu rutina de siempre.'],
+  evita:['Cambios raros de última hora.','Cambiar la rutina por completo.','Empezar Caruso u otros ejercicios muy largos que no hacías.'],
+  plan:()=>({name:'Coach · preparar la audición',items:planAll({emi:1,flex:2,esc:1,orq:2},45)})}};
+/* síntomas que ya se reconocen; sus pautas llegan con los bloques B y C */
+const CSY=[['aire',['aire','soplad','suena sucio','sonido sucio']],['cansancio',['cansad','sin resistencia','labio cargado','reventad','fatiga']],['agudos',['agudo','no me salen las notas altas','registro alto']],
+ ['ataques',['ataque','chapa','no entra la nota','no salen las notas']],['tension',['tenso','tensa','rigid','estrecho','apretad']],['roturas',['se rompe','crack','gallo','pifia']],
+ ['fiato',['fiato','me falta aire','sin aire','respir']],['nervios',['nervio','ansiedad','miedo','temblor','me tiembla']],['afinacion',['afinac','desafin','bajo de afinacion','alto de afinacion']],['dolor',['dolor','duele','hinchad','herida','sangr']]];
+const CSN={aire:'aire en el sonido',cansancio:'labio cansado',agudos:'agudos',ataques:'ataques',tension:'tensión',roturas:'notas que se rompen',fiato:'falta de aire',nervios:'nervios',afinacion:'afinación',dolor:'dolor o labio hinchado'};
+const NUMW={un:1,una:1,uno:1,dos:2,tres:3,cuatro:4,cinco:5,seis:6,siete:7,ocho:8,nueve:9,diez:10,quince:15};
+function coachWhen(t){t=nrm(t);if(/pasado manana/.test(t))return 'dias';
+ if(/\b(hoy|esta tarde|esta noche|esta manana|en unas horas|en un rato|ahora)\b/.test(t))return 'hoy';
+ if(/\bmanana\b/.test(t))return 'manana';
+ let m=t.match(/(\d+|un|una|uno|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez|quince)\s+(dia|dias|semana|semanas|mes|meses)\b/);
+ if(m){const n=+m[1]||NUMW[m[1]]||1,u=m[2],d=u.startsWith('dia')?n:u.startsWith('semana')?n*7:n*30;return d<=1?'manana':d<14?'dias':'semanas'}
+ if(/(semana que viene|proxima semana|esta semana|el finde|este fin de semana|el lunes|el martes|el miercoles|el jueves|el viernes|el sabado|el domingo)/.test(t))return 'dias';
+ if(/(mes que viene|proximo mes|dentro de un mes)/.test(t))return 'semanas';return null}
+const coachSym=t=>{t=nrm(t);return CSY.filter(([k,ws])=>ws.some(w=>t.includes(nrm(w)))).map(([k])=>k)};
+let CS={txt:'',when:null,sym:[],wu:['largas','flex'],wm:10};
+try{Object.assign(CS,JSON.parse(localStorage.getItem('campana_coach')||'{}'))}catch(e){}
+const csave=()=>{try{localStorage.setItem('campana_coach',JSON.stringify(CS))}catch(e){}};
+/* calentamiento del día de la audición: lo elige cada uno */
+const WU=[['largas','Notas largas',k=>LOWE(k)],['flex','Flexibilidad',()=>({cat:'flex',v:'f2',key:0,scale:'mayor',rest:'bar',range:'ini'})],['emision','Emisión',k=>({cat:'emi',v:'ataques',key:k,scale:'mayor',rest:'bar'})],
+ ['picado','Picado',k=>({cat:'pic',v:CATS.find(c=>c.id==='pic').vars[0][0],key:k,scale:'mayor'})],['escalas','Escalas',k=>({cat:'esc',v:'corcheas',key:k,scale:'mayor'})],
+ ['bending','Bending',()=>({cat:'bend',v:CATS.find(c=>c.id==='bend').vars[0][0],key:0,scale:'mayor',rest:'bar'})],['pedales','Pedales',()=>({cat:'ped',v:'desc',key:0,scale:'mayor',rest:'bar'})]];
+function wuPlan(){const ch=WU.filter(w=>CS.wu.includes(w[0]));if(!ch.length)return null;const ms=split(CS.wm,Array(ch.length).fill(1/ch.length));
+ return {name:'Coach · calentamiento de audición',items:ch.map((w,i)=>({...w[2](rpick([0,5,7,10])),min:ms[i],tag:'Calentamiento'}))}}
+const planHTML=p=>`<ol class="cpl">${p.items.map(it=>`<li><span><b>${escH(itemName(it))}</b><small>${escH(it.tag||'')}</small></span><em>${it.min} min</em></li>`).join('')}</ol>`;
+let cPlan=null,wPlan=null;
+function goPlan(p){if(!p||!p.items.length)return;plan={name:p.name,items:p.items};done=null;startRun()}
+R.coach=()=>{const el=$('#cch'),K=CS.when&&CK[CS.when];cPlan=K?K.plan():null;wPlan=wuPlan();
+ const whenC=[['hoy','Hoy'],['manana','Mañana'],['dias','En unos días'],['semanas','En semanas'],['','Sin audición']];
+ const sy=CS.sym.length?`<div class="cbox"><p class="lab">He notado</p><div class="tags">${CS.sym.map(k=>`<span>${CSN[k]}</span>`).join('')}</div><p class="hint">${CS.sym.includes('dolor')?'<b>Si hay dolor, herida o el labio sigue hinchado, para de tocar y consúltalo con un profesional.</b> ':''}Las pautas para cada síntoma las estamos preparando: llegan en la próxima versión del coach.</p></div>`:'';
+ const ctx=K?`<div class="cbox ctx"><h2>${K.t}</h2><p class="clead">${K.lead}</p><p class="lab ok">Qué hacer</p><ul class="cl ok">${K.haz.map(x=>`<li>${x}</li>`).join('')}</ul><p class="lab no">Qué evitar</p><ul class="cl no">${K.evita.map(x=>`<li>${x}</li>`).join('')}</ul>
+  ${cPlan&&cPlan.items.length?`<p class="lab">Sesión recomendada</p>${planHTML(cPlan)}${cPlan.note?`<p class="hint">${cPlan.note}</p>`:''}<div class="row2"><button class="xs" id="cSee">Ver en Sesión</button><button class="mk" id="cGo">Empezar</button></div>`:''}</div>`
+  :(CS.txt?'<p class="hint">Cuéntame cuándo es la audición o el concierto (hoy, mañana, en tres días, en dos semanas…) o elígelo arriba.</p>':'');
+ const wu=(CS.when==='hoy'||CS.when==='manana')?`<div class="cbox"><h2>Calentamiento para la audición</h2><p class="hint">Cada persona es un mundo: elige qué quieres calentar y cuánto tiempo tienes.${CS.when==='hoy'?' Muy breve si ya hiciste el de 3 horas antes.':''}</p>
+  <div class="chips wrap" id="cWu">${WU.map(w=>`<button data-v="${w[0]}" aria-pressed="${CS.wu.includes(w[0])}">${w[1]}</button>`).join('')}</div>
+  <p class="lab">Minutos</p><div class="chips wrap" id="cWm">${[5,8,10,15,20].map(m=>`<button data-v="${m}" aria-pressed="${CS.wm===m}">${m} min</button>`).join('')}</div>
+  ${wPlan?planHTML(wPlan)+'<button class="mk wide" id="wGo">Empezar calentamiento</button>':'<p class="hint">Elige al menos una cosa.</p>'}</div>`:'';
+ el.innerHTML=`<div class="hero"><h1>Coach</h1><p>Cuéntame qué te pasa y cuándo tocas. Te respondo con pautas de profesor de trompeta, sin internet y sin IA.</p></div>
+ <div class="cask"><textarea id="cTxt" rows="3" placeholder="Ej.: mañana tengo audición y me suena aire">${escH(CS.txt)}</textarea><button class="mk" id="cAn">Analizar</button></div>
+ <p class="lab">¿Cuándo es la audición?</p><div class="chips wrap" id="cWhen">${whenC.map(([v,t])=>`<button data-v="${v}" aria-pressed="${(CS.when||'')===v}">${t}</button>`).join('')}</div>
+ <div class="rbody">${ctx}${wu}${sy}</div>
+ <p class="hint cfoot">¿Quieres el coach con IA o las observaciones de tus grabaciones? <a href="#coachia">Ábrelo aquí</a>.</p>`;
+ $('#cAn').onclick=()=>{CS.txt=$('#cTxt').value.trim();const w=coachWhen(CS.txt);if(w)CS.when=w;CS.sym=coachSym(CS.txt);csave();buzz(8);R.coach();const c=el.querySelector('.cbox');c&&c.scrollIntoView({behavior:'smooth',block:'start'})};
+ $('#cTxt').onkeydown=e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();$('#cAn').click()}};
+ el.querySelectorAll('#cWhen button').forEach(b=>b.onclick=()=>{CS.when=b.dataset.v||null;csave();R.coach()});
+ el.querySelectorAll('#cWu button').forEach(b=>b.onclick=()=>{const v=b.dataset.v,i=CS.wu.indexOf(v);if(i<0)CS.wu.push(v);else CS.wu.splice(i,1);CS.wu.sort((a,b)=>WU.findIndex(w=>w[0]===a)-WU.findIndex(w=>w[0]===b));csave();R.coach()});
+ el.querySelectorAll('#cWm button').forEach(b=>b.onclick=()=>{CS.wm=+b.dataset.v;csave();R.coach()});
+ const g=$('#cGo');if(g)g.onclick=()=>goPlan(cPlan);
+ const sv=$('#cSee');if(sv)sv.onclick=()=>{plan={name:cPlan.name,items:cPlan.items};done=null;location.hash='sesion'};
+ const w=$('#wGo');if(w)w.onclick=()=>goPlan(wPlan)};
+
 /* routing */
-const TPR={hoy:['ini'],rutina:['rut'],cronometro:['ent','cron'],metronomo:['ent','met'],afinador:['ent','afi'],notas:['ent','gen'],grabar:['gra'],audiciones:['aud'],biblioteca:['bib'],coach:['coa'],progreso:['pro'],perfil:['per']};
+const TPR={hoy:['ini'],rutina:['rut'],cronometro:['ent','cron'],metronomo:['ent','met'],afinador:['ent','afi'],notas:['ent','gen'],grabar:['gra'],audiciones:['aud'],biblioteca:['bib'],coach:['coa'],coachia:['coa'],progreso:['pro'],perfil:['per']};
 const TPN={ini:'Plan del día',rut:'Mi rutina',cron:'Cronómetro',met:'Metrónomo',afi:'Afinador',gen:'Generador de notas',gra:'Grabar y analizar',aud:'Audiciones',bib:'Biblioteca',coa:'Coach',pro:'Progreso',per:'Perfil'};
-const VID={home:'home',ses:'ses',ex:'exv',tp:'tpv',orq:'orq',jz:'jz'};
+const VID={home:'home',ses:'ses',ex:'exv',tp:'tpv',orq:'orq',jz:'jz',cch:'cch'};
 function route(){const h=location.hash.slice(1);stop();const prev=view;if(h!=='orquestal')window.repStop&&repStop();
- if(h==='orquestal'||h==='jazz'){if(run)endRun(false);show(h==='jazz'?'jz':'orq',prev==='home');return}
+ if(h==='orquestal'||h==='jazz'||h==='coach'){if(run)endRun(false);show(h==='jazz'?'jz':h==='coach'?'cch':'orq',prev==='home');return}
  if(TPR[h]&&typeof V!=='undefined'){if(run)endRun(false);tab=TPR[h][0];if(TPR[h][1])ET=TPR[h][1];show('tp',prev==='home'||prev==='tp')}
  else if(h==='sesion'){if(run)endRun(false);show('ses',prev==='home')}
  else if(h==='paso'&&run)show('ex',true);
@@ -1719,6 +1808,7 @@ function show(v,fwd){const same=view===v&&v==='tp';view=v;window.TP_ON=v==='tp';
  if(v==='home')renderHome();else if(v==='ses'){$('#barTitle').textContent='Sesión';renderSes()}
  else if(v==='orq'){$('#barTitle').textContent='Repertorio orquestal';R.orq()}
  else if(v==='jz'){$('#barTitle').textContent='Jazz';R.jz()}
+ else if(v==='cch'){$('#barTitle').textContent='Coach';R.coach()}
  else if(v==='tp'){$('#barTitle').textContent=TPN[tab==='ent'?ET:tab];const vv=$('#v');if(!same){vv.classList.add('enter');setTimeout(()=>vv.classList.remove('enter'),600)}window.tpDraw&&window.tpDraw()}
  else{$('#barTitle').textContent=run?'Sesión':cat().n;exControls();render(false)}}
 $('#back').onclick=()=>{if(view==='ex'&&run){location.hash='sesion';return}if(history.length>1&&location.hash)history.back();else location.hash=''};
