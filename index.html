@@ -243,6 +243,26 @@ button:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px soli
 @media(prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}}
 
 /* ---- repertorio y jazz ---- */
+/* ---- dos secciones: Inicio y Estudiar ---- */
+.tabbar{position:fixed;left:0;right:0;margin:0 auto;width:max-content;bottom:calc(10px + env(safe-area-inset-bottom));z-index:8;display:flex;gap:4px;padding:5px;border-radius:999px;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(18px) saturate(1.5);-webkit-backdrop-filter:blur(18px) saturate(1.5);box-shadow:0 8px 28px rgba(0,0,0,.16),0 0 0 1px var(--line);animation:rise .35s both}
+.tabbar button{display:flex;align-items:center;gap:8px;min-height:48px;padding:0 20px;border-radius:999px;font-weight:800;font-size:15px;color:var(--soft);transition:background-color .25s,color .25s}
+.tabbar svg{width:21px;height:21px}
+.tabbar button[aria-current=true]{background:var(--ink);color:var(--bg)}
+body.hasTabs main.view{padding-bottom:calc(96px + env(safe-area-inset-bottom))}
+.esttabs{position:sticky;top:calc(env(safe-area-inset-top) + 64px);z-index:5;display:grid;grid-template-columns:1fr 1fr;margin:14px 0 6px;padding:4px;border-radius:18px;background:var(--chip);box-shadow:0 0 0 6px var(--bg)}
+.esttabs button{position:relative;z-index:1;min-height:46px;border-radius:14px;font-weight:800;font-size:16px;color:var(--soft);transition:color .3s}
+.esttabs button[aria-selected=true]{color:var(--bg)}
+.estpill{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:14px;background:var(--ink);transition:transform .38s cubic-bezier(.3,.9,.3,1.15)}
+#est.isJ .estpill{transform:translateX(100%)}
+.tabin{animation:tabin .35s both}@keyframes tabin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.rcards.one{grid-template-columns:1fr}
+.coachcard{display:flex;align-items:center;gap:14px;width:100%;margin:12px 0 0;padding:18px 16px;border-radius:22px;background:var(--ink);color:var(--bg);text-align:left;animation:rise .4s both}
+.coachcard .ic{width:50px;height:50px;border-radius:16px;background:var(--acc);color:var(--accInk);display:grid;place-items:center;flex:none}.coachcard .ic svg{width:26px;height:26px}
+.coachcard small{display:block;font-size:13px;opacity:.7;font-weight:700}.coachcard b{display:block;font-size:19px;margin:2px 0}.coachcard em{display:block;font-style:normal;font-size:13px;opacity:.75}
+.rbook{display:flex;align-items:center;gap:14px;padding:16px;border-radius:22px;border:2px dashed var(--line);margin:12px 0}
+.rbook b{display:block;font-size:17px}.rbook small{display:block;color:var(--soft);font-size:13px;margin-top:2px}
+.rbook .ic{width:46px;height:46px;border-radius:14px;background:var(--chip);display:grid;place-items:center;flex:none}.rbook .ic svg{width:24px;height:24px}
+
 .cbox.warn{background:color-mix(in srgb,#d0462e 16%,var(--chip))}.xs.wide2{width:100%;margin-top:8px;min-height:46px}
 
 .cq{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}.cq span{flex:1;min-width:0;line-height:1.35}
@@ -433,22 +453,17 @@ html.standalone input,html.standalone textarea{-webkit-user-select:text;user-sel
 </div></header>
 
 <main id="home" class="view wrapx">
- <div class="hero"><h1>¿Qué trabajas hoy?</h1><p>Crea una sesión con lo que te apetezca o entra directamente en un capítulo.</p></div>
+ <div class="hero"><h1>¿Qué trabajas hoy?</h1><p>Crea una sesión, pregúntale al coach o ve a <b>Estudiar</b> para la técnica y el repertorio.</p></div>
  <button class="today" id="todayCard"><span class="ring" id="ring"><b id="ringT">0′</b></span><span><small>Hoy</small><b id="todayT">Plan del día</b><em id="todayS"></em></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>
  <div class="duo">
   <button class="big ink" id="toSes"><span class="pl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 7h14M5 12h10M5 17h6"/></svg></span><span><small>Sesión guiada</small><b>Dime qué quieres trabajar y te armo la rutina</b></span></button>
   <button class="big soft" id="cont"><span class="pl"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z"/></svg></span><span><small>Continuar</small><b id="contT"></b></span></button>
  </div>
- <h2 class="sect">Repertorio</h2>
- <div class="rcards"><button class="rcard o" data-h="orquestal"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg></span><span><small>Probespiel</small><b>Repertorio orquestal</b><em>Buscador · aleatorio · ruleta · simulacro</em></span></button>
- <button class="rcard j" data-h="jazz"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15c3 0 4-8 8-8s5 8 8 8"/><path d="M4 19h16"/><circle cx="12" cy="4" r="1.3" fill="currentColor"/></svg></span><span><small>Lenguaje y temas</small><b>Jazz</b><em>Bebop, blues, patrones y standards</em></span></button></div>
- <h2 class="sect">Técnica</h2>
- <div class="cards" id="cards"></div>
+ <button class="coachcard" data-h="coach"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M9 11h.01M12 11h.01M15 11h.01"/></svg></span><span><small>Coach</small><b>¿Qué te pasa hoy?</b><em>Aire, labio cansado, agudos, audición mañana… te digo qué hacer</em></span></button>
  <h2 class="sect">Herramientas</h2>
  <div class="tiles"><button class="tile" data-h="afinador"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17a9 9 0 0 1 18 0"/><path d="M12 17l4-6"/><circle cx="12" cy="17" r="1.6" fill="currentColor"/></svg><b>Afinador</b><small>Aguja, cents y notas largas</small></button><button class="tile" data-h="metronomo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l4 18H4z"/><path d="M12 17l5-10"/></svg><b>Metrónomo</b><small>Acentos, aceleración, intervalos</small></button><button class="tile" data-h="cronometro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M10 2h4"/></svg><b>Cronómetro</b><small>Tiempo tocando y descanso</small></button><button class="tile" data-h="grabar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg><b>Grabar y analizar</b><small>Afinación, estabilidad, registro</small></button><button class="tile" data-h="notas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg><b>Generador de notas</b><small>Escucha notas, intervalos, arpegios</small></button></div>
  <h2 class="sect">Mi estudio</h2>
  <div class="tiles"><button class="tile" data-h="hoy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M3 9h18M8 2v4M16 2v4M9 15l2 2 4-4"/></svg><b>Plan del día</b><small>Estado físico y carga de hoy</small></button><button class="tile" data-h="rutina"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><b>Mi rutina</b><small>Tus métodos por bloques A–E</small></button><button class="tile" data-h="audiciones"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg><b>Audiciones</b><small>Cuenta atrás, repertorio, simulacros</small></button><button class="tile" data-h="biblioteca"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h5v16H4zM10 4h5v16h-5zM16 5l4 1-3 14-4-1"/></svg><b>Biblioteca</b><small>Partituras, audios y vídeos</small></button><button class="tile" data-h="coach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg><b>Coach</b><small>Observaciones y consulta con IA</small></button><button class="tile" data-h="progreso"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><b>Progreso</b><small>Minutos, bloques, fatiga, afinación</small></button><button class="tile" data-h="perfil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><b>Perfil y nube</b><small>Referencia, copia de seguridad, instalar</small></button></div>
- <div class="foot"><p class="lab">Tu registro</p><div class="seg" id="rangeH"></div></div>
 </main>
 
 <main id="ses" class="view wrapx" hidden>
@@ -475,6 +490,17 @@ html.standalone input,html.standalone textarea{-webkit-user-select:text;user-sel
  <p class="tip" id="tip"></p>
 </main>
 
+<main id="est" class="view wrapx" hidden>
+ <div class="esttabs" role="tablist"><button role="tab" data-t="clasico" id="tabC">Clásico</button><button role="tab" data-t="jazz" id="tabJ">Jazz</button><i class="estpill"></i></div>
+ <section id="estC">
+  <h2 class="sect">Repertorio</h2>
+  <div class="rcards one"><button class="rcard o" data-h="orquestal"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg></span><span><small>Probespiel</small><b>Repertorio orquestal</b><em>Buscador · aleatorio · ruleta · simulacro</em></span></button></div>
+ <h2 class="sect">Técnica</h2>
+ <div class="cards" id="cards"></div>
+ <div class="foot"><p class="lab">Tu registro</p><div class="seg" id="rangeH"></div></div>
+ </section>
+ <section id="estJ" hidden></section>
+</main>
 <main id="orq" class="view wrapx" hidden></main>
 <main id="cch" class="view wrapx" hidden></main>
 <main id="jz" class="view wrapx" hidden></main>
@@ -514,6 +540,7 @@ html.standalone input,html.standalone textarea{-webkit-user-select:text;user-sel
   <div class="mrow"><span id="mH">—</span><button id="mBig">Grande</button><button id="mStop" class="stop">Parar</button></div>
  </div></div></div>
 </div>
+<nav class="tabbar" id="tabbar" hidden><button data-h="" id="tbH"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg><span>Inicio</span></button><button data-h="estudiar" id="tbE"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg><span>Estudiar</span></button></nav>
 <div class="toast" id="toast" role="status"></div>
 
 <script>
@@ -1671,16 +1698,19 @@ const JPRE=[
  ['esc','corcheas','tonos','Tonos enteros','Para dominantes alterados']];
 const jline=x=>`<div class="rl"><b>${escH(x.t)}</b><small>${escH(x.c)} · ${escH(x.f)}</small></div>`;
 const jCard=(x,rk)=>{const k=rk==null?x.k:rk;return `<div class="xcard"><small>${escH(x.c)} · ${JZ_TAG[x.g]}</small><b>${escH(x.t)}</b><em>${escH(x.f)}</em><div class="keys2"><div><small>Concierto</small><b>${jkTxt(k,x.m)}</b></div><div><small>Trompeta en Si♭</small><b>${jkTxt(k+2,x.m)}</b></div></div>${rk!=null&&rk!==x.k?`<p class="hint">Tonalidad al azar · el original va en ${jkTxt(x.k,x.m)}</p>`:''}<p class="hint">Toca el tema, 2 chorus de improvisación y vuelve al tema.</p></div>`};
-R.jz=()=>{const el=$('#jz');const f=JZ.filter(x=>(!RS.jtag||x.g===RS.jtag)&&match(x,jq));
+R.jz=()=>{const el=$('#estJ');const f=JZ.filter(x=>(!RS.jtag||x.g===RS.jtag)&&match(x,jq));
  const tags=`<div class="chips">${[['','Todos'],...Object.entries(JZ_TAG)].map(([v,t])=>`<button data-tag="${v}" aria-pressed="${RS.jtag===v}">${t}</button>`).join('')}</div>`;
  let body;
  if(RS.jmode==='ruleta')body=`<label class="tog"><input type="checkbox" id="jrk" ${RS.jrk?'checked':''}> En una tonalidad al azar</label><div id="jBox">${jcur?jCard(jcur.x,jcur.k):'<div class="reel idle"><div class="strip2"><div class="rl"><b>¿Qué tema toca hoy?</b><small>'+f.length+' standards en el bombo</small></div></div><i class="rmark"></i></div>'}</div><button class="mk wide" id="jGo">Girar la ruleta</button>`;
  else body=f.map(x=>`<button class="ji" data-j="${x.id}"><span><b>${escH(x.t)}</b><small>${escH(x.c)} · ${escH(x.f)}</small></span><span class="kk"><b>${jkTxt(x.k,x.m)}</b><small>Si♭: ${jkTxt(x.k+2,x.m)}</small></span></button>`).join('')||'<p class="hint">Nada coincide.</p>';
- el.innerHTML=`<div class="hero"><h1>Jazz</h1><p>Técnica de lenguaje con el motor de Campana y un bombo de standards para practicar temas en cualquier tonalidad.</p></div>
- <h2 class="sect">Lenguaje y técnica</h2><div class="tiles jt">${JPRE.map((p,i)=>`<button class="tile" data-jp="${i}"><b>${p[3]}</b><small>${p[4]}</small></button>`).join('')}</div>
+ const jt=f=>JPRE.map((p,i)=>[p,i]).filter(([p])=>f(p)).map(([p,i])=>`<button class="tile" data-jp="${i}"><b>${p[3]}</b><small>${p[4]}</small></button>`).join('');
+ el.innerHTML=`<div class="rbook"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg></span><span><b>Real Book</b><small>Muy pronto: aquí irá tu Real Book con buscador, como el repertorio orquestal.</small></span></div>
+ <h2 class="sect">Escalas de jazz</h2><div class="tiles jt">${jt(p=>p[0]==='esc')}</div>
+ <h2 class="sect">Lenguaje</h2><div class="tiles jt">${jt(p=>p[0]==='pat')}</div>
  <h2 class="sect">Standards</h2>${rseg('jmode',[['lista','Lista'],['ruleta','Ruleta']],RS.jmode)}
  <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="jq" type="search" placeholder="Buscar tema, autor o estilo" value="${escH(jq)}" autocomplete="off"><span class="cnt">${f.length}</span></div>${tags}
  <div class="rbody">${body}</div><p class="hint">Tonalidades del Real Book en concierto; la columna Si♭ es lo que lees tú. Comprueba la tonalidad con tu grupo: muchas versiones cambian.</p>`;
+ el.classList.remove('tabin');
  el.querySelectorAll('[data-jp]').forEach(b=>b.onclick=()=>{const p=JPRE[+b.dataset.jp];st.vars[p[0]]=p[1];st.scale=p[2];save();location.hash=p[0]});
  el.querySelectorAll('#jmode button').forEach(b=>b.onclick=()=>{RS.jmode=b.dataset.v;jcur=null;rsave();R.jz()});
  el.querySelectorAll('[data-tag]').forEach(b=>b.onclick=()=>{RS.jtag=b.dataset.tag;jcur=null;rsave();R.jz()});
@@ -1894,25 +1924,33 @@ R.coach=()=>{const el=$('#cch'),K=CS.when&&CK[CS.when];cPlan=K?K.plan():null;wPl
 /* routing */
 const TPR={hoy:['ini'],rutina:['rut'],cronometro:['ent','cron'],metronomo:['ent','met'],afinador:['ent','afi'],notas:['ent','gen'],grabar:['gra'],audiciones:['aud'],biblioteca:['bib'],coach:['coa'],coachia:['coa'],progreso:['pro'],perfil:['per']};
 const TPN={ini:'Plan del día',rut:'Mi rutina',cron:'Cronómetro',met:'Metrónomo',afi:'Afinador',gen:'Generador de notas',gra:'Grabar y analizar',aud:'Audiciones',bib:'Biblioteca',coa:'Coach',pro:'Progreso',per:'Perfil'};
-const VID={home:'home',ses:'ses',ex:'exv',tp:'tpv',orq:'orq',jz:'jz',cch:'cch'};
+const VID={home:'home',ses:'ses',ex:'exv',tp:'tpv',orq:'orq',jz:'jz',cch:'cch',est:'est'};
 function route(){const h=location.hash.slice(1);stop();const prev=view;if(h!=='orquestal')window.repStop&&repStop();
- if(h==='orquestal'||h==='jazz'||h==='coach'){if(run)endRun(false);show(h==='jazz'?'jz':h==='coach'?'cch':'orq',prev==='home');return}
+ if(h==='clasico'||h==='jazz'||h==='estudiar'){if(run)endRun(false);if(h!=='estudiar')ESTT=h;try{localStorage.setItem('campana_estt',ESTT)}catch(e){}show('est',prev==='home');return}
+ if(h==='orquestal'||h==='coach'){if(run)endRun(false);show(h==='coach'?'cch':'orq',prev==='home'||prev==='est');return}
  if(TPR[h]&&typeof V!=='undefined'){if(run)endRun(false);tab=TPR[h][0];if(TPR[h][1])ET=TPR[h][1];show('tp',prev==='home'||prev==='tp')}
  else if(h==='sesion'){if(run)endRun(false);show('ses',prev==='home')}
  else if(h==='paso'&&run)show('ex',true);
  else{const c=CATS.find(x=>x.id===h);if(run&&h!=='paso')endRun(false);if(c){st.cat=c.id;save();show('ex',true)}else show('home',false)}}
 function show(v,fwd){const same=view===v&&v==='tp';view=v;window.TP_ON=v==='tp';const el=$('#'+VID[v]);Object.entries(VID).forEach(([k,x])=>$('#'+x).hidden=k!==v);
  if(!same){el.classList.remove('back');el.style.animation='none';void el.offsetWidth;el.style.animation='';if(!fwd)el.classList.add('back')}
- $('#back').hidden=v==='home';$('#brand').hidden=v!=='home';$('#barTitle').hidden=v==='home';$('#barSub').hidden=v!=='home';$('#transport').hidden=v!=='ex';
+ const top=v==='home'||v==='est';$('#back').hidden=top;$('#brand').hidden=v!=='home';$('#barTitle').hidden=v==='home';$('#barSub').hidden=v!=='home';$('#transport').hidden=v!=='ex';
+ $('#tabbar').hidden=!top;document.body.classList.toggle('hasTabs',top);$('#tbH').setAttribute('aria-current',v==='home');$('#tbE').setAttribute('aria-current',v==='est');
  if(!same)window.scrollTo({top:0});
  if(v==='home')renderHome();else if(v==='ses'){$('#barTitle').textContent='Sesión';renderSes()}
  else if(v==='orq'){$('#barTitle').textContent='Repertorio orquestal';R.orq()}
  else if(v==='jz'){$('#barTitle').textContent='Jazz';R.jz()}
+ else if(v==='est'){$('#barTitle').textContent='Estudiar';renderHome();renderEst()}
  else if(v==='cch'){$('#barTitle').textContent='Coach';R.coach()}
  else if(v==='tp'){$('#barTitle').textContent=TPN[tab==='ent'?ET:tab];const vv=$('#v');if(!same){vv.classList.add('enter');setTimeout(()=>vv.classList.remove('enter'),600)}window.tpDraw&&window.tpDraw()}
  else{$('#barTitle').textContent=run?'Sesión':cat().n;exControls();render(false)}}
 $('#back').onclick=()=>{if(view==='ex'&&run){location.hash='sesion';return}if(history.length>1&&location.hash)history.back();else location.hash=''};
 window.addEventListener('hashchange',route);
+let ESTT='clasico';try{ESTT=localStorage.getItem('campana_estt')||'clasico'}catch(e){}
+function renderEst(){const j=ESTT==='jazz';$('#estC').hidden=j;$('#estJ').hidden=!j;$('#tabC').setAttribute('aria-selected',!j);$('#tabJ').setAttribute('aria-selected',j);$('#est').classList.toggle('isJ',j);if(j)R.jz()}
+document.querySelectorAll('.esttabs button').forEach(b=>b.onclick=()=>{if(ESTT===b.dataset.t)return;ESTT=b.dataset.t;try{localStorage.setItem('campana_estt',ESTT);history.replaceState(null,'','#'+ESTT)}catch(e){}buzz(6);renderEst();const sc=ESTT==='jazz'?$('#estJ'):$('#estC');sc.classList.remove('tabin');void sc.offsetWidth;sc.classList.add('tabin');window.scrollTo({top:0,behavior:'smooth'})});
+document.querySelectorAll('#tabbar button').forEach(b=>b.onclick=()=>{const h=b.dataset.h;if((h===''&&view==='home')||(h==='estudiar'&&view==='est'))return window.scrollTo({top:0,behavior:'smooth'});location.hash=h});
+document.querySelectorAll('.coachcard').forEach(b=>b.onclick=()=>location.hash='coach');
 
 /* home */
 function renderHome(){paintToday();
