@@ -17,11 +17,30 @@ const L=[
  {id:'clarke-elem',autor:'Herbert L. Clarke',obra:'Elementary Studies',anio:1909,tipo:'patron',
   info:'30 lecciones y 116 ejercicios: de valores largos en una octava hasta todas las tonalidades mayores.',
   grupos:[{t:'Lecciones',ej:nums(30,n=>'Lección '+n)}]},
- {id:'clarke-tec',autor:'Herbert L. Clarke',obra:'Technical Studies',anio:1912,tipo:'patron',
-  info:'10 estudios y 190 ejercicios. Los estudios 1 a 8 terminan en un Etude; el 10.º acaba con An Irish Ballad y An Old German Folksong.',
+ {id:'clarke-tec',autor:'Herbert L. Clarke',obra:'Technical Studies (Second Series)',anio:1912,tipo:'patron',
+  info:'Edición original de 1912 (L. B. Clarke, Elkhart), 190 ejercicios en el orden del libro: los estudios 1 a 12 con los Etudes intercalados. Cada ejercicio se transporta a cualquier tonalidad; los de patrones, también a cualquier escala.',
   grupos:[
-   {t:'Estudios',ej:nums(10,n=>'Estudio '+n)},
-   {t:'Etudes',tipo:'estudio',ej:['Etude I (nº 26)','Etude II (nº 45)','Etude III (nº 65)','Etude IV (nº 86)','Etude V (nº 117)','Etude VI (nº 132)','Etude VII (nº 170)','Etude VIII (nº 177)','An Irish Ballad (nº 189)','An Old German Folksong (nº 190)'].map(t=>P(t))}]},
+   {t:'Primer estudio (1–25)',ej:Array.from({length:25},(_,i)=>P('Ejercicio '+(i+1)))},
+   {t:'Etude I (26)',tipo:'estudio',ej:[P('Ejercicio 26 · Etude I')]},
+   {t:'Segundo estudio (27–44)',ej:Array.from({length:18},(_,i)=>P('Ejercicio '+(i+27)))},
+   {t:'Etude II (45)',tipo:'estudio',ej:[P('Ejercicio 45 · Etude II')]},
+   {t:'Tercer estudio (46–64)',ej:Array.from({length:19},(_,i)=>P('Ejercicio '+(i+46)))},
+   {t:'Etude III (65)',tipo:'estudio',ej:[P('Ejercicio 65 · Etude III')]},
+   {t:'Cuarto estudio (66–85)',ej:Array.from({length:20},(_,i)=>P('Ejercicio '+(i+66)))},
+   {t:'Etude IV (86)',tipo:'estudio',ej:[P('Ejercicio 86 · Etude IV')]},
+   {t:'Quinto estudio (87–98)',ej:Array.from({length:12},(_,i)=>P('Ejercicio '+(i+87)))},
+   {t:'Escalas menores y mayores (99–116)',ej:Array.from({length:18},(_,i)=>P('Ejercicio '+(i+99)))},
+   {t:'Etude V (117)',tipo:'estudio',ej:[P('Ejercicio 117 · Etude V')]},
+   {t:'Sexto estudio (118–131)',ej:Array.from({length:14},(_,i)=>P('Ejercicio '+(i+118)))},
+   {t:'Etude VI (132)',tipo:'estudio',ej:[P('Ejercicio 132 · Etude VI')]},
+   {t:'Séptimo estudio (133–157)',ej:Array.from({length:25},(_,i)=>P('Ejercicio '+(i+133)))},
+   {t:'Arpegios de séptima disminuida (158–169)',ej:Array.from({length:12},(_,i)=>P('Ejercicio '+(i+158)))},
+   {t:'Etude VII (170)',tipo:'estudio',ej:[P('Ejercicio 170 · Etude VII')]},
+   {t:'Octavo estudio (171–176)',ej:Array.from({length:6},(_,i)=>P('Ejercicio '+(i+171)))},
+   {t:'Etude VIII (177)',tipo:'estudio',ej:[P('Ejercicio 177 · Etude VIII')]},
+   {t:'Noveno estudio (178–186)',ej:Array.from({length:9},(_,i)=>P('Ejercicio '+(i+178)))},
+   {t:'Décimo estudio (187–188)',ej:Array.from({length:2},(_,i)=>P('Ejercicio '+(i+187)))},
+   {t:'Melodías con arpegios (189–190)',tipo:'estudio',ej:[P('Ejercicio 189 · An Irish Ballad'),P('Ejercicio 190 · An Old German Folksong')]}]},
  {id:'clarke-char',autor:'Herbert L. Clarke',obra:'Characteristic Studies',anio:1915,tipo:'estudio',
   info:'24 estudios que alternan mayor y menor, de Do mayor (nº 1) a Sol♯ menor (nº 24).',
   grupos:[{t:'Estudios',ej:nums(24,n=>'Estudio '+n)}]},
@@ -63,5 +82,6 @@ const SET=(id,o)=>{for(const m of L)for(const g of m.grupos)for(const e of g.ej)
 // Schlossberg, Daily Drills (J. F. Hill & Co., 1937) · I Long Note Drills · Do mayor escrito, 8/4
 SET('schlossberg:0:0',{notas:"{mf}1/2_ 1/2_ 1/1> | 7,/2_ 7,/2_ 7,/1> | b7,/2_ b7,/2_ b7,/1> | 6,/2_ 6,/2_ 6,/1> | b6,/2_ b6,/2_ b6,/1> | 5,/2_ 5,/2_ 5,/1> | b5,/2_ b5,/2_ b5,/1> | 5/2_ 5/2_ 5/1> | b5/2_ b5/2_ b5/1> | 4/2_ 4/2_ 4/1> | 3/2_ 3/2_ 3/1> | b3/2_ b3/2_ b3/1> | 2/2_ 2/2_ 2/1> | b2/2_ b2/2_ b2/1> | 1'/2_ 1'/2_ 1'/1> | 7/2_ 7/2_ 7/1> | b7/2_ b7/2_ b7/1> | 6/2_ 6/2_ 6/1> | b6/2_ b6/2_ b6/1> | 5/2_ 5/2_ 5/1> | b5/2_ b5/2_ b5/1>",tip:'Muy lento. Cromático descendente desde Do4, Sol4 y Do5: dos blancas con tenuto y una redonda acentuada con calderón; respira en cada compás.'});
 SET('schlossberg:0:1',{notas:"{p}5/2_ 5/2_ 5/1<> | #4/2_ #4/2_ #4/1<> | 4/2_ 4/2_ 4/1<> | 3/2_ 3/2_ 3/1<> | b3/2_ b3/2_ b3/1<> | 2/2_ 2/2_ 2/1<> | b2/2_ b2/2_ b2/1<> | 1'/2_ 1'/2_ 1'/1<> | 7/2_ 7/2_ 7/1<> | b7/2_ b7/2_ b7/1<> | 6/2_ 6/2_ 6/1<> | b6/2_ b6/2_ b6/1<> | 5/2_ 5/2_ 5/1<> | b5/2_ b5/2_ b5/1<> | 1/2_ 1/2_ 1/1<> | 7,/2_ 7,/2_ 7,/1<> | b7,/2_ b7,/2_ b7,/1<> | 6,/2_ 6,/2_ 6,/1<> | b6,/2_ b6,/2_ b6,/1<> | 5,/2_ 5,/2_ 5,/1<> | b5,/2_ b5,/2_ b5,/1<>",tip:'Muy lento y en p, con regulador en la redonda. Las mismas series que el ejercicio 1, empezando por Sol4.'});
+SET('clarke-tec:0:0',{c:'3/4',notas:"{pp}#4,/8 5,/8 #5,/8 6,/8 #6,/8 7,/8 | 1/8 7,/8 b7,/8 6,/8 b6,/8 5,/8 | #4,/8 5,/8 #5,/8 6,/8 #6,/8 7,/8 | 1/8 7,/8 b7,/8 6,/8 b6,/8 5,/8 | #4,/8 5,/8 #5,/8 6,/8 #6,/8 7,/8 | 1/8 7,/8 b7,/8 6,/8 b6,/8 5,/8 | #4,/8 5,/8 #5,/8 6,/8 #6,/8 7,/8 | 1/8 7,/8 b7,/8 6,/8 b6,/8 5,/8 | #4,/2 r/4",tip:'Clarke, Technical Studies (1912), ejercicio 1: se toca de una vez, en pp, sin forzar los labios.'})
 return L})();
 if(typeof module!=='undefined'&&typeof window==='undefined')module.exports=METODOS;

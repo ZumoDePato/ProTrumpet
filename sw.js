@@ -1,4 +1,4 @@
-const CACHE = 'brasso-v5';
+const CACHE = 'brasso-v6';
 const CORE = ['./', './index.html', './manifest.webmanifest', './favicon.png', './apple-touch-icon.png', './icon-192.png', './icon-512.png', './icon-maskable.png', './logo.png'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(CORE)));
