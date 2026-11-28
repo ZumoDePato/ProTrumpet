@@ -12,3 +12,6 @@ Fuera de claude.ai, el Coach usa un servidor propio en Cloudflare con su IA grat
 - `index.html` — la aplicación completa.
 - `manifest.webmanifest`, `sw.js`, `icon.svg` — instalación y uso sin conexión.
 - `coach-worker/` — código del servidor del Coach (no hace falta para que la app funcione).
+
+## Notación musical
+Los símbolos de la partitura (clave, notas, alteraciones, silencios, matices…) usan los glifos de **Leland**, la fuente de MuseScore, bajo la SIL Open Font License 1.1 (ver `fonts/Leland-OFL.txt`).
