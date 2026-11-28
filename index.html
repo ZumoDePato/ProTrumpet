@@ -1,8 +1,5 @@
 <!DOCTYPE html>
 <html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121214" media="(prefers-color-scheme: dark)">
-<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Brasso"><meta name="format-detection" content="telephone=no">
-<link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./favicon.png" type="image/png"><link rel="apple-touch-icon" href="./apple-touch-icon.png">
 <title>Brasso · técnica de trompeta</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -2294,8 +2291,10 @@ function exControls(){const P=pse();$('#transport').hidden=!!P||view!=='ex';
  $('#run').hidden=!run;if(run)paintRun();
  $('#vars').hidden=!!run;
  const VL=c.id==='met'?c.vars.filter(([id])=>MET_EX[id]&&MET_EX[vid()]&&MET_EX[id].met===MET_EX[vid()].met):c.vars;
- $('#vars').innerHTML=VL.map(([id,n])=>`<button class="chip" data-id="${id}" aria-pressed="${id===vid()}">${n}</button>`).join('')+`<button class="chip dash" data-id="__rnd">Al azar</button>`;
+ const mNum=n=>{const m=String(n).match(/nº\s*(\d+)/)||String(n).match(/(\d+)\s*$/);return m?m[1]:n};
+ $('#vars').innerHTML=VL.map(([id,n])=>`<button class="chip" data-id="${id}" aria-pressed="${id===vid()}">${c.id==='met'?mNum(n):n}</button>`).join('')+`<button class="chip dash" data-id="__rnd">Al azar</button>`;
  $('#keyBox').hidden=!c.scale||!!run;
+ const kb=$('#keyBox');if(c.id==='met')$('#vars').after(kb);else $('#score').after(kb);
  $('#keys').innerHTML=KEY_N.map((n,i)=>`<button data-id="${i}" aria-pressed="${i===st.key}">${n}</button>`).join('');
  const MX=c.id==='met'?MET_EX[vid()]:null;$('#scales').hidden=!!(MX&&MX.tipo==='estudio');
  $('#scales').innerHTML=SC_ORDER.filter(id=>!MX||MET_SCALES.includes(id)).map(id=>`<button class="chip" data-id="${id}" aria-pressed="${id===st.scale}">${cap(SCALES[id].n)}</button>`).join('');
